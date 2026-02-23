@@ -514,7 +514,14 @@ def xcoms_list(
             f"dags/{dag_id}/dagRuns/{rid}/taskInstances/{task_id}/xcomEntries"
         )
         data = _check(resp)
-    entries = data.get("xcom_entries", [])
+        entries = data.get("xcom_entries", [])
+        # The list endpoint does not include values, so fetch each one.
+        for entry in entries:
+            detail = c.get(
+                f"dags/{dag_id}/dagRuns/{rid}/taskInstances/{task_id}"
+                f"/xcomEntries/{entry['key']}"
+            )
+            entry["value"] = _check(detail).get("value", "")
     typer.echo(f"XCom entries for {dag_id}/{rid}/{task_id}: {len(entries)}\n")
     for entry in entries:
         val = str(entry.get("value", ""))
