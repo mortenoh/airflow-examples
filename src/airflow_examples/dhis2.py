@@ -3,12 +3,19 @@
 from typing import Any
 
 import httpx
+from airflow.hooks.base import BaseHook
 
 from airflow_examples.config import OUTPUT_BASE
 
-DHIS2_BASE_URL = "https://play.im.dhis2.org/dev"
-DHIS2_CREDENTIALS = ("admin", "district")
 OUTPUT_DIR = str(OUTPUT_BASE / "dhis2_exports")
+
+
+def _get_dhis2_config() -> tuple[str, tuple[str, str]]:
+    """Read DHIS2 base URL and credentials from the Airflow connection."""
+    conn = BaseHook.get_connection("dhis2_default")
+    base_url = conn.host.rstrip("/")
+    credentials = (conn.login, conn.password)
+    return base_url, credentials
 
 
 def fetch_metadata(endpoint: str, fields: str = ":owner") -> list[dict[str, Any]]:
@@ -21,10 +28,11 @@ def fetch_metadata(endpoint: str, fields: str = ":owner") -> list[dict[str, Any]
     Returns:
         List of metadata records as dicts.
     """
-    url = f"{DHIS2_BASE_URL}/api/{endpoint}"
+    base_url, credentials = _get_dhis2_config()
+    url = f"{base_url}/api/{endpoint}"
     resp = httpx.get(
         url,
-        auth=DHIS2_CREDENTIALS,
+        auth=credentials,
         params={"paging": "false", "fields": fields},
         timeout=60,
     )

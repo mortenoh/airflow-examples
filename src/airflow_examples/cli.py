@@ -152,11 +152,22 @@ def health() -> None:
 @dags_app.command("list")
 def dags_list() -> None:
     """List all DAGs."""
+    dags: list[dict[str, Any]] = []
+    total = 0
     with _client() as c:
-        resp = c.get("dags", params={"limit": 500})
-        data = _check(resp)
-    dags = data.get("dags", [])
-    typer.echo(f"Total DAGs: {data.get('total_entries', len(dags))}\n")
+        offset = 0
+        while True:
+            resp = c.get("dags", params={"limit": 100, "offset": offset})
+            data = _check(resp)
+            total = data.get("total_entries", 0)
+            page = data.get("dags", [])
+            if not page:
+                break
+            dags.extend(page)
+            offset += len(page)
+            if offset >= total:
+                break
+    typer.echo(f"Total DAGs: {total}\n")
     _print_table(
         dags,
         [
