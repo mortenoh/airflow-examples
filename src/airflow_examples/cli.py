@@ -343,6 +343,26 @@ def dags_trigger(
                 typer.echo(f"Re-paused: {dag_id}")
 
 
+@dags_app.command("reserialize")
+def dags_reserialize() -> None:
+    """Force the scheduler to reserialize all DAGs.
+
+    Runs ``airflow dags reserialize`` inside the scheduler container so
+    newly added or modified DAG files are picked up immediately.
+    """
+    import subprocess
+
+    result = subprocess.run(
+        ["docker", "compose", "exec", "airflow-scheduler", "airflow", "dags", "reserialize"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        typer.echo(f"Error: {result.stderr.strip()}", err=True)
+        raise typer.Exit(1)
+    typer.echo("Reserialized all DAGs")
+
+
 @dags_app.command("delete")
 def dags_delete(dag_id: str) -> None:
     """Delete a DAG."""
