@@ -345,15 +345,15 @@ def dags_trigger(
 
 @dags_app.command("reserialize")
 def dags_reserialize() -> None:
-    """Force the scheduler to reserialize all DAGs.
+    """Force the dag-processor to reserialize all DAGs.
 
-    Runs ``airflow dags reserialize`` inside the scheduler container so
+    Runs ``airflow dags reserialize`` inside the dag-processor container so
     newly added or modified DAG files are picked up immediately.
     """
     import subprocess
 
     result = subprocess.run(
-        ["docker", "compose", "exec", "airflow-scheduler", "airflow", "dags", "reserialize"],
+        ["docker", "compose", "exec", "airflow-dag-processor", "airflow", "dags", "reserialize"],
         capture_output=True,
         text=True,
     )
