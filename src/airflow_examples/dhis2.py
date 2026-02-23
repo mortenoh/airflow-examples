@@ -3,6 +3,7 @@
 from typing import Any
 
 import httpx
+from airflow.exceptions import AirflowFailException
 from airflow.sdk.bases.hook import BaseHook
 
 from airflow_examples.config import OUTPUT_BASE
@@ -12,7 +13,13 @@ OUTPUT_DIR = str(OUTPUT_BASE / "dhis2_exports")
 
 def _get_dhis2_config() -> tuple[str, tuple[str, str]]:
     """Read DHIS2 base URL and credentials from the Airflow connection."""
-    conn = BaseHook.get_connection("dhis2_default")
+    try:
+        conn = BaseHook.get_connection("dhis2_default")
+    except Exception as exc:
+        raise AirflowFailException(
+            "Connection 'dhis2_default' not found. "
+            "Add it via the Airflow UI or CLI before running DHIS2 DAGs."
+        ) from exc
     base_url = (conn.host or "").rstrip("/")
     credentials = (conn.login or "", conn.password or "")
     return base_url, credentials
