@@ -258,18 +258,30 @@ def dags_trigger(
     if conf:
         body["conf"] = json.loads(conf)
     with _client() as c:
-        resp = c.post(f"dags/{dag_id}/dagRuns", json=body)
-        data = _check(resp)
-        run_id: str = data.get("dag_run_id", "")
-        typer.echo(f"Triggered: {dag_id}")
-        typer.echo(f"  run_id: {run_id}")
-        typer.echo(f"  state:  {data.get('state')}")
-        if wait:
-            state = _wait_for_run(c, dag_id, run_id, timeout, interval)
-            typer.echo(f"Terminal state: {state}")
-            _print_task_logs(c, dag_id, run_id)
-            if state != "success":
-                raise typer.Exit(1)
+        # Auto-unpause if needed so the run actually executes
+        dag_resp = c.get(f"dags/{dag_id}")
+        dag_data = _check(dag_resp)
+        was_paused = dag_data.get("is_paused", False)
+        if was_paused:
+            c.patch(f"dags/{dag_id}", json={"is_paused": False})
+            typer.echo(f"Unpaused: {dag_id}")
+        try:
+            resp = c.post(f"dags/{dag_id}/dagRuns", json=body)
+            data = _check(resp)
+            run_id: str = data.get("dag_run_id", "")
+            typer.echo(f"Triggered: {dag_id}")
+            typer.echo(f"  run_id: {run_id}")
+            typer.echo(f"  state:  {data.get('state')}")
+            if wait:
+                state = _wait_for_run(c, dag_id, run_id, timeout, interval)
+                typer.echo(f"Terminal state: {state}")
+                _print_task_logs(c, dag_id, run_id)
+                if state != "success":
+                    raise typer.Exit(1)
+        finally:
+            if was_paused:
+                c.patch(f"dags/{dag_id}", json={"is_paused": True})
+                typer.echo(f"Re-paused: {dag_id}")
 
 
 @dags_app.command("delete")
