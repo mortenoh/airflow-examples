@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.venv/
+
+# Tools
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Airflow runtime
+logs/
+
+# Build output
+target/
+site/
+
+# OS
+.DS_Store
+
+# Node (slides)
+slides/node_modules/

@@ -1,0 +1,49 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: public
+    tables:
+      - name: raw_countries
+        description: Raw country data loaded by DAG 101
+        columns:
+          - name: country_code
+            tests:
+              - not_null
+              - unique
+      - name: raw_indicators
+        description: Raw indicator data loaded by DAG 101
+        columns:
+          - name: country_code
+            tests:
+              - not_null
+
+models:
+  - name: stg_countries
+    description: Cleaned and typed country staging table
+    columns:
+      - name: country_code
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_indicators
+    description: Cleaned and typed indicator staging table
+    columns:
+      - name: country_code
+        tests:
+          - not_null
+
+  - name: dim_country
+    description: Country dimension with population density
+    columns:
+      - name: country_code
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_indicators
+    description: Fact table joining indicators with country dimension
+
+  - name: agg_nordic_summary
+    description: Nordic country summary with latest GDP per capita

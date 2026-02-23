@@ -1,0 +1,97 @@
+[project]
+name = "airflow-examples"
+version = "0.1.0"
+description = "Apache Airflow DAG examples"
+requires-python = ">=3.12"
+dependencies = [
+    "apache-airflow",
+    "apache-airflow-providers-docker>=4.5.2",
+    "apache-airflow-providers-amazon>=9.6.0",
+    "apache-airflow-providers-http>=5.6.4",
+    "apache-airflow-providers-postgres>=6.5.4",
+    "apache-airflow-providers-ssh>=4.3.1",
+    "boto3>=1.42.52",
+    "dbt-core>=1.11.6",
+    "dbt-postgres>=1.10.0",
+    "numpy>=2.4.2",
+    "pandas>=2.2.0",
+    "pyarrow>=23.0.1",
+    "streamlit>=1.45.0",
+    "httpx>=0.28.1",
+    "typer>=0.24.0",
+]
+
+[project.scripts]
+af = "airflow_examples.cli:app"
+
+[dependency-groups]
+dev = [
+    "mkdocs<2",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mypy",
+    "pandas-stubs>=3.0.0.260204",
+    "pyright",
+    "pytest",
+    "ruff",
+    "streamlit>=1.45.0",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "D"]
+
+[tool.ruff.lint.per-file-ignores]
+"dags/*.py" = ["D103"]
+"tests/*.py" = ["D101", "D102"]
+"exercises/*.py" = ["F401", "D103"]
+"dashboard/*.py" = ["D103"]
+"src/airflow_examples/cli.py" = ["D103"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+disallow_untyped_defs = true
+warn_return_any = true
+warn_unused_configs = true
+mypy_path = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["airflow.*", "docker.*", "pandas.*", "numpy.*", "pyarrow.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["airflow_examples.operators", "airflow_examples.triggers", "airflow_examples.hooks", "airflow_examples.sensors"]
+disallow_untyped_decorators = false
+disallow_untyped_calls = false
+disable_error_code = ["misc"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+reportUnusedExpression = false
+reportUntypedBaseClass = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportArgumentType = false
+venvPath = "."
+venv = ".venv"
+extraPaths = ["src"]
+include = ["src"]
+exclude = ["dags", "exercises", "dashboard"]
+
+[tool.pytest.ini_options]
+
+[build-system]
+requires = ["uv_build>=0.10,<0.11"]
+build-backend = "uv_build"
