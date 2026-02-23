@@ -13,8 +13,8 @@ OUTPUT_DIR = str(OUTPUT_BASE / "dhis2_exports")
 def _get_dhis2_config() -> tuple[str, tuple[str, str]]:
     """Read DHIS2 base URL and credentials from the Airflow connection."""
     conn = BaseHook.get_connection("dhis2_default")
-    base_url = conn.host.rstrip("/")
-    credentials = (conn.login, conn.password)
+    base_url = (conn.host or "").rstrip("/")
+    credentials = (conn.login or "", conn.password or "")
     return base_url, credentials
 
 

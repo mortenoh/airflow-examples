@@ -215,7 +215,7 @@ def _wait_for_run(
     while elapsed < timeout:
         resp = c.get(f"dags/{dag_id}/dagRuns/{run_id}")
         data = _check(resp)
-        state = data.get("state", "")
+        state: str = data.get("state", "")
         typer.echo(f"  [{elapsed:>3d}s] state={state}")
         if state in terminal:
             return state
@@ -304,7 +304,9 @@ def dags_trigger(
     dag_id: str,
     conf: Annotated[Optional[str], typer.Option(help="JSON config for the run")] = None,
     wait: Annotated[bool, typer.Option("--wait", help="Wait for completion and print logs")] = False,
-    verbose: Annotated[bool, typer.Option("--verbose", "-v", help="Show full task logs (default shows only output/warnings/errors)")] = False,
+    verbose: Annotated[
+        bool, typer.Option("--verbose", "-v", help="Show full task logs, not just output")
+    ] = False,
     timeout: Annotated[int, typer.Option(help="Wait timeout in seconds")] = 300,
     interval: Annotated[int, typer.Option(help="Poll interval in seconds")] = 5,
 ) -> None:
