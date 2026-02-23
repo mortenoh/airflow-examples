@@ -1,0 +1,3135 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apache Airflow DAG examples">
+      
+      
+      
+      
+        <link rel="prev" href="../dag-reference/">
+      
+      
+        <link rel="next" href="../quality-testing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Data Pipelines - Airflow Examples</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-pipelines" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Airflow Examples" class="md-header__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Airflow Examples
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Pipelines
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Airflow Examples" class="md-nav__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Airflow Examples
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provider Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Patterns
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-pipelines-parquet-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Pipelines: Parquet Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dhis2-metadata-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHIS2 Metadata Pipelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DHIS2 Metadata Pipelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-dhis2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is DHIS2?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhis2-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHIS2 REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-helper-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared Helper Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-flattening-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Flattening Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON Flattening Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nested-object-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested Object References
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-based-hierarchy-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path-Based Hierarchy Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#array-length-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Array Length Columns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boolean-derived-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boolean Derived Columns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-formats-csv-vs-parquet-vs-geojson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Formats: CSV vs Parquet vs GeoJSON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Formats: CSV vs Parquet vs GeoJSON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csv-dags-58-60" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSV (DAGs 58, 60)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parquet-dag-59" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parquet (DAG 59)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geojson-dag-61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON (DAG 61)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geojson-construction-without-geopandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON Construction Without GeoPandas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GeoJSON Construction Without GeoPandas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geojson-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geometry-types-in-dhis2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometry Types in DHIS2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#computing-a-bounding-box" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Computing a Bounding Box
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regex-expression-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regex Expression Parsing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Regex Expression Parsing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complexity-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity Scoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-fan-out-fan-in-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Fan-Out / Fan-In Pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parallel Fan-Out / Fan-In Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-format-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Format Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-organisation-units-to-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        58 -- Organisation Units to CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#59-data-elements-to-parquet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        59 -- Data Elements to Parquet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#60-indicators-with-expression-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        60 -- Indicators with Expression Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-organisation-unit-geometry-to-geojson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        61 -- Organisation Unit Geometry to GeoJSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-combined-parallel-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        62 -- Combined Parallel Export
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhis2-with-airflow-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHIS2 with Airflow Connections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DHIS2 with Airflow Connections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#110-connection-basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        110 -- Connection Basics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#111-analytics-data-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        111 -- Analytics Data Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-based-etl-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File-Based ETL Pipelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File-Based ETL Pipelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#landing-zone-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Landing Zone Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-detection-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Detection Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-and-json-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSV and JSON Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarantine-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quarantine Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#63-csv-landing-zone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        63 -- CSV Landing Zone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-json-event-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        64 -- JSON Event Ingestion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-multi-file-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        65 -- Multi-File Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-error-handling-etl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        66 -- Error Handling ETL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-incremental-file-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        67 -- Incremental File Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quality-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API & CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-pipelines-parquet-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Pipelines: Parquet Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dhis2-metadata-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHIS2 Metadata Pipelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DHIS2 Metadata Pipelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-dhis2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is DHIS2?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhis2-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHIS2 REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-helper-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared Helper Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-flattening-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Flattening Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON Flattening Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nested-object-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested Object References
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-based-hierarchy-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path-Based Hierarchy Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#array-length-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Array Length Columns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boolean-derived-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boolean Derived Columns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-formats-csv-vs-parquet-vs-geojson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Formats: CSV vs Parquet vs GeoJSON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Formats: CSV vs Parquet vs GeoJSON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csv-dags-58-60" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSV (DAGs 58, 60)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parquet-dag-59" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parquet (DAG 59)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geojson-dag-61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON (DAG 61)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geojson-construction-without-geopandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON Construction Without GeoPandas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GeoJSON Construction Without GeoPandas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geojson-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geometry-types-in-dhis2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometry Types in DHIS2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#computing-a-bounding-box" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Computing a Bounding Box
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regex-expression-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regex Expression Parsing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Regex Expression Parsing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complexity-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity Scoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-fan-out-fan-in-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Fan-Out / Fan-In Pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parallel Fan-Out / Fan-In Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-format-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Format Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-organisation-units-to-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        58 -- Organisation Units to CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#59-data-elements-to-parquet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        59 -- Data Elements to Parquet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#60-indicators-with-expression-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        60 -- Indicators with Expression Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-organisation-unit-geometry-to-geojson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        61 -- Organisation Unit Geometry to GeoJSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-combined-parallel-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        62 -- Combined Parallel Export
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhis2-with-airflow-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHIS2 with Airflow Connections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DHIS2 with Airflow Connections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#110-connection-basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        110 -- Connection Basics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#111-analytics-data-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        111 -- Analytics Data Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-based-etl-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File-Based ETL Pipelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File-Based ETL Pipelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#landing-zone-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Landing Zone Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-detection-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Detection Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csv-and-json-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSV and JSON Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarantine-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quarantine Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#63-csv-landing-zone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        63 -- CSV Landing Zone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-json-event-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        64 -- JSON Event Ingestion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-multi-file-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        65 -- Multi-File Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-error-handling-etl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        66 -- Error Handling ETL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-incremental-file-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        67 -- Incremental File Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="data-pipelines">Data Pipelines<a class="headerlink" href="#data-pipelines" title="Permanent link">&para;</a></h1>
+<h2 id="data-pipelines-parquet-aggregation">Data Pipelines: Parquet Aggregation<a class="headerlink" href="#data-pipelines-parquet-aggregation" title="Permanent link">&para;</a></h2>
+<p>A realistic data pipeline that reads Parquet, performs aggregations with pandas, and writes CSV:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@task</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">generate_parquet</span><span class="p">(</span><span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="s2">&quot;station&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;oslo_01&quot;</span><span class="p">,</span> <span class="s2">&quot;bergen_01&quot;</span><span class="p">],</span> <span class="mi">200</span><span class="p">),</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="s2">&quot;temperature_c&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="s2">&quot;humidity_pct&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="p">})</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/weather.parquet&quot;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="k">return</span> <span class="n">path</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nd">@task</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">def</span><span class="w"> </span><span class="nf">aggregate_by_station</span><span class="p">(</span><span class="n">parquet_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">parquet_path</span><span class="p">)</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    <span class="n">agg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;station&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>        <span class="n">temp_mean</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;temperature_c&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>        <span class="n">temp_min</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;temperature_c&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>        <span class="n">temp_max</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;temperature_c&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    <span class="n">csv_path</span> <span class="o">=</span> <span class="n">parquet_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;_summary.csv&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    <span class="n">agg</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    <span class="k">return</span> <span class="n">csv_path</span>
+</code></pre></div>
+<p>The pipeline runs three parallel aggregations (by station, by date, cross-tabulation)
+from the same Parquet source, then produces a final report.</p>
+<p>See: <code>dags/57_parquet_aggregation.py</code></p>
+<hr />
+<h2 id="dhis2-metadata-pipelines">DHIS2 Metadata Pipelines<a class="headerlink" href="#dhis2-metadata-pipelines" title="Permanent link">&para;</a></h2>
+<p>DAGs 58--62 and 110--111 are a domain-specific detour into health data. You can safely skip
+them if you are not working with health information systems -- the general patterns (API calls,
+JSON flattening, pandas transforms) are covered again in DAGs 81-100 with more general APIs.
+DAGs 110--111 also demonstrate using Airflow Connections for credential management, which
+applies to any external API.</p>
+<p><a href="https://dhis2.org/">DHIS2</a> (District Health Information Software 2) is the world's largest
+health information management system, used in 100+ countries. These examples fetch data from
+a public test server and demonstrate patterns you would use against any REST API: nested JSON
+flattening, derived columns, multi-format output, and parallel pipeline orchestration.</p>
+<h3 id="what-is-dhis2">What is DHIS2?<a class="headerlink" href="#what-is-dhis2" title="Permanent link">&para;</a></h3>
+<p>DHIS2 organizes health data around three core metadata types:</p>
+<table>
+<thead>
+<tr>
+<th>Metadata Type</th>
+<th>Description</th>
+<th>Play Server Records</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Organisation Units</strong></td>
+<td>Health facilities, districts, regions -- arranged in a hierarchy (country &gt; province &gt; district &gt; facility)</td>
+<td>~1575</td>
+</tr>
+<tr>
+<td><strong>Data Elements</strong></td>
+<td>Individual data points collected at facilities (e.g., "Malaria cases", "BCG doses given")</td>
+<td>~1037</td>
+</tr>
+<tr>
+<td><strong>Indicators</strong></td>
+<td>Calculated metrics derived from data elements (e.g., "BCG coverage %" = doses / target population)</td>
+<td>~77</td>
+</tr>
+</tbody>
+</table>
+<p>Organisation units can also carry <strong>geometry</strong> (Point for facilities, Polygon/MultiPolygon for
+administrative boundaries), making them a source of spatial data.</p>
+<h3 id="dhis2-rest-api">DHIS2 REST API<a class="headerlink" href="#dhis2-rest-api" title="Permanent link">&para;</a></h3>
+<p>The DHIS2 Web API follows a consistent pattern across all metadata endpoints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>GET /api/{resource}?paging=false&amp;fields={fieldSpec}
+</code></pre></div>
+<p><strong>Key API parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>paging</code></td>
+<td><code>false</code> disables pagination, returns all records in one response</td>
+<td><code>paging=false</code></td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>Controls which fields are returned. <code>:owner</code> returns all fields owned by the object (excludes computed fields)</td>
+<td><code>fields=:owner</code></td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>Server-side filtering (not used in these examples -- we filter client-side with pandas)</td>
+<td><code>filter=level:eq:4</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Authentication</strong>: HTTP Basic Auth. The play server uses <code>admin</code>/<code>district</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="s2">&quot;https://play.im.dhis2.org/dev/api/organisationUnits&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;district&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;paging&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="s2">&quot;:owner&quot;</span><span class="p">},</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Response structure</strong>: The JSON response wraps the record list under a key matching the endpoint name:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;organisationUnits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sierra Leone&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">},</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;def456&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bo&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;parent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123&quot;</span><span class="p">},</span><span class="w"> </span><span class="err">...</span><span class="p">}</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>This means the extraction step is always: <code>data = resp.json()</code> then <code>records = data["organisationUnits"]</code>.</p>
+<h3 id="shared-helper-module">Shared Helper Module<a class="headerlink" href="#shared-helper-module" title="Permanent link">&para;</a></h3>
+<p>All DHIS2 DAGs share <code>src/airflow_examples/dhis2.py</code> to avoid duplicating API logic. Credentials
+are read from the <code>dhis2_default</code> Airflow connection at runtime instead of being hardcoded:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="sd">&quot;&quot;&quot;DHIS2 API helpers for metadata pipeline examples.&quot;&quot;&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">airflow.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirflowFailException</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk.bases.hook</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseHook</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">airflow_examples.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">OUTPUT_BASE</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">OUTPUT_DIR</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">OUTPUT_BASE</span> <span class="o">/</span> <span class="s2">&quot;dhis2_exports&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">_get_dhis2_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read DHIS2 base URL and credentials from the Airflow connection.&quot;&quot;&quot;</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>        <span class="n">conn</span> <span class="o">=</span> <span class="n">BaseHook</span><span class="o">.</span><span class="n">get_connection</span><span class="p">(</span><span class="s2">&quot;dhis2_default&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="k">raise</span> <span class="n">AirflowFailException</span><span class="p">(</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>            <span class="s2">&quot;Connection &#39;dhis2_default&#39; not found. &quot;</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>            <span class="s2">&quot;Add it via the Airflow UI or CLI before running DHIS2 DAGs.&quot;</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">host</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="n">credentials</span> <span class="o">=</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">login</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">conn</span><span class="o">.</span><span class="n">password</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="k">return</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">credentials</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="k">def</span><span class="w"> </span><span class="nf">fetch_metadata</span><span class="p">(</span><span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;:owner&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch all records from a DHIS2 metadata endpoint.&quot;&quot;&quot;</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="n">base_url</span><span class="p">,</span> <span class="n">credentials</span> <span class="o">=</span> <span class="n">_get_dhis2_config</span><span class="p">()</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>    <span class="n">resp</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>        <span class="n">url</span><span class="p">,</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>        <span class="n">auth</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;paging&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">fields</span><span class="p">},</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>        <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>    <span class="p">)</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>    <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>    <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>    <span class="n">key</span> <span class="o">=</span> <span class="n">endpoint</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>    <span class="n">result</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div>
+<p><strong>Design decisions:</strong></p>
+<ul>
+<li><strong>Connection-managed credentials</strong>: The base URL, username, and password live in the
+  <code>dhis2_default</code> Airflow connection rather than as Python constants. This means credentials
+  are stored in one place (the Airflow metadata database or environment variables), never
+  committed to source control, and can be changed without redeploying DAG code.</li>
+<li><strong><code>AirflowFailException</code></strong>: If the connection is missing, the task raises
+  <code>AirflowFailException</code> instead of a generic error. This tells Airflow to mark the task as
+  <code>failed</code> immediately without retrying -- there is no point retrying when the connection
+  does not exist yet.</li>
+<li><strong><code>paging=false</code></strong>: The play server has small datasets (~1000s of records). For production DHIS2
+  instances with millions of records, you'd paginate with <code>page=1&amp;pageSize=1000</code> and loop.</li>
+<li><strong><code>fields=:owner</code></strong>: Returns all fields the object "owns" (not computed/derived fields). This is
+  the most common field spec for metadata exports. You can also request specific fields:
+  <code>fields=id,name,level,parent</code> (used in DAG 61 for geometry).</li>
+<li><strong><code>timeout=60</code></strong>: The play server can be slow. Production code should use retries (Airflow's
+  built-in <code>retries</code> parameter handles this at the task level).</li>
+<li><strong>Type annotations</strong>: <code>list[dict[str, Any]]</code> satisfies mypy strict mode. The DHIS2 API returns
+  heterogeneous dicts, so <code>Any</code> values are appropriate.</li>
+</ul>
+<p><strong>Why a shared module instead of inline code?</strong> The fetch logic is identical across all DHIS2 DAGs --
+only the endpoint name changes. Centralizing it in a helper module means:</p>
+<ol>
+<li>Single place to update if the API URL or auth changes</li>
+<li>DAG files focus on transform logic, not HTTP boilerplate</li>
+<li>The helper is importable from both DAGs and tests</li>
+</ol>
+<p>See: <code>src/airflow_examples/dhis2.py</code></p>
+<h3 id="json-flattening-patterns">JSON Flattening Patterns<a class="headerlink" href="#json-flattening-patterns" title="Permanent link">&para;</a></h3>
+<p>DHIS2 returns deeply nested JSON. Most fields are flat strings, but several contain nested objects
+or arrays that need flattening before tabular output:</p>
+<h4 id="nested-object-references">Nested Object References<a class="headerlink" href="#nested-object-references" title="Permanent link">&para;</a></h4>
+<p>Many DHIS2 objects reference their parent or related objects as nested dicts:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bo District&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;parent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xyz789&quot;</span><span class="p">},</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">&quot;categoryCombo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;combo1&quot;</span><span class="p">},</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">&quot;createdBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user1&quot;</span><span class="p">},</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="nt">&quot;indicatorType&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;type1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Per cent&quot;</span><span class="p">}</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>The flattening pattern extracts the nested value with a safe accessor:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Extract parent ID from nested dict (or None if missing)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;parent_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Extract nested field with .get() for optional keys</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;created_by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;createdBy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;username&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># Extract multiple fields from the same nested object</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;indicator_type_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;indicatorType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="p">)</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;indicator_type_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;indicatorType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Why <code>isinstance(p, dict)</code> guards?</strong> Some records may have <code>None</code> or missing parent fields.
+Without the guard, <code>None["id"]</code> raises <code>TypeError</code>. The <code>isinstance</code> check handles both <code>None</code>
+and unexpected types gracefully.</p>
+<h4 id="path-based-hierarchy-depth">Path-Based Hierarchy Depth<a class="headerlink" href="#path-based-hierarchy-depth" title="Permanent link">&para;</a></h4>
+<p>Organisation units have a <code>path</code> field encoding their position in the hierarchy:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&quot;/abc123&quot;                     -&gt; depth 0 (country)
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>&quot;/abc123/def456&quot;              -&gt; depth 1 (province)
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>&quot;/abc123/def456/ghi789&quot;       -&gt; depth 2 (district)
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>&quot;/abc123/def456/ghi789/jkl0&quot;  -&gt; depth 3 (facility)
+</code></pre></div>
+<p>Extracting depth is a simple string operation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;hierarchy_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">)</span>
+</code></pre></div>
+<p>The <code>-1</code> accounts for the leading <code>/</code> -- a path like <code>/abc123</code> has one slash but represents
+depth 0 (the root level).</p>
+<h4 id="array-length-columns">Array Length Columns<a class="headerlink" href="#array-length-columns" title="Permanent link">&para;</a></h4>
+<p>Some fields are arrays (translations, data element groups). Counting them creates useful
+summary columns:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;translation_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;translations&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">)</span>
+</code></pre></div>
+<h4 id="boolean-derived-columns">Boolean Derived Columns<a class="headerlink" href="#boolean-derived-columns" title="Permanent link">&para;</a></h4>
+<p>Create boolean flags from nullable fields for easy filtering and aggregation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># True if the record has a code assigned, False otherwise</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;has_code&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+</code></pre></div>
+<p>This is more useful than the raw <code>code</code> column for summary statistics: <code>df["has_code"].sum()</code>
+gives you the count of coded elements instantly.</p>
+<h3 id="output-formats-csv-vs-parquet-vs-geojson">Output Formats: CSV vs Parquet vs GeoJSON<a class="headerlink" href="#output-formats-csv-vs-parquet-vs-geojson" title="Permanent link">&para;</a></h3>
+<p>These DAGs demonstrate three output formats, each suited to different use cases:</p>
+<h4 id="csv-dags-58-60">CSV (DAGs 58, 60)<a class="headerlink" href="#csv-dags-58-60" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human-readable in any text editor</td>
+<td>No type preservation (everything becomes strings)</td>
+</tr>
+<tr>
+<td>Universal compatibility</td>
+<td>Larger file size than binary formats</td>
+</tr>
+<tr>
+<td>Easy to inspect and debug</td>
+<td>Slow to read for large datasets</td>
+</tr>
+<tr>
+<td>Git-diffable</td>
+<td>No nested data support</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Best for</strong>: Small-to-medium datasets, sharing with non-technical users, inspection/debugging,
+data that will be imported into spreadsheets or other tools.</p>
+<h4 id="parquet-dag-59">Parquet (DAG 59)<a class="headerlink" href="#parquet-dag-59" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">parquet_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Columnar format -- fast reads for analytical queries</td>
+<td>Binary format, not human-readable</td>
+</tr>
+<tr>
+<td>Type preservation (int, float, bool, datetime, string)</td>
+<td>Requires pyarrow or fastparquet to read</td>
+</tr>
+<tr>
+<td>Efficient compression (often 2-10x smaller than CSV)</td>
+<td>Not git-diffable</td>
+</tr>
+<tr>
+<td>Predicate pushdown -- read only the columns you need</td>
+<td>Overkill for tiny datasets</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Best for</strong>: Analytical pipelines, large datasets, data that feeds into pandas/Spark/DuckDB,
+preserving column types across pipeline stages.</p>
+<p><strong>Reading Parquet back</strong> is straightforward and preserves all types:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">parquet_path</span><span class="p">)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1"># Boolean columns are still bool, ints are still int -- no type coercion needed</span>
+</code></pre></div>
+<h4 id="geojson-dag-61">GeoJSON (DAG 61)<a class="headerlink" href="#geojson-dag-61" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">geojson</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="n">features</span><span class="p">,</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="p">}</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">geojson_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard format for geographic data</td>
+<td>Verbose -- large files for complex geometries</td>
+</tr>
+<tr>
+<td>Supported by QGIS, Mapbox, Leaflet, GitHub map preview</td>
+<td>Slower to parse than binary formats (Shapefile, GeoParquet)</td>
+</tr>
+<tr>
+<td>JSON-based -- no special libraries needed to create</td>
+<td>No indexing -- full scan for spatial queries</td>
+</tr>
+<tr>
+<td>Human-readable geometry representation</td>
+<td>Not suitable for raster data</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Best for</strong>: Sharing geographic data, web map visualization, datasets with mixed geometry types,
+when you want to avoid heavyweight GIS dependencies.</p>
+<h3 id="geojson-construction-without-geopandas">GeoJSON Construction Without GeoPandas<a class="headerlink" href="#geojson-construction-without-geopandas" title="Permanent link">&para;</a></h3>
+<p>DAG 61 builds GeoJSON manually using only the <code>json</code> standard library module. This avoids pulling
+in <code>geopandas</code> (which depends on GDAL/GEOS C libraries) for a simple metadata export.</p>
+<h4 id="geojson-structure">GeoJSON Structure<a class="headerlink" href="#geojson-structure" title="Permanent link">&para;</a></h4>
+<p>A GeoJSON file is a <code>FeatureCollection</code> containing <code>Feature</code> objects. Each feature has a <code>geometry</code>
+(the spatial shape) and <code>properties</code> (attribute data):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">      </span><span class="nt">&quot;geometry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Point&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">        </span><span class="nt">&quot;coordinates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">10.75</span><span class="p">,</span><span class="w"> </span><span class="mf">59.91</span><span class="p">]</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Oslo Health Centre&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">        </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">      </span><span class="nt">&quot;geometry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">        </span><span class="nt">&quot;coordinates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[[[</span><span class="mf">10.0</span><span class="p">,</span><span class="w"> </span><span class="mf">59.0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">11.0</span><span class="p">,</span><span class="w"> </span><span class="mf">59.0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">11.0</span><span class="p">,</span><span class="w"> </span><span class="mf">60.0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span><span class="w"> </span><span class="mf">60.0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span><span class="w"> </span><span class="mf">59.0</span><span class="p">]]]</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;def456&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Oslo District&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="w">        </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Coordinate order</strong>: GeoJSON uses <code>[longitude, latitude]</code> (not <code>[lat, lon]</code>). This is the opposite
+of what most people expect. DHIS2 stores geometry in GeoJSON format natively, so no coordinate
+swapping is needed.</p>
+<h4 id="geometry-types-in-dhis2">Geometry Types in DHIS2<a class="headerlink" href="#geometry-types-in-dhis2" title="Permanent link">&para;</a></h4>
+<p>The play server's organisation units use three geometry types:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Count</th>
+<th>Represents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Point</code></td>
+<td>~601</td>
+<td>Individual health facilities (lat/lon location)</td>
+</tr>
+<tr>
+<td><code>Polygon</code></td>
+<td>~143</td>
+<td>Administrative boundaries (districts, provinces)</td>
+</tr>
+<tr>
+<td><code>MultiPolygon</code></td>
+<td>~22</td>
+<td>Complex boundaries with disconnected parts (islands, exclaves)</td>
+</tr>
+</tbody>
+</table>
+<p>The remaining ~809 org units have no geometry at all (data-only nodes in the hierarchy).</p>
+<h4 id="building-features">Building Features<a class="headerlink" href="#building-features" title="Permanent link">&para;</a></h4>
+<p>The DHIS2 API returns geometry as a GeoJSON geometry object already -- no coordinate parsing needed.
+The construction pattern filters records and wraps each in a Feature:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="n">geom</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">geom</span><span class="p">:</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>        <span class="k">continue</span>  <span class="c1"># Skip units without geometry (~809 of ~1575)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="n">parent</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;parent&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    <span class="n">feature</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>        <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">geom</span><span class="p">,</span>  <span class="c1"># Already valid GeoJSON geometry from DHIS2</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>        <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>            <span class="s2">&quot;shortName&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shortName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;level&quot;</span><span class="p">),</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>            <span class="s2">&quot;parent_id&quot;</span><span class="p">:</span> <span class="n">parent_id</span><span class="p">,</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>        <span class="p">},</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>    <span class="p">}</span>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="computing-a-bounding-box">Computing a Bounding Box<a class="headerlink" href="#computing-a-bounding-box" title="Permanent link">&para;</a></h4>
+<p>To summarize the spatial extent, extract coordinates from Point geometries:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    <span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="k">if</span> <span class="n">geom</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Point&quot;</span><span class="p">:</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>        <span class="n">coords</span> <span class="o">=</span> <span class="n">geom</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>        <span class="n">lons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># GeoJSON: [lon, lat]</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>        <span class="n">lats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="k">if</span> <span class="n">lats</span> <span class="ow">and</span> <span class="n">lons</span><span class="p">:</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lat: </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lon: </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>For Polygon/MultiPolygon geometries, you'd need to recurse into the nested coordinate arrays --
+but Point coordinates are sufficient for a quick bounding box of facility locations.</p>
+<h3 id="regex-expression-parsing">Regex Expression Parsing<a class="headerlink" href="#regex-expression-parsing" title="Permanent link">&para;</a></h3>
+<p>DHIS2 indicators are calculated from formulas that reference data elements using <code>#{...}</code> syntax:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Numerator:   #{fbfJHSPpUQD.pq2XI5kz2BY} + #{fbfJHSPpUQD.PT59n8BQbqM}
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>Denominator: #{h0xKKjijTdI}
+</code></pre></div>
+<p>Each <code>#{...}</code> token is an operand referencing a data element (and optionally a category option combo,
+separated by <code>.</code>). DAG 60 uses regex to extract and count these operands:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">count_operands</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Count #{...} operand references in a DHIS2 expression.&quot;&quot;&quot;</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>        <span class="k">return</span> <span class="mi">0</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;#\{[^}]+\}&quot;</span><span class="p">,</span> <span class="n">expr</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>Regex breakdown:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#\{</code></td>
+<td>Literal <code>#{</code> (braces escaped because <code>{</code> is a regex quantifier)</td>
+</tr>
+<tr>
+<td><code>[^}]+</code></td>
+<td>One or more characters that are NOT <code>}</code> (the operand ID)</td>
+</tr>
+<tr>
+<td><code>\}</code></td>
+<td>Literal closing <code>}</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="complexity-scoring">Complexity Scoring<a class="headerlink" href="#complexity-scoring" title="Permanent link">&para;</a></h4>
+<p>The expression complexity score combines operand counts with operator counts to estimate how
+"involved" an indicator formula is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">complexity_score</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Score = total operands + arithmetic operators.&quot;&quot;&quot;</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    <span class="n">score</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;numerator_operands&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;denominator_operands&quot;</span><span class="p">])</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;numerator&quot;</span><span class="p">,</span> <span class="s2">&quot;denominator&quot;</span><span class="p">]:</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>        <span class="n">expr</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>            <span class="n">score</span> <span class="o">+=</span> <span class="n">expr</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">expr</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">expr</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    <span class="k">return</span> <span class="n">score</span>
+</code></pre></div>
+<p>This produces a rough distribution:</p>
+<table>
+<thead>
+<tr>
+<th>Complexity</th>
+<th>Meaning</th>
+<th>Typical Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>No operands (constant or empty)</td>
+<td>Fixed-value indicators</td>
+</tr>
+<tr>
+<td>1--4</td>
+<td>Simple ratio (1-2 operands per side)</td>
+<td>Coverage = doses / population</td>
+</tr>
+<tr>
+<td>5--9</td>
+<td>Multi-component (several data elements combined)</td>
+<td>Composite scores</td>
+</tr>
+<tr>
+<td>10+</td>
+<td>Complex formula (many operands, arithmetic)</td>
+<td>Weighted indices</td>
+</tr>
+</tbody>
+</table>
+<h3 id="parallel-fan-out-fan-in-pattern">Parallel Fan-Out / Fan-In Pattern<a class="headerlink" href="#parallel-fan-out-fan-in-pattern" title="Permanent link">&para;</a></h3>
+<p>DAG 62 demonstrates a common real-world pattern: fetch multiple independent data sources in parallel,
+transform each independently, then combine results in a single summary task.</p>
+<h4 id="pipeline-structure">Pipeline Structure<a class="headerlink" href="#pipeline-structure" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>                    ┌─ fetch_org_units ──&gt; transform_org_units ──────────┐
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>                    │                                                    │
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>start ──&gt; parallel ─┼─ fetch_data_elements ──&gt; transform_data_elements ─┼──&gt; combined_report ──&gt; cleanup
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>                    │                                                    │
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>                    └─ fetch_indicators ──&gt; transform_indicators ────────┘
+</code></pre></div>
+<p>In TaskFlow API, the parallelism happens automatically -- Airflow's scheduler detects that the three
+fetch tasks have no dependencies on each other and runs them concurrently:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;62_dhis2_combined_export&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>    <span class="c1"># These three have no upstream dependencies -- they run in parallel</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>    <span class="n">org_raw</span> <span class="o">=</span> <span class="n">fetch_org_units</span><span class="p">()</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>    <span class="n">elem_raw</span> <span class="o">=</span> <span class="n">fetch_data_elements</span><span class="p">()</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    <span class="n">ind_raw</span> <span class="o">=</span> <span class="n">fetch_indicators</span><span class="p">()</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>    <span class="c1"># These depend on their respective fetches -- each starts as soon as its input is ready</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>    <span class="n">org_csv</span> <span class="o">=</span> <span class="n">transform_org_units</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="n">org_raw</span><span class="p">)</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>    <span class="n">elem_parquet</span> <span class="o">=</span> <span class="n">transform_data_elements</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="n">elem_raw</span><span class="p">)</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>    <span class="n">ind_csv</span> <span class="o">=</span> <span class="n">transform_indicators</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="n">ind_raw</span><span class="p">)</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>    <span class="c1"># Fan-in: waits for ALL three transforms to complete</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>    <span class="n">report</span> <span class="o">=</span> <span class="n">combined_report</span><span class="p">(</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>        <span class="n">org_units_path</span><span class="o">=</span><span class="n">org_csv</span><span class="p">,</span>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>        <span class="n">data_elements_path</span><span class="o">=</span><span class="n">elem_parquet</span><span class="p">,</span>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>        <span class="n">indicators_path</span><span class="o">=</span><span class="n">ind_csv</span><span class="p">,</span>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>    <span class="p">)</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a>    <span class="c1"># Sequential: cleanup runs after report</span>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>    <span class="n">cleanup_task</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>        <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;cleanup&quot;</span><span class="p">,</span>
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a>        <span class="n">bash_command</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;rm -rf </span><span class="si">{</span><span class="n">OUTPUT_DIR</span><span class="si">}</span><span class="s2"> &amp;&amp; echo &#39;Cleaned up </span><span class="si">{</span><span class="n">OUTPUT_DIR</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a>    <span class="p">)</span>
+<a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a>    <span class="n">report</span> <span class="o">&gt;&gt;</span> <span class="n">cleanup_task</span>
+</code></pre></div>
+<p><strong>How Airflow resolves the parallelism:</strong></p>
+<ol>
+<li><code>fetch_org_units</code>, <code>fetch_data_elements</code>, <code>fetch_indicators</code> -- all three are schedulable
+   immediately (no <code>blockedBy</code>). With <code>LocalExecutor</code>, they run as concurrent processes.</li>
+<li><code>transform_org_units</code> starts as soon as <code>fetch_org_units</code> completes (it doesn't wait for the
+   other fetches).</li>
+<li><code>combined_report</code> has three upstream dependencies -- Airflow's default <code>trigger_rule=all_success</code>
+   means it waits for all three transforms to succeed.</li>
+<li><code>cleanup</code> runs last, after the report.</li>
+</ol>
+<p><strong>Benefits of this pattern:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Benefit</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Faster execution</strong></td>
+<td>Three API calls run concurrently instead of sequentially (~3x faster)</td>
+</tr>
+<tr>
+<td><strong>Independent failure</strong></td>
+<td>If <code>fetch_indicators</code> fails, <code>transform_org_units</code> still completes</td>
+</tr>
+<tr>
+<td><strong>Clear data lineage</strong></td>
+<td>The DAG graph shows exactly which data feeds into which output</td>
+</tr>
+<tr>
+<td><strong>Easy to extend</strong></td>
+<td>Adding a 4th data source is just another fetch/transform pair</td>
+</tr>
+</tbody>
+</table>
+<h4 id="multi-format-output">Multi-Format Output<a class="headerlink" href="#multi-format-output" title="Permanent link">&para;</a></h4>
+<p>The combined export writes each dataset in the format best suited to its downstream use:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Org units -&gt; CSV (human-readable, simple tabular data)</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="n">org_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OUTPUT_DIR</span><span class="si">}</span><span class="s2">/combined_org_units.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Data elements -&gt; Parquet (preserves boolean types, efficient for analysis)</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="n">elem_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OUTPUT_DIR</span><span class="si">}</span><span class="s2">/combined_data_elements.parquet&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># Indicators -&gt; CSV (small dataset, human-readable expressions)</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="n">ind_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OUTPUT_DIR</span><span class="si">}</span><span class="s2">/combined_indicators.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="58-organisation-units-to-csv">58 -- Organisation Units to CSV<a class="headerlink" href="#58-organisation-units-to-csv" title="Permanent link">&para;</a></h3>
+<p>Fetches all organisation units (~1575), flattens nested parent references, createdBy usernames,
+and path-based hierarchy depth, counts translations per unit, and writes a flat CSV.</p>
+<p><strong>Pipeline:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>fetch (GET /api/organisationUnits) -&gt; transform (flatten + derive columns) -&gt; report (formatted summary)
+</code></pre></div>
+<p><strong>Key transforms:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;parent_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;created_by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;createdBy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;username&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;hierarchy_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;translation_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;translations&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Output columns:</strong> <code>id</code>, <code>name</code>, <code>shortName</code>, <code>level</code>, <code>parent_id</code>, <code>created_by</code>,
+<code>hierarchy_depth</code>, <code>translation_count</code>, <code>openingDate</code></p>
+<p><strong>Report output includes:</strong></p>
+<ul>
+<li>Count by organisational level (country, province, district, facility)</li>
+<li>Top 10 org units sorted by level</li>
+<li>Opening date range across all units</li>
+<li>Hierarchy depth range and translation coverage</li>
+</ul>
+<p>See: <code>dags/58_dhis2_org_units.py</code></p>
+<h3 id="59-data-elements-to-parquet">59 -- Data Elements to Parquet<a class="headerlink" href="#59-data-elements-to-parquet" title="Permanent link">&para;</a></h3>
+<p>Fetches all data elements (~1037), flattens category combo references, adds boolean and computed
+columns, and writes as Parquet to preserve column types.</p>
+<p><strong>Pipeline:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>fetch (GET /api/dataElements) -&gt; transform (flatten + categorize) -&gt; report (summary stats)
+</code></pre></div>
+<p><strong>Key transforms:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;category_combo_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;categoryCombo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;has_code&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>        <span class="c1"># Boolean: was a code assigned?</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;name_length&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span>   <span class="c1"># Numeric: name string length</span>
+</code></pre></div>
+<p><strong>Why Parquet for this dataset?</strong> Data elements have boolean (<code>has_code</code>) and integer (<code>name_length</code>)
+columns. CSV would coerce booleans to strings (<code>"True"</code>/<code>"False"</code>) and require type inference on
+read. Parquet preserves exact types:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Reading Parquet preserves types</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;data_elements.parquet&quot;</span><span class="p">)</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;has_code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">bool</span>          <span class="c1"># Stays bool, not object</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="k">assert</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name_length&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;int64&quot;</span>    <span class="c1"># Stays int, not object</span>
+</code></pre></div>
+<p><strong>Report output includes:</strong></p>
+<ul>
+<li>Value type breakdown (NUMBER, BOOLEAN, TEXT, etc.)</li>
+<li>Aggregation type breakdown (SUM, AVERAGE, COUNT, etc.)</li>
+<li>Domain type distribution (AGGREGATE vs TRACKER)</li>
+<li>Code assignment coverage</li>
+<li>Name length statistics (min, max, mean)</li>
+</ul>
+<p>See: <code>dags/59_dhis2_data_elements.py</code></p>
+<h3 id="60-indicators-with-expression-parsing">60 -- Indicators with Expression Parsing<a class="headerlink" href="#60-indicators-with-expression-parsing" title="Permanent link">&para;</a></h3>
+<p>Fetches all indicators (~77), flattens indicator type references, parses numerator and denominator
+expressions with regex, and computes a complexity score.</p>
+<p><strong>Pipeline:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>fetch (GET /api/indicators) -&gt; transform (parse expressions + score complexity) -&gt; report (ranked summary)
+</code></pre></div>
+<p><strong>Key transforms:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">count_operands</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>        <span class="k">return</span> <span class="mi">0</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;#\{[^}]+\}&quot;</span><span class="p">,</span> <span class="n">expr</span><span class="p">))</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;numerator_operands&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;numerator&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">count_operands</span><span class="p">)</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;denominator_operands&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;denominator&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">count_operands</span><span class="p">)</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;expression_complexity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">complexity_score</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Report output includes:</strong></p>
+<ul>
+<li>Complexity distribution (trivial / simple / moderate / complex / very complex)</li>
+<li>Top 5 most complex indicators with their scores</li>
+<li>Top 5 simplest non-trivial indicators</li>
+<li>Indicator type breakdown (Per cent, Per 1000, etc.)</li>
+</ul>
+<p>See: <code>dags/60_dhis2_indicators.py</code></p>
+<h3 id="61-organisation-unit-geometry-to-geojson">61 -- Organisation Unit Geometry to GeoJSON<a class="headerlink" href="#61-organisation-unit-geometry-to-geojson" title="Permanent link">&para;</a></h3>
+<p>Fetches org units with a targeted field list (only geometry-relevant fields), filters to the ~766
+units that have spatial data, builds a GeoJSON FeatureCollection, and writes to disk.</p>
+<p><strong>Pipeline:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>fetch (GET /api/organisationUnits?fields=id,name,...,geometry) -&gt; transform (filter + build GeoJSON) -&gt; write_geojson -&gt; report
+</code></pre></div>
+<p><strong>Key difference from DAG 58:</strong> This DAG requests specific fields (<code>id,name,shortName,level,parent,geometry</code>)
+instead of <code>:owner</code>. This is more efficient -- geometry data can be large (polygon coordinate arrays),
+so we skip irrelevant fields like <code>translations</code>, <code>openingDate</code>, etc.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="n">records</span> <span class="o">=</span> <span class="n">fetch_metadata</span><span class="p">(</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>    <span class="s2">&quot;organisationUnits&quot;</span><span class="p">,</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>    <span class="n">fields</span><span class="o">=</span><span class="s2">&quot;id,name,shortName,level,parent,geometry&quot;</span><span class="p">,</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Report output includes:</strong></p>
+<ul>
+<li>Total feature count</li>
+<li>Geometry type breakdown (Point: ~601, Polygon: ~143, MultiPolygon: ~22)</li>
+<li>Bounding box from Point geometries (lat/lon extent)</li>
+<li>Level distribution of features with geometry</li>
+</ul>
+<p>See: <code>dags/61_dhis2_org_unit_geometry.py</code></p>
+<h3 id="62-combined-parallel-export">62 -- Combined Parallel Export<a class="headerlink" href="#62-combined-parallel-export" title="Permanent link">&para;</a></h3>
+<p>Fetches all three metadata types in parallel, transforms each independently, writes multi-format
+output, and produces a combined summary report. A <code>BashOperator</code> cleanup task removes all temporary
+files.</p>
+<p><strong>Pipeline:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>fetch_org_units ────────&gt; transform_org_units (CSV) ──────────┐
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>fetch_data_elements ────&gt; transform_data_elements (Parquet) ──┼──&gt; combined_report ──&gt; cleanup
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>fetch_indicators ───────&gt; transform_indicators (CSV) ─────────┘
+</code></pre></div>
+<p><strong>Report output includes:</strong></p>
+<ul>
+<li>Record counts per metadata type and total</li>
+<li>Org unit level distribution</li>
+<li>Data element domain type breakdown</li>
+<li>Indicator complexity summary (mean, max, trivial count)</li>
+<li>List of all output file paths</li>
+</ul>
+<p>See: <code>dags/62_dhis2_combined_export.py</code></p>
+<h3 id="dhis2-with-airflow-connections">DHIS2 with Airflow Connections<a class="headerlink" href="#dhis2-with-airflow-connections" title="Permanent link">&para;</a></h3>
+<p>DAGs 110--111 revisit DHIS2 but use Airflow Connections to manage credentials instead of
+hardcoding them. If you skipped DAGs 58--62 because DHIS2 is not relevant to your work, you
+can still use these two DAGs as a reference for the Airflow Connection pattern -- the concepts
+apply to any external API.</p>
+<p><strong>Key difference from DAGs 58--62:</strong> The earlier DAGs stored the DHIS2 base URL and credentials
+as Python constants in <code>dhis2.py</code>. DAGs 110--111 rely on a <code>dhis2_default</code> connection configured
+in Airflow (via the UI, CLI, or <code>compose.yml</code> environment variables). The shared helper
+<code>_get_dhis2_config()</code> reads the connection at runtime with <code>BaseHook.get_connection()</code>.</p>
+<p><strong>Why connections matter:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>DAGs 58--62</th>
+<th>DAGs 110--111</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Credentials stored in</td>
+<td>Python source code</td>
+<td>Airflow metadata DB / env vars</td>
+</tr>
+<tr>
+<td>Changing the server URL</td>
+<td>Edit code, redeploy DAGs</td>
+<td>Update the connection, no code change</td>
+</tr>
+<tr>
+<td>Secret exposure risk</td>
+<td>Credentials in version control</td>
+<td>Credentials managed by Airflow</td>
+</tr>
+<tr>
+<td>Missing credentials</td>
+<td><code>httpx</code> error at request time</td>
+<td><code>AirflowFailException</code> before the request</td>
+</tr>
+</tbody>
+</table>
+<h4 id="110-connection-basics">110 -- Connection Basics<a class="headerlink" href="#110-connection-basics" title="Permanent link">&para;</a></h4>
+<p>Retrieves the <code>dhis2_default</code> connection details and fetches a simple org unit count to verify
+the connection works end-to-end.</p>
+<p><strong>Pipeline:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>show_connection -&gt; fetch_org_unit_count
+</code></pre></div>
+<p><strong>Tasks:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>show_connection</code></td>
+<td>Reads <code>dhis2_default</code> via <code>BaseHook.get_connection()</code> and prints connection fields (password redacted)</td>
+</tr>
+<tr>
+<td><code>fetch_org_unit_count</code></td>
+<td>Calls <code>fetch_metadata("organisationUnits", fields="id")</code> and prints the record count</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="nd">@task</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">show_connection</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="n">BaseHook</span><span class="o">.</span><span class="n">get_connection</span><span class="p">(</span><span class="s2">&quot;dhis2_default&quot;</span><span class="p">)</span>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>        <span class="s2">&quot;conn_id&quot;</span><span class="p">:</span> <span class="n">conn</span><span class="o">.</span><span class="n">conn_id</span><span class="p">,</span>
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>        <span class="s2">&quot;conn_type&quot;</span><span class="p">:</span> <span class="n">conn</span><span class="o">.</span><span class="n">conn_type</span><span class="p">,</span>
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>        <span class="s2">&quot;host&quot;</span><span class="p">:</span> <span class="n">conn</span><span class="o">.</span><span class="n">host</span><span class="p">,</span>
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>        <span class="s2">&quot;login&quot;</span><span class="p">:</span> <span class="n">conn</span><span class="o">.</span><span class="n">login</span><span class="p">,</span>
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>    <span class="p">}</span>
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">timestamp</span><span class="p">()</span><span class="si">}</span><span class="s2">] Connection details (password redacted):&quot;</span><span class="p">)</span>
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a>    <span class="k">return</span> <span class="n">info</span>
+</code></pre></div>
+<p>See: <code>dags/110_dhis2_connection_basics.py</code></p>
+<h4 id="111-analytics-data-values">111 -- Analytics Data Values<a class="headerlink" href="#111-analytics-data-values" title="Permanent link">&para;</a></h4>
+<p>Fetches analytics data (not metadata) from the DHIS2 <code>/api/analytics</code> endpoint, transforms the
+DHIS2 rows/headers response format into a pandas DataFrame, and writes to CSV.</p>
+<p><strong>Pipeline:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>fetch_data_values -&gt; transform -&gt; report
+</code></pre></div>
+<p><strong>Tasks:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fetch_data_values</code></td>
+<td>Calls <code>/api/analytics</code> with dimension parameters for ANC visit data elements at the national level</td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td>Parses the DHIS2 <code>headers</code>/<code>rows</code> response into a DataFrame and writes CSV</td>
+</tr>
+<tr>
+<td><code>report</code></td>
+<td>Reads the CSV back and prints summary statistics (row count, data element breakdown, value range)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>DHIS2 analytics response format:</strong> Unlike metadata endpoints that return a list of objects,
+the analytics API returns a tabular structure with separate <code>headers</code> and <code>rows</code> arrays:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">analytics</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">]]</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="n">rows</span> <span class="o">=</span> <span class="n">analytics</span><span class="p">[</span><span class="s2">&quot;rows&quot;</span><span class="p">]</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/111_dhis2_data_values.py</code></p>
+<hr />
+<h2 id="file-based-etl-pipelines">File-Based ETL Pipelines<a class="headerlink" href="#file-based-etl-pipelines" title="Permanent link">&para;</a></h2>
+<p>DAGs 63--67 demonstrate production-grade file processing patterns: landing zone architecture,
+multi-format ingestion, error handling with quarantine, and incremental processing with manifests.
+These patterns apply to any batch file processing pipeline -- CSV uploads, JSON event streams,
+mixed-format data lakes, and incremental file watches.</p>
+<h3 id="landing-zone-architecture">Landing Zone Architecture<a class="headerlink" href="#landing-zone-architecture" title="Permanent link">&para;</a></h3>
+<p>File-based ETL pipelines follow a directory-stage pattern where files move through well-defined zones:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Landing -&gt; Processing -&gt; Archive
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>                    \-&gt; Quarantine (bad files)
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Purpose</th>
+<th>Lifecycle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Landing</strong></td>
+<td>Drop zone for incoming files; untouched raw data</td>
+<td>Files arrive here, are read, then moved out</td>
+</tr>
+<tr>
+<td><strong>Processing</strong></td>
+<td>Intermediate work area; transformed data written here</td>
+<td>Populated during pipeline run, consumed downstream</td>
+</tr>
+<tr>
+<td><strong>Archive</strong></td>
+<td>Timestamped copies of successfully processed originals</td>
+<td>Retained for audit trail and reprocessing</td>
+</tr>
+<tr>
+<td><strong>Quarantine</strong></td>
+<td>Bad files + companion <code>.reason</code> files explaining why</td>
+<td>Reviewed manually, fixed, or discarded</td>
+</tr>
+</tbody>
+</table>
+<p>The shared helper module <code>src/airflow_examples/file_utils.py</code> provides constants and functions
+for this pattern:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="n">LANDING_DIR</span> <span class="o">=</span> <span class="s2">&quot;/tmp/airflow_landing&quot;</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="n">PROCESSED_DIR</span> <span class="o">=</span> <span class="s2">&quot;/tmp/airflow_processed&quot;</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="n">ARCHIVE_DIR</span> <span class="o">=</span> <span class="s2">&quot;/tmp/airflow_archive&quot;</span>
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="n">QUARANTINE_DIR</span> <span class="o">=</span> <span class="s2">&quot;/tmp/airflow_quarantine&quot;</span>
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">setup_dirs</span><span class="p">(</span><span class="o">*</span><span class="n">dirs</span><span class="p">):</span>       <span class="c1"># Create all directories</span>
+<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">archive_file</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="nb">dir</span><span class="p">):</span>  <span class="c1"># Move with timestamp prefix (20250101T120000_data.csv)</span>
+<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">quarantine_file</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>  <span class="c1"># Move + write .reason companion file</span>
+</code></pre></div>
+<p><strong>Why timestamp-prefixed archives?</strong> When the same filename arrives in multiple batches (e.g.,
+daily <code>export.csv</code>), timestamp prefixes prevent overwrites and create a natural audit trail.</p>
+<h3 id="file-detection-patterns">File Detection Patterns<a class="headerlink" href="#file-detection-patterns" title="Permanent link">&para;</a></h3>
+<p>Three approaches for detecting new files, from simplest to most robust:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Use Case</th>
+<th>DAG Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>glob.glob("*.csv")</code></td>
+<td>Simple batch -- process everything in landing dir</td>
+<td>DAGs 63-66</td>
+</tr>
+<tr>
+<td>Manifest-based diffing</td>
+<td>Incremental -- only process files not in manifest</td>
+<td>DAG 67</td>
+</tr>
+<tr>
+<td><code>FileSensor</code></td>
+<td>Event-driven -- wait for specific file to appear</td>
+<td>DAG 50</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Glob</strong> is simplest: scan the landing directory, return all matching files. Good when you process
+everything and archive after. The downside is it requires cleanup to avoid reprocessing.</p>
+<p><strong>Manifest-based</strong> tracking (DAG 67) maintains a JSON file listing previously processed filenames
+and timestamps. On each run, glob the directory, diff against the manifest, and only process new
+arrivals:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Load manifest, diff against directory listing</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="n">manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;manifest.json&quot;</span><span class="p">))</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="n">processed_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">]}</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="n">new_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.csv&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">processed_names</span><span class="p">]</span>
+</code></pre></div>
+<p>This enables idempotent, incremental processing without moving or deleting source files.</p>
+<h3 id="csv-and-json-parsing">CSV and JSON Parsing<a class="headerlink" href="#csv-and-json-parsing" title="Permanent link">&para;</a></h3>
+<p><strong>CSV parsing</strong> (DAG 63): Use <code>pd.read_csv()</code> with validation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="n">expected</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;station&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;temperature_f&quot;</span><span class="p">,</span> <span class="s2">&quot;humidity_pct&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure_hpa&quot;</span><span class="p">}</span>
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">expected</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>    <span class="c1"># Handle schema mismatch</span>
+</code></pre></div>
+<p><strong>JSON flattening</strong> (DAG 64): Use <code>pd.json_normalize()</code> for nested structures:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Nested JSON: {&quot;station&quot;: {&quot;id&quot;: &quot;oslo_01&quot;, &quot;location&quot;: {&quot;lat&quot;: 59.91}}}</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="c1"># Result columns: station_id, station_location_lat, ...</span>
+</code></pre></div>
+<p>The <code>sep="_"</code> parameter controls how nested key paths join into column names.</p>
+<p><strong>Mixed-format harmonization</strong> (DAG 65): When CSV and JSON use different column names for the
+same data, standardize with rename maps:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="n">rename_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;temperature_f&quot;</span><span class="p">:</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;humidity_pct&quot;</span><span class="p">:</span> <span class="s2">&quot;humidity&quot;</span><span class="p">}</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rename_map</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="quarantine-pattern">Quarantine Pattern<a class="headerlink" href="#quarantine-pattern" title="Permanent link">&para;</a></h3>
+<p>DAG 66 demonstrates isolating errors at two levels:</p>
+<ol>
+<li><strong>File-level</strong>: Completely unparseable files (corrupt CSV, invalid encoding) are moved to
+   quarantine with a <code>.reason</code> companion file</li>
+<li><strong>Row-level</strong>: Parseable files with some bad rows split into good DataFrame + bad rows list</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>    <span class="n">quarantine_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">QUARANTINE_DIR</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Unparseable: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>    <span class="k">continue</span>
+<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>
+<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="c1"># Row-level validation</span>
+<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a><span class="n">numeric_temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;temperature_f&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a><span class="n">valid_mask</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="n">numeric_temp</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;temperature_f&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">())</span>
+<a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a><span class="n">good_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">valid_mask</span><span class="p">]</span>
+<a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="n">bad_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">valid_mask</span><span class="p">]</span>
+</code></pre></div>
+<p>This pattern ensures that one bad file doesn't stop the entire batch, and bad data is preserved
+for investigation rather than silently dropped.</p>
+<h3 id="per-dag-reference">Per-DAG Reference<a class="headerlink" href="#per-dag-reference" title="Permanent link">&para;</a></h3>
+<h4 id="63-csv-landing-zone">63 -- CSV Landing Zone<a class="headerlink" href="#63-csv-landing-zone" title="Permanent link">&para;</a></h4>
+<p>Watch directory for CSVs, validate headers, convert temperature F-&gt;C, archive originals.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>setup -&gt; detect_files -&gt; process_file -&gt; archive_originals -&gt; report -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/63_csv_landing_zone.py</code></p>
+<h4 id="64-json-event-ingestion">64 -- JSON Event Ingestion<a class="headerlink" href="#64-json-event-ingestion" title="Permanent link">&para;</a></h4>
+<p>Parse nested JSON event files, flatten with <code>json_normalize</code>, write combined Parquet.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>setup -&gt; detect_events -&gt; parse_and_normalize -&gt; archive_events -&gt; report -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/64_json_event_ingestion.py</code></p>
+<h4 id="65-multi-file-batch">65 -- Multi-File Batch<a class="headerlink" href="#65-multi-file-batch" title="Permanent link">&para;</a></h4>
+<p>Process mixed CSV+JSON, harmonize column names, merge and deduplicate.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>setup -&gt; detect_and_classify -&gt; process_csv_batch -+
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>                             -&gt; process_json_batch -+-&gt; merge -&gt; write_summary -&gt; report -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/65_multi_file_batch.py</code></p>
+<h4 id="66-error-handling-etl">66 -- Error Handling ETL<a class="headerlink" href="#66-error-handling-etl" title="Permanent link">&para;</a></h4>
+<p>Quarantine pattern: corrupt files dead-lettered, bad rows isolated, clean data flows through.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>setup -&gt; detect -&gt; process_with_quarantine -&gt; write_clean_output --+
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>                                           -&gt; write_quarantine_log +-&gt; quarantine_report -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/66_error_handling_etl.py</code></p>
+<h4 id="67-incremental-file-processing">67 -- Incremental File Processing<a class="headerlink" href="#67-incremental-file-processing" title="Permanent link">&para;</a></h4>
+<p>Manifest-based tracking -- only process files not yet recorded in <code>manifest.json</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>setup -&gt; detect_new_files -&gt; process_new_files -&gt; update_manifest -&gt; report -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/67_incremental_file_processing.py</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

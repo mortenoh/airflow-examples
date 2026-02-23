@@ -1,0 +1,1853 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apache Airflow DAG examples">
+      
+      
+      
+      
+        <link rel="prev" href="../integrations/">
+      
+      
+        <link rel="next" href="../cli/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Reference - Airflow Examples</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Airflow Examples" class="md-header__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Airflow Examples
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Airflow Examples" class="md-nav__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Airflow Examples
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provider Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Patterns
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quality-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#executors-how-tasks-actually-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executors: How Tasks Actually Run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Executors: How Tasks Actually Run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#localexecutor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LocalExecutor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#celeryexecutor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CeleryExecutor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetesexecutor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KubernetesExecutor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#airflow-3x-migration-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Airflow 3.x Migration Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-flow-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-84-marine-flood-risk-fan-out-fan-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 84: Marine + Flood Risk (Fan-out / Fan-in)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-91-earthquake-analysis-parallel-analysis-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 91: Earthquake Analysis (Parallel Analysis Branches)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-98-multi-api-dashboard-6-source-fan-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 98: Multi-API Dashboard (6-Source Fan-In)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-100-capstone-etl-diamond-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 100: Capstone ETL (Diamond Dependencies)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbt-integration-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dbt Integration Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-105-objectstoragepath-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 105: ObjectStoragePath Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-lake-layers-rustfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Lake Layers (RustFS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-106-hitl-weather-quality-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 106: HITL Weather Quality Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Infrastructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-make-run-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How make run Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-a-single-dag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running a Single DAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-without-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Without Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API & CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#executors-how-tasks-actually-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executors: How Tasks Actually Run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Executors: How Tasks Actually Run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#localexecutor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LocalExecutor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#celeryexecutor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CeleryExecutor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetesexecutor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KubernetesExecutor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#airflow-3x-migration-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Airflow 3.x Migration Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-flow-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-84-marine-flood-risk-fan-out-fan-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 84: Marine + Flood Risk (Fan-out / Fan-in)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-91-earthquake-analysis-parallel-analysis-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 91: Earthquake Analysis (Parallel Analysis Branches)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-98-multi-api-dashboard-6-source-fan-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 98: Multi-API Dashboard (6-Source Fan-In)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-100-capstone-etl-diamond-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 100: Capstone ETL (Diamond Dependencies)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbt-integration-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dbt Integration Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-105-objectstoragepath-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 105: ObjectStoragePath Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-lake-layers-rustfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Lake Layers (RustFS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dag-106-hitl-weather-quality-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG 106: HITL Weather Quality Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Infrastructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-make-run-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How make run Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-a-single-dag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running a Single DAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-without-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Without Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h1>
+<h2 id="executors-how-tasks-actually-run">Executors: How Tasks Actually Run<a class="headerlink" href="#executors-how-tasks-actually-run" title="Permanent link">&para;</a></h2>
+<p>You do not need to understand executors to use this project -- <code>LocalExecutor</code> is
+configured automatically. This section is useful if you are deploying Airflow in
+production and need to choose how to scale.</p>
+<h3 id="localexecutor">LocalExecutor<a class="headerlink" href="#localexecutor" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Tasks run as separate processes on the same machine as the scheduler</li>
+<li>Good for development and small-to-medium workloads</li>
+<li>Used in this project's <code>compose.yml</code></li>
+</ul>
+<h3 id="celeryexecutor">CeleryExecutor<a class="headerlink" href="#celeryexecutor" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Tasks dispatched to a pool of Celery workers (can span multiple machines)</li>
+<li>Requires a message broker (Redis/RabbitMQ)</li>
+<li>Good for medium-to-large workloads with horizontal scaling</li>
+</ul>
+<h3 id="kubernetesexecutor">KubernetesExecutor<a class="headerlink" href="#kubernetesexecutor" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Each task runs in its own Kubernetes pod</li>
+<li>Maximum isolation: each task gets its own container, resources, and dependencies</li>
+<li>Good for heterogeneous workloads with varying resource requirements</li>
+<li>Tasks can use different Docker images</li>
+</ul>
+<h3 id="comparison">Comparison<a class="headerlink" href="#comparison" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>LocalExecutor</th>
+<th>CeleryExecutor</th>
+<th>KubernetesExecutor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Setup complexity</td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Single machine</td>
+<td>Multi-machine</td>
+<td>Cluster-wide</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>Process-level</td>
+<td>Process-level</td>
+<td>Container-level</td>
+</tr>
+<tr>
+<td>Resource efficiency</td>
+<td>High</td>
+<td>Medium</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Cold start</td>
+<td>None</td>
+<td>None</td>
+<td>Pod spin-up time</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Dev/small prod</td>
+<td>Medium prod</td>
+<td>Large/varied prod</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="airflow-3x-migration-notes">Airflow 3.x Migration Notes<a class="headerlink" href="#airflow-3x-migration-notes" title="Permanent link">&para;</a></h2>
+<p>Airflow 3.0 (April 2025) introduced significant breaking changes from 2.x:</p>
+<table>
+<thead>
+<tr>
+<th>2.x</th>
+<th>3.x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from airflow import DAG</code></td>
+<td><code>from airflow.sdk import DAG</code></td>
+</tr>
+<tr>
+<td><code>from airflow.operators.bash import BashOperator</code></td>
+<td><code>from airflow.providers.standard.operators.bash import BashOperator</code></td>
+</tr>
+<tr>
+<td><code>from airflow.operators.python import PythonOperator</code></td>
+<td><code>from airflow.providers.standard.operators.python import PythonOperator</code></td>
+</tr>
+<tr>
+<td><code>Dataset</code></td>
+<td><code>Asset</code></td>
+</tr>
+<tr>
+<td><code>execution_date</code> in context</td>
+<td><code>logical_date</code> in context</td>
+</tr>
+<tr>
+<td><code>schedule_interval="@daily"</code></td>
+<td><code>schedule="@daily"</code></td>
+</tr>
+<tr>
+<td>SubDAGs</td>
+<td>TaskGroups (SubDAGs removed)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="architecture-diagrams">Architecture Diagrams<a class="headerlink" href="#architecture-diagrams" title="Permanent link">&para;</a></h2>
+<h3 id="project-infrastructure">Project Infrastructure<a class="headerlink" href="#project-infrastructure" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TB
+    subgraph Docker Compose
+        PG[(PostgreSQL)]
+        WS[Web Server :8081]
+        SC[Scheduler]
+        TR[Triggerer]
+        HB[httpbin :8088]
+        MP[Mailpit :8025]
+        SSH[SSH Server :2222]
+        RFS[RustFS :9000]
+        SE[StatsD Exporter]
+        PR[Prometheus :9090]
+        GR[Grafana :3000]
+    end
+
+    SC --&gt; PG
+    WS --&gt; PG
+    TR --&gt; PG
+    SC --&gt; HB
+    SC --&gt; MP
+    SC --&gt; SSH
+    SC --&gt; RFS
+    SC --&gt; SE
+    SE --&gt; PR
+    PR --&gt; GR</code></pre>
+<h3 id="data-flow-pattern">Data Flow Pattern<a class="headerlink" href="#data-flow-pattern" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph LR
+    API[Public API] --&gt; F[Fetch Task]
+    F --&gt; T[Transform Task]
+    T --&gt; V[Validate Task]
+    V --&gt; L[Load Task]
+    L --&gt; CSV[CSV / Parquet]
+    L --&gt; PG[(PostgreSQL)]
+    L --&gt; S3[RustFS / S3]</code></pre>
+<h3 id="dag-84-marine-flood-risk-fan-out-fan-in">DAG 84: Marine + Flood Risk (Fan-out / Fan-in)<a class="headerlink" href="#dag-84-marine-flood-risk-fan-out-fan-in" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    FM[fetch_marine] --&gt; CMR[compute_marine_risk]
+    FF[fetch_flood] --&gt; CFR[compute_flood_risk]
+    CMR --&gt; CR[composite_risk]
+    CFR --&gt; CR
+    CMR --&gt; R[report]
+    CFR --&gt; R
+    CR --&gt; R</code></pre>
+<h3 id="dag-91-earthquake-analysis-parallel-analysis-branches">DAG 91: Earthquake Analysis (Parallel Analysis Branches)<a class="headerlink" href="#dag-91-earthquake-analysis-parallel-analysis-branches" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    FE[fetch_earthquakes] --&gt; PG[parse_geojson]
+    PG --&gt; MA[magnitude_analysis]
+    PG --&gt; SA[spatial_analysis]
+    PG --&gt; TA[temporal_analysis]
+    MA --&gt; R[report]
+    SA --&gt; R
+    TA --&gt; R</code></pre>
+<h3 id="dag-98-multi-api-dashboard-6-source-fan-in">DAG 98: Multi-API Dashboard (6-Source Fan-In)<a class="headerlink" href="#dag-98-multi-api-dashboard-6-source-fan-in" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    RC[REST Countries] --&gt; S[stage_raw]
+    OM[Open-Meteo Forecast] --&gt; S
+    AQ[Air Quality API] --&gt; S
+    FR[Frankfurter API] --&gt; S
+    WB[World Bank API] --&gt; S
+    S --&gt; I[integrate]
+    I --&gt; DM[dashboard_metrics]
+    DM --&gt; R[report]</code></pre>
+<h3 id="dag-100-capstone-etl-diamond-dependencies">DAG 100: Capstone ETL (Diamond Dependencies)<a class="headerlink" href="#dag-100-capstone-etl-diamond-dependencies" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    EC[extract_countries] --&gt; BS[build_staging]
+    EI[extract_indicators] --&gt; BS
+    EC --&gt; GSK[generate_surrogate_keys]
+    GSK --&gt; SCD[apply_scd_type2]
+    SCD --&gt; BF[build_fact_table]
+    EI --&gt; BF
+    GSK --&gt; BF
+    BS --&gt; AT[audit_trail]
+    SCD --&gt; AT
+    BF --&gt; AT
+    SCD --&gt; V[validate]
+    BF --&gt; V
+    AT --&gt; R[report]
+    V --&gt; R
+    SCD --&gt; R</code></pre>
+<h3 id="dbt-integration-flow">dbt Integration Flow<a class="headerlink" href="#dbt-integration-flow" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph LR
+    subgraph Airflow DAGs
+        L[101: Load Raw]
+        D[102: dbt Transform]
+    end
+    subgraph dbt Models
+        STG[Staging Models]
+        MART[Mart Models]
+    end
+    subgraph PostgreSQL
+        RAW[raw_countries / raw_indicators]
+        DIM[dim_country]
+        FCT[fct_indicators]
+        AGG[agg_nordic_summary]
+    end
+    L --&gt; RAW
+    RAW --&gt; STG
+    STG --&gt; MART
+    MART --&gt; DIM
+    MART --&gt; FCT
+    MART --&gt; AGG
+    D -.-&gt;|orchestrates| STG
+    D -.-&gt;|orchestrates| MART</code></pre>
+<h3 id="dag-105-objectstoragepath-pipeline">DAG 105: ObjectStoragePath Pipeline<a class="headerlink" href="#dag-105-objectstoragepath-pipeline" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    EB[ensure_bucket] --&gt; WP[write_parquet]
+    WP --&gt; LF[list_files]
+    WP --&gt; RT[read_and_transform]
+    WP --&gt; CG[copy_to_gold]
+    LF --&gt; R[report]
+    RT --&gt; R
+    CG --&gt; R</code></pre>
+<h3 id="data-lake-layers-rustfs">Data Lake Layers (RustFS)<a class="headerlink" href="#data-lake-layers-rustfs" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph LR
+    API[APIs] --&gt; B[Bronze Layer]
+    B --&gt; S[Silver Layer]
+    S --&gt; G[Gold Layer]
+
+    subgraph RustFS Buckets
+        B --&gt;|Raw JSON| B1[airflow-data/bronze/]
+        S --&gt;|Cleaned Parquet| B2[airflow-data/silver/]
+        G --&gt;|Aggregated| B3[airflow-data/gold/]
+    end</code></pre>
+<h3 id="dag-106-hitl-weather-quality-review">DAG 106: HITL Weather Quality Review<a class="headerlink" href="#dag-106-hitl-weather-quality-review" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    FW[fetch_weather_data] --&gt; AN[add_analyst_note]
+    AN --&gt; QR[choose_quality_rating]
+    QR --&gt; AP[approve_publication]
+    AP --&gt; CO[choose_output_format]
+    CO --&gt; EC[export_csv]
+    CO --&gt; EJ[export_json]
+    CO --&gt; EP[export_parquet]
+    EC --&gt; JE[join_exports]
+    EJ --&gt; JE
+    EP --&gt; JE
+    JE --&gt; PR[publish_report]
+
+    style AN fill:#f9e79f
+    style QR fill:#f9e79f
+    style AP fill:#f9e79f
+    style CO fill:#f9e79f</code></pre>
+<hr />
+<h2 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h2>
+<h3 id="how-make-run-works">How <code>make run</code> Works<a class="headerlink" href="#how-make-run-works" title="Permanent link">&para;</a></h3>
+<p>Behind the scenes, <code>make run</code> does the following:</p>
+<ol>
+<li><strong>Starts Docker containers</strong> -- PostgreSQL (database), Airflow (scheduler + web server +
+   triggerer), plus helper services (mock HTTP server, mail catcher, SSH server)</li>
+<li><strong>Initializes Airflow</strong> -- creates the database tables, the admin user, and default
+   connections</li>
+<li><strong>Runs all 107 DAGs</strong> -- executes each one in order using <code>airflow dags test</code></li>
+<li><strong>Shows logs</strong> -- tails the scheduler logs so you can watch what is happening</li>
+<li><strong>Cleans up on Ctrl+C</strong> -- stops and removes all containers</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>make<span class="w"> </span>run<span class="w">            </span><span class="c1"># Does everything above</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>make<span class="w"> </span>stop<span class="w">           </span><span class="c1"># Force-stop services if something goes wrong</span>
+</code></pre></div>
+<h3 id="running-a-single-dag">Running a Single DAG<a class="headerlink" href="#running-a-single-dag" title="Permanent link">&para;</a></h3>
+<p>If you want to run just one DAG (while services are running from <code>make run</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># The pattern is: docker compose exec airflow-scheduler airflow dags test &lt;dag_id&gt; &lt;date&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>airflow-scheduler<span class="w"> </span>airflow<span class="w"> </span>dags<span class="w"> </span><span class="nb">test</span><span class="w"> </span>01_hello_world<span class="w"> </span><span class="m">2025</span>-01-01
+</code></pre></div>
+<h3 id="testing-without-docker">Testing Without Docker<a class="headerlink" href="#testing-without-docker" title="Permanent link">&para;</a></h3>
+<p>Unit tests do not need Docker -- they use a lightweight in-memory database:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>make<span class="w"> </span><span class="nb">test</span><span class="w">           </span><span class="c1"># pytest with SQLite, no Docker needed</span>
+</code></pre></div>
+<hr />
+<h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://airflow.apache.org/docs/">Apache Airflow documentation</a></li>
+<li><a href="https://github.com/apache/airflow">Airflow on GitHub</a></li>
+<li><a href="https://airflow.apache.org/docs/apache-airflow/stable/release_notes.html">Airflow 3.0 release notes</a></li>
+<li><a href="https://airflow.apache.org/docs/apache-airflow-providers/">Airflow providers index</a></li>
+<li><a href="https://airflow.apache.org/docs/apache-airflow-providers-docker/stable/index.html">Docker provider</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

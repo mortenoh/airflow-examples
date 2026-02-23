@@ -1,0 +1,2237 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apache Airflow DAG examples">
+      
+      
+      
+      
+        <link rel="prev" href="../quality-testing/">
+      
+      
+        <link rel="next" href="../integrations/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>API Pipelines - Airflow Examples</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-pipelines" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Airflow Examples" class="md-header__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Airflow Examples
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Pipelines
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Airflow Examples" class="md-nav__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Airflow Examples
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provider Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Patterns
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quality-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Pipelines
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#weather-climate-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weather &amp; Climate APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Weather &amp; Climate APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-meteo-ecosystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open-Meteo Ecosystem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-task-mapping-with-expand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Task Mapping with .expand()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forecast-verification-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forecast Verification Methodology
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aqi-classification-and-who-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AQI Classification and WHO Thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composite-risk-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composite Risk Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geographic-economic-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geographic &amp; Economic APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Geographic &amp; Economic APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rest-countries-nested-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REST Countries Nested JSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#world-bank-api-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        World Bank API Pagination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frankfurter-currency-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frankfurter Currency Time Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-api-enrichment-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-API Enrichment Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geophysical-environmental-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geophysical &amp; Environmental APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Geophysical &amp; Environmental APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geojson-featurecollection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON FeatureCollection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gutenberg-richter-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gutenberg-Richter Law
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uk-carbon-intensity-data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UK Carbon Intensity Data Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#null-hypothesis-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Null Hypothesis Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chunked-historical-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chunked Historical Requests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-health-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Health Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global Health Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-gho-odata-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WHO GHO OData API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-organization-data-joining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Organization Data Joining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#star-schema-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Star Schema Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-multi-api-data-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Multi-API Data Engineering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Multi-API Data Engineering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-api-orchestration-with-staging-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-API Orchestration with Staging Layers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-framework-on-live-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Framework on Live Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scd-type-2-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCD Type 2 Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API & CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#weather-climate-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weather &amp; Climate APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Weather &amp; Climate APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-meteo-ecosystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open-Meteo Ecosystem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-task-mapping-with-expand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Task Mapping with .expand()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forecast-verification-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forecast Verification Methodology
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aqi-classification-and-who-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AQI Classification and WHO Thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composite-risk-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composite Risk Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geographic-economic-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geographic &amp; Economic APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Geographic &amp; Economic APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rest-countries-nested-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REST Countries Nested JSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#world-bank-api-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        World Bank API Pagination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frankfurter-currency-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frankfurter Currency Time Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-api-enrichment-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-API Enrichment Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geophysical-environmental-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geophysical &amp; Environmental APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Geophysical &amp; Environmental APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geojson-featurecollection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GeoJSON FeatureCollection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gutenberg-richter-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gutenberg-Richter Law
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uk-carbon-intensity-data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UK Carbon Intensity Data Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#null-hypothesis-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Null Hypothesis Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chunked-historical-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chunked Historical Requests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-health-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Health Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global Health Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-gho-odata-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WHO GHO OData API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-organization-data-joining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Organization Data Joining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#star-schema-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Star Schema Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-multi-api-data-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Multi-API Data Engineering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Multi-API Data Engineering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-api-orchestration-with-staging-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-API Orchestration with Staging Layers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-framework-on-live-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Framework on Live Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scd-type-2-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCD Type 2 Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-pipelines">API Pipelines<a class="headerlink" href="#api-pipelines" title="Permanent link">&para;</a></h1>
+<h2 id="weather-climate-apis">Weather &amp; Climate APIs<a class="headerlink" href="#weather-climate-apis" title="Permanent link">&para;</a></h2>
+<p>DAGs 81--100 are where it all comes together. Instead of fake data, these pipelines call
+<strong>real public APIs</strong> (no API keys needed) to fetch weather forecasts, earthquake data,
+health statistics, and more. They combine everything from the earlier sections: <code>@task</code>
+functions, pandas transforms, error handling, and multi-step orchestration.</p>
+<p>DAGs 81--86 focus on weather and climate data. They use the <code>airflow_examples.apis</code> helper
+module for consistent API access.</p>
+<h3 id="open-meteo-ecosystem">Open-Meteo Ecosystem<a class="headerlink" href="#open-meteo-ecosystem" title="Permanent link">&para;</a></h3>
+<p><a href="https://open-meteo.com/">Open-Meteo</a> provides a family of free weather APIs with no authentication
+required. The project uses seven endpoints:</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Base URL</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forecast</td>
+<td><code>api.open-meteo.com/v1/forecast</code></td>
+<td>Hourly/daily forecasts up to 16 days</td>
+</tr>
+<tr>
+<td>Archive</td>
+<td><code>archive-api.open-meteo.com/v1/archive</code></td>
+<td>Historical weather data back to 1940</td>
+</tr>
+<tr>
+<td>Air Quality</td>
+<td><code>air-quality-api.open-meteo.com/v1/air-quality</code></td>
+<td>PM2.5, PM10, NO2, O3, European AQI</td>
+</tr>
+<tr>
+<td>Marine</td>
+<td><code>marine-api.open-meteo.com/v1/marine</code></td>
+<td>Wave height, swell, wave period</td>
+</tr>
+<tr>
+<td>Flood</td>
+<td><code>flood-api.open-meteo.com/v1/flood</code></td>
+<td>River discharge forecasts (GloFAS)</td>
+</tr>
+<tr>
+<td>Geocoding</td>
+<td><code>geocoding-api.open-meteo.com/v1/search</code></td>
+<td>City name to coordinates resolution</td>
+</tr>
+<tr>
+<td>Elevation</td>
+<td><code>api.open-meteo.com/v1/elevation</code></td>
+<td>Elevation for given coordinates</td>
+</tr>
+</tbody>
+</table>
+<p>All Open-Meteo calls go through <code>fetch_open_meteo()</code> which automatically adds <code>timezone=auto</code>.</p>
+<h3 id="dynamic-task-mapping-with-expand">Dynamic Task Mapping with .expand()<a class="headerlink" href="#dynamic-task-mapping-with-expand" title="Permanent link">&para;</a></h3>
+<p>DAG 81 demonstrates mapping a task across multiple cities using Airflow's dynamic task mapping:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">airflow_examples.apis</span><span class="w"> </span><span class="kn">import</span> <span class="n">NORDIC_CITIES</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nd">@task</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">fetch_forecast</span><span class="p">(</span><span class="n">city</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">city</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">],</span> <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">city</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">],</span> <span class="o">...</span><span class="p">}</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">return</span> <span class="n">fetch_open_meteo</span><span class="p">(</span><span class="n">OPEN_METEO_FORECAST</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Creates 5 parallel task instances, one per city</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">fetched</span> <span class="o">=</span> <span class="n">fetch_forecast</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="n">NORDIC_CITIES</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">combined</span> <span class="o">=</span> <span class="n">combine_forecasts</span><span class="p">(</span><span class="n">fetched</span><span class="p">)</span>  <span class="c1"># receives list of all results</span>
+</code></pre></div>
+<p>The <code>.expand()</code> call creates one task instance per item in the list at runtime. Downstream tasks
+receiving the mapped output get a list of all results automatically.</p>
+<h3 id="forecast-verification-methodology">Forecast Verification Methodology<a class="headerlink" href="#forecast-verification-methodology" title="Permanent link">&para;</a></h3>
+<p>DAG 82 computes standard forecast accuracy metrics:</p>
+<ul>
+<li><strong>MAE (Mean Absolute Error)</strong>: Average of |forecast - actual|. Interpretable in the same units
+  as the variable (e.g., degrees Celsius).</li>
+<li><strong>RMSE (Root Mean Squared Error)</strong>: Penalizes large errors more heavily than MAE. Always &gt;= MAE.</li>
+<li><strong>Bias</strong>: Mean of (forecast - actual). Positive = systematic over-prediction.</li>
+<li><strong>Lead-time degradation</strong>: Accuracy typically worsens from day 1 to day 7. DAG 82 groups by
+  forecast lead time to quantify this effect.</li>
+</ul>
+<h3 id="aqi-classification-and-who-thresholds">AQI Classification and WHO Thresholds<a class="headerlink" href="#aqi-classification-and-who-thresholds" title="Permanent link">&para;</a></h3>
+<p>DAG 83 classifies European AQI values using WHO 2021 air quality guidelines:</p>
+<table>
+<thead>
+<tr>
+<th>AQI Range</th>
+<th>Category</th>
+<th>PM2.5 (ug/m3)</th>
+<th>PM10 (ug/m3)</th>
+<th>NO2 (ug/m3)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0--20</td>
+<td>Good</td>
+<td>&lt; 15</td>
+<td>&lt; 45</td>
+<td>&lt; 25</td>
+</tr>
+<tr>
+<td>20--40</td>
+<td>Fair</td>
+<td>15--30</td>
+<td>45--90</td>
+<td>25--50</td>
+</tr>
+<tr>
+<td>40--60</td>
+<td>Moderate</td>
+<td>30--55</td>
+<td>90--180</td>
+<td>50--100</td>
+</tr>
+<tr>
+<td>60--80</td>
+<td>Poor</td>
+<td>55--110</td>
+<td>180--360</td>
+<td>100--200</td>
+</tr>
+<tr>
+<td>80--100</td>
+<td>Very Poor</td>
+<td>110--220</td>
+<td>360--720</td>
+<td>200--400</td>
+</tr>
+<tr>
+<td>&gt; 100</td>
+<td>Extremely Poor</td>
+<td>&gt; 220</td>
+<td>&gt; 720</td>
+<td>&gt; 400</td>
+</tr>
+</tbody>
+</table>
+<p>The DAG identifies exceedance hours (values exceeding WHO guideline levels) and generates
+per-city health advisories based on the worst observed category.</p>
+<h3 id="composite-risk-index">Composite Risk Index<a class="headerlink" href="#composite-risk-index" title="Permanent link">&para;</a></h3>
+<p>DAG 84 combines marine forecast data with river flood discharge into a weighted composite:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Marine Risk Score (0-100):    wave_height &lt; 1m = 0, 1-2m = 25, 2-4m = 50, 4-6m = 75, &gt; 6m = 100
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Flood Risk Score (0-100):     discharge/mean &lt; 1.5x = 0, 1.5-3x = 50, &gt; 3x = 100
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Composite = 0.6 * marine + 0.4 * flood
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Categories: Low (0-25), Moderate (25-50), High (50-75), Extreme (75-100)
+</code></pre></div>
+<h3 id="per-dag-reference">Per-DAG Reference<a class="headerlink" href="#per-dag-reference" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>DAG</th>
+<th>API</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>81</td>
+<td>Open-Meteo Forecast</td>
+<td><code>.expand()</code> dynamic mapping, cross-city comparison</td>
+</tr>
+<tr>
+<td>82</td>
+<td>Forecast + Archive</td>
+<td>MAE, RMSE, bias, lead-time degradation</td>
+</tr>
+<tr>
+<td>83</td>
+<td>Air Quality</td>
+<td>WHO thresholds, AQI classification, health advisories</td>
+</tr>
+<tr>
+<td>84</td>
+<td>Marine + Flood</td>
+<td>Composite risk scoring, weighted index</td>
+</tr>
+<tr>
+<td>85</td>
+<td>Sunrise-Sunset</td>
+<td>Latitude-daylight correlation, seasonal variation</td>
+</tr>
+<tr>
+<td>86</td>
+<td>Geocoding + Elevation</td>
+<td>Disambiguation, coordinate-driven enrichment</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="geographic-economic-apis">Geographic &amp; Economic APIs<a class="headerlink" href="#geographic-economic-apis" title="Permanent link">&para;</a></h2>
+<p>DAGs 87--90 work with country, economic, and cross-API data. They demonstrate handling pagination,
+nested JSON, financial time series, and multi-source enrichment.</p>
+<h3 id="rest-countries-nested-json">REST Countries Nested JSON<a class="headerlink" href="#rest-countries-nested-json" title="Permanent link">&para;</a></h3>
+<p>The REST Countries API returns deeply nested structures:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;common&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Norway&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;official&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Kingdom of Norway&quot;</span><span class="p">},</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;languages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;nno&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Norwegian Nynorsk&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;nob&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Norwegian Bokmal&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;smi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sami&quot;</span><span class="p">},</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;currencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;NOK&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Norwegian krone&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kr&quot;</span><span class="p">}},</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">&quot;borders&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;FIN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;SWE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;RUS&quot;</span><span class="p">],</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">&quot;latlng&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">62.0</span><span class="p">,</span><span class="w"> </span><span class="mf">10.0</span><span class="p">]</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
+</code></pre></div>
+<p>DAG 87 flattens this into relational tables:
+- <strong>Flat country table</strong>: code, name, population, area, lat, lon
+- <strong>Bridge table (country_language)</strong>: country, lang_code, language
+- <strong>Bridge table (country_currency)</strong>: country, currency_code, currency_name
+- <strong>Edge list (borders)</strong>: from, to (undirected graph of country borders)</p>
+<h3 id="world-bank-api-pagination">World Bank API Pagination<a class="headerlink" href="#world-bank-api-pagination" title="Permanent link">&para;</a></h3>
+<p>The World Bank API returns <code>[metadata, records]</code> per page. The <code>fetch_world_bank_paginated()</code>
+helper iterates all pages automatically:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Response format: [{&quot;page&quot;: 1, &quot;pages&quot;: 3, &quot;total&quot;: 150}, [records...]]</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">records</span> <span class="o">=</span> <span class="n">fetch_world_bank_paginated</span><span class="p">(</span><span class="s2">&quot;NOR;SWE&quot;</span><span class="p">,</span> <span class="s2">&quot;NY.GDP.PCAP.CD&quot;</span><span class="p">,</span> <span class="s2">&quot;2000:2023&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>DAG 88 fetches three indicators (GDP, CO2, renewable energy), joins them on country+year,
+and computes Pearson correlations to explore relationships like GDP vs CO2 emissions.</p>
+<h3 id="frankfurter-currency-time-series">Frankfurter Currency Time Series<a class="headerlink" href="#frankfurter-currency-time-series" title="Permanent link">&para;</a></h3>
+<p>DAG 89 fetches a full year of EUR exchange rates and applies financial analysis:</p>
+<ul>
+<li><strong>Log returns</strong>: <code>ln(price_t / price_{t-1})</code>, preferred over simple returns for statistical properties</li>
+<li><strong>Rolling volatility</strong>: 30-day rolling standard deviation, annualized by multiplying by sqrt(252)</li>
+<li><strong>Correlation matrix</strong>: how Nordic currencies co-move with EUR</li>
+<li><strong>Event detection</strong>: dates with returns &gt; 2 standard deviations from the mean</li>
+</ul>
+<h3 id="cross-api-enrichment-pattern">Cross-API Enrichment Pattern<a class="headerlink" href="#cross-api-enrichment-pattern" title="Permanent link">&para;</a></h3>
+<p>DAG 90 demonstrates the enrichment pattern: start with REST Countries base data, then use
+coordinates from each country's capital to call Open-Meteo for weather and air quality. The
+result is a unified profile combining static metadata with real-time environmental readings.</p>
+<h3 id="per-dag-reference_1">Per-DAG Reference<a class="headerlink" href="#per-dag-reference_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>DAG</th>
+<th>API</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>87</td>
+<td>REST Countries</td>
+<td>Nested JSON, bridge tables, border graph</td>
+</tr>
+<tr>
+<td>88</td>
+<td>World Bank</td>
+<td>Pagination, multi-indicator join, Pearson correlation</td>
+</tr>
+<tr>
+<td>89</td>
+<td>Frankfurter</td>
+<td>Log returns, rolling volatility, event detection</td>
+</tr>
+<tr>
+<td>90</td>
+<td>REST Countries + Open-Meteo</td>
+<td>Cross-API enrichment, unified profiles</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="geophysical-environmental-apis">Geophysical &amp; Environmental APIs<a class="headerlink" href="#geophysical-environmental-apis" title="Permanent link">&para;</a></h2>
+<p>DAGs 91--94 cover earthquake analysis, carbon intensity, hypothesis testing, and long-term
+climate trends.</p>
+<h3 id="geojson-featurecollection">GeoJSON FeatureCollection<a class="headerlink" href="#geojson-featurecollection" title="Permanent link">&para;</a></h3>
+<p>The USGS Earthquake API returns GeoJSON:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;mag&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;place&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pacific Ocean&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1700000000000</span><span class="p">},</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nt">&quot;geometry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Point&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;coordinates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-150.5</span><span class="p">,</span><span class="w"> </span><span class="mf">60.1</span><span class="p">,</span><span class="w"> </span><span class="mf">10.0</span><span class="p">]}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>The <code>fetch_usgs_earthquakes()</code> helper flattens this to flat dicts with lat, lon, depth,
+magnitude, place, and time fields.</p>
+<h3 id="gutenberg-richter-law">Gutenberg-Richter Law<a class="headerlink" href="#gutenberg-richter-law" title="Permanent link">&para;</a></h3>
+<p>DAG 91 fits the Gutenberg-Richter frequency-magnitude relation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>log10(N) = a - b * M
+</code></pre></div>
+<p>Where N is the cumulative number of earthquakes with magnitude &gt;= M. The <strong>b-value</strong> (typically
+~1.0) describes the ratio of small to large earthquakes. Regional variations in b-value can
+indicate different tectonic stress regimes.</p>
+<h3 id="uk-carbon-intensity-data-model">UK Carbon Intensity Data Model<a class="headerlink" href="#uk-carbon-intensity-data-model" title="Permanent link">&para;</a></h3>
+<p>DAG 92 uses the UK Carbon Intensity API which provides half-hourly data:</p>
+<ul>
+<li><strong>Intensity</strong>: forecast and actual gCO2/kWh, with an index category</li>
+<li><strong>Generation mix</strong>: percentage breakdown by fuel type (gas, wind, nuclear, solar, biomass, etc.)</li>
+</ul>
+<p>The DAG identifies cleanest/dirtiest hours (useful for scheduling energy-intensive workloads),
+compares weekday vs weekend patterns, and evaluates forecast accuracy.</p>
+<h3 id="null-hypothesis-testing">Null Hypothesis Testing<a class="headerlink" href="#null-hypothesis-testing" title="Permanent link">&para;</a></h3>
+<p>DAG 93 is a deliberate data science lesson. It fetches earthquakes and weather for Iceland,
+computes correlations, and confirms that weather does not predict earthquakes (r ~ 0).</p>
+<p>Key lessons:
+1. Correlation does not imply causation
+2. Testing obvious null hypotheses validates your statistical pipeline
+3. Spurious correlations are common in large datasets (data dredging)
+4. Always consider the physical mechanism before claiming a relationship</p>
+<h3 id="chunked-historical-requests">Chunked Historical Requests<a class="headerlink" href="#chunked-historical-requests" title="Permanent link">&para;</a></h3>
+<p>DAG 94 fetches 20 years of daily climate data in 4-year chunks to respect API limits:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">year_ranges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">2004</span><span class="p">,</span> <span class="mi">2007</span><span class="p">),</span> <span class="p">(</span><span class="mi">2008</span><span class="p">,</span> <span class="mi">2011</span><span class="p">),</span> <span class="p">(</span><span class="mi">2012</span><span class="p">,</span> <span class="mi">2015</span><span class="p">),</span> <span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">2019</span><span class="p">),</span> <span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">2024</span><span class="p">)]</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">for</span> <span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="ow">in</span> <span class="n">year_ranges</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">fetch_open_meteo</span><span class="p">(</span><span class="n">OPEN_METEO_ARCHIVE</span><span class="p">,</span> <span class="p">{</span><span class="o">...</span><span class="p">,</span> <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">})</span>
+</code></pre></div>
+<p>After concatenation, the DAG computes:
+- Linear regression temperature trend (degrees per decade)
+- Monthly climatology (long-term mean per month)
+- Anomalies from climatology (which years were unusually warm/cold)
+- Extreme event frequency (days above 30C or below -20C)</p>
+<h3 id="per-dag-reference_2">Per-DAG Reference<a class="headerlink" href="#per-dag-reference_2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>DAG</th>
+<th>API</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>91</td>
+<td>USGS Earthquake</td>
+<td>GeoJSON parsing, Gutenberg-Richter, spatial binning</td>
+</tr>
+<tr>
+<td>92</td>
+<td>UK Carbon Intensity</td>
+<td>Generation mix, daily profiles, forecast accuracy</td>
+</tr>
+<tr>
+<td>93</td>
+<td>USGS + Open-Meteo</td>
+<td>Null hypothesis, spurious correlation lesson</td>
+</tr>
+<tr>
+<td>94</td>
+<td>Open-Meteo Archive</td>
+<td>Chunked requests, linear regression, seasonal decomposition</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="global-health-indicators">Global Health Indicators<a class="headerlink" href="#global-health-indicators" title="Permanent link">&para;</a></h2>
+<p>DAGs 95--97 work with WHO and World Bank health data, demonstrating OData APIs,
+cross-organization joins, and dimensional modeling.</p>
+<h3 id="who-gho-odata-api">WHO GHO OData API<a class="headerlink" href="#who-gho-odata-api" title="Permanent link">&para;</a></h3>
+<p>The WHO Global Health Observatory (GHO) provides indicators via an OData endpoint:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>GET https://ghoapi.azureedge.net/api/WHOSIS_000001?$filter=SpatialDim eq &#39;NOR&#39;&amp;$top=100
+</code></pre></div>
+<p>Response fields include:
+- <code>SpatialDim</code>: ISO3 country code
+- <code>TimeDim</code>: year
+- <code>Dim1</code>: sex (BTSX = both sexes, FMLE = female, MLE = male)
+- <code>NumericValue</code>: the indicator value</p>
+<p>The <code>fetch_who_indicator()</code> helper constructs the OData URL with <code>$filter</code> and <code>$top</code> parameters.</p>
+<h3 id="cross-organization-data-joining">Cross-Organization Data Joining<a class="headerlink" href="#cross-organization-data-joining" title="Permanent link">&para;</a></h3>
+<p>DAG 96 joins World Bank health spending with WHO infant mortality. The challenge is that both
+organizations use ISO3 country codes but different API structures:</p>
+<ul>
+<li><strong>World Bank</strong>: <code>{"country": {"id": "NOR"}, "date": "2023", "value": 85000}</code></li>
+<li><strong>WHO</strong>: <code>{"SpatialDim": "NOR", "TimeDim": 2023, "NumericValue": 1.8}</code></li>
+</ul>
+<p>The join key is (country_code, year), requiring field-level normalization before merging.</p>
+<h3 id="star-schema-design">Star Schema Design<a class="headerlink" href="#star-schema-design" title="Permanent link">&para;</a></h3>
+<p>DAG 97 builds a classic star schema from multiple API sources:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>dim_country (country_key, code, name, region, population, area)
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>dim_time (time_key, year, decade, is_21st_century)
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>dim_indicator (indicator_key, code, name, source_org, unit, category)
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>fact_health_indicator (country_key, time_key, indicator_key, value)
+</code></pre></div>
+<p>Each dimension is populated from a different source (REST Countries, generated, manual
+definition), and the fact table combines World Bank + WHO indicators with surrogate key
+references. A composite health index normalizes each indicator to 0--100 and computes a
+weighted average.</p>
+<h3 id="per-dag-reference_3">Per-DAG Reference<a class="headerlink" href="#per-dag-reference_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>DAG</th>
+<th>API</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>95</td>
+<td>WHO GHO</td>
+<td>OData API, gender gap analysis, life expectancy trends</td>
+</tr>
+<tr>
+<td>96</td>
+<td>World Bank + WHO</td>
+<td>Cross-org join, log-linear regression, efficiency ranking</td>
+</tr>
+<tr>
+<td>97</td>
+<td>REST Countries + World Bank + WHO</td>
+<td>Star schema, composite health index</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="advanced-multi-api-data-engineering">Advanced Multi-API Data Engineering<a class="headerlink" href="#advanced-multi-api-data-engineering" title="Permanent link">&para;</a></h2>
+<p>DAGs 98--100 bring together all the patterns from previous sections into increasingly
+sophisticated data engineering pipelines.</p>
+<h3 id="multi-api-orchestration-with-staging-layers">Multi-API Orchestration with Staging Layers<a class="headerlink" href="#multi-api-orchestration-with-staging-layers" title="Permanent link">&para;</a></h3>
+<p>DAG 98 orchestrates 6 different APIs into a single dashboard:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>REST Countries ─┐
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Open-Meteo     ─┤
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Air Quality    ─┼─&gt; Stage Raw ─&gt; Integrate ─&gt; Dashboard Metrics ─&gt; Report
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>Frankfurter    ─┤
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>World Bank     ─┘
+</code></pre></div>
+<p>The staging layer writes each raw API response to Parquet files before integration. This
+pattern provides:
+- <strong>Reproducibility</strong>: raw data preserved for re-processing
+- <strong>Debugging</strong>: inspect intermediate state at each layer
+- <strong>Idempotency</strong>: staging is overwritten, integration is rebuilt from staging</p>
+<h3 id="quality-framework-on-live-data">Quality Framework on Live Data<a class="headerlink" href="#quality-framework-on-live-data" title="Permanent link">&para;</a></h3>
+<p>DAG 99 applies the <code>quality.py</code> framework (from DAGs 68--72) to live API responses:</p>
+<ul>
+<li><strong>Schema validation</strong>: expected fields present in each API response</li>
+<li><strong>Completeness</strong>: null rates within acceptable thresholds</li>
+<li><strong>Statistical bounds</strong>: temperature within [-60, 60]C, precipitation &gt;= 0, etc.</li>
+<li><strong>Cross-source integrity</strong>: country codes from REST Countries exist in World Bank data</li>
+</ul>
+<p>This demonstrates that quality checks are not just for batch files -- they apply equally to
+real-time API data.</p>
+<h3 id="scd-type-2-implementation">SCD Type 2 Implementation<a class="headerlink" href="#scd-type-2-implementation" title="Permanent link">&para;</a></h3>
+<p>DAG 100 (the capstone) implements Slowly Changing Dimension Type 2:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Previous snapshot:  NOR | Norway | population=5400000 | valid_from=2024-01-01 | valid_to=9999-12-31
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Current extract:    NOR | Norway | population=5450000
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>After SCD Type 2:
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>  NOR | Norway | pop=5400000 | valid_from=2024-01-01 | valid_to=2025-01-01 | is_current=False
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  NOR | Norway | pop=5450000 | valid_from=2025-01-01 | valid_to=9999-12-31 | is_current=True
+</code></pre></div>
+<p>Key components:
+- <strong>Surrogate keys</strong>: hash-based deterministic integer keys (not business keys)
+- <strong>Change detection</strong>: compare current extract with previous snapshot
+- <strong>SCD rows</strong>: old row gets <code>valid_to</code> set and <code>is_current=False</code>, new row inserted
+- <strong>Audit trail</strong>: extraction timestamp, row counts, change counts, schema version
+- <strong>Validation</strong>: referential integrity, no orphan keys, date range validity</p>
+<h3 id="per-dag-reference_4">Per-DAG Reference<a class="headerlink" href="#per-dag-reference_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>DAG</th>
+<th>APIs</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>98</td>
+<td>6 APIs (REST Countries, Open-Meteo x2, Frankfurter, World Bank)</td>
+<td>Staging layers, livability score</td>
+</tr>
+<tr>
+<td>99</td>
+<td>Open-Meteo + REST Countries + World Bank</td>
+<td>Quality framework on live API data</td>
+</tr>
+<tr>
+<td>100</td>
+<td>REST Countries + World Bank</td>
+<td>SCD Type 2, surrogate keys, audit trail (capstone)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

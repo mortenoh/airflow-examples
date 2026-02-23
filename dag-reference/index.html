@@ -1,0 +1,2362 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apache Airflow DAG examples">
+      
+      
+      
+      
+        <link rel="prev" href="../advanced/">
+      
+      
+        <link rel="next" href="../data-pipelines/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>DAG Reference - Airflow Examples</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dag-examples-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Airflow Examples" class="md-header__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Airflow Examples
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DAG Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Airflow Examples" class="md-nav__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Airflow Examples
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provider Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Patterns
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#01-hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        01 -- Hello World
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#02-pythonoperator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        02 -- PythonOperator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#03-task-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        03 -- Task Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#04-taskflow-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        04 -- TaskFlow API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#05-xcoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        05 -- XComs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#06-branching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        06 -- Branching
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#07-trigger-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        07 -- Trigger Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#08-jinja-templating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        08 -- Jinja Templating
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#09-task-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        09 -- Task Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-dynamic-task-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 -- Dynamic Task Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-sensors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11 -- Sensors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-retries-and-callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12 -- Retries and Callbacks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-custom-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13 -- Custom Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14 -- Assets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-dag-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15 -- DAG Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-pools-and-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16 -- Pools and Priority
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-variables-and-params" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17 -- Variables and Params
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-short-circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18 -- Short Circuit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-setup-and-teardown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19 -- Setup and Teardown
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20-complex-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        20 -- Complex Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21-docker-hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21 -- Docker Hello World
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-docker-python-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        22 -- Docker Python Scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-docker-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        23 -- Docker Volumes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-docker-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24 -- Docker Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-docker-etl-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        25 -- Docker ETL Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#26-docker-custom-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        26 -- Docker Custom Images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-docker-networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27 -- Docker Networking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-docker-resource-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        28 -- Docker Resource Constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#29-docker-xcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        29 -- Docker XCom
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#30-docker-mixed-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        30 -- Docker Mixed Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31-docker-dynamic-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        31 -- Docker Dynamic Images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-docker-compose-from-airflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        32 -- Docker Compose from Airflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quality-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API & CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#01-hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        01 -- Hello World
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#02-pythonoperator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        02 -- PythonOperator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#03-task-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        03 -- Task Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#04-taskflow-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        04 -- TaskFlow API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#05-xcoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        05 -- XComs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#06-branching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        06 -- Branching
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#07-trigger-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        07 -- Trigger Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#08-jinja-templating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        08 -- Jinja Templating
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#09-task-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        09 -- Task Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-dynamic-task-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 -- Dynamic Task Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-sensors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11 -- Sensors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-retries-and-callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12 -- Retries and Callbacks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-custom-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13 -- Custom Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14 -- Assets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-dag-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15 -- DAG Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-pools-and-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16 -- Pools and Priority
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-variables-and-params" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17 -- Variables and Params
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-short-circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18 -- Short Circuit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-setup-and-teardown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19 -- Setup and Teardown
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20-complex-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        20 -- Complex Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21-docker-hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21 -- Docker Hello World
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-docker-python-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        22 -- Docker Python Scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-docker-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        23 -- Docker Volumes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-docker-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24 -- Docker Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-docker-etl-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        25 -- Docker ETL Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#26-docker-custom-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        26 -- Docker Custom Images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-docker-networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27 -- Docker Networking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-docker-resource-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        28 -- Docker Resource Constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#29-docker-xcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        29 -- Docker XCom
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#30-docker-mixed-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        30 -- Docker Mixed Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31-docker-dynamic-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        31 -- Docker Dynamic Images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-docker-compose-from-airflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        32 -- Docker Compose from Airflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="dag-examples-reference">DAG Examples Reference<a class="headerlink" href="#dag-examples-reference" title="Permanent link">&para;</a></h1>
+<p>Each section below describes one example DAG. They are numbered in learning order --
+start at 01 and work your way through. DAGs 01-10 cover the fundamentals every Airflow
+user needs. The later sections (Docker, SQL, APIs) are independent and can be explored
+in any order based on what interests you.</p>
+<h3 id="01-hello-world">01 -- Hello World<a class="headerlink" href="#01-hello-world" title="Permanent link">&para;</a></h3>
+<p>The simplest possible DAG. Two <code>BashOperator</code> tasks connected with <code>&gt;&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">hello</span> <span class="o">&gt;&gt;</span> <span class="n">date</span>
+</code></pre></div>
+<p>See: <code>dags/01_hello_world.py</code></p>
+<h3 id="02-pythonoperator">02 -- PythonOperator<a class="headerlink" href="#02-pythonoperator" title="Permanent link">&para;</a></h3>
+<p>Run Python callables as tasks with <code>op_args</code> and <code>op_kwargs</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">PythonOperator</span><span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;greet&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">python_callable</span><span class="o">=</span><span class="n">greet</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">op_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Airflow&quot;</span><span class="p">],</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">op_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;greeting&quot;</span><span class="p">:</span> <span class="s2">&quot;Welcome&quot;</span><span class="p">},</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/02_python_operator.py</code></p>
+<h3 id="03-task-dependencies">03 -- Task Dependencies<a class="headerlink" href="#03-task-dependencies" title="Permanent link">&para;</a></h3>
+<p>All dependency patterns: <code>&gt;&gt;</code>, <code>&lt;&lt;</code>, <code>chain()</code>, <code>cross_downstream()</code>, fan-in, fan-out:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">start</span> <span class="o">&gt;&gt;</span> <span class="n">middle</span> <span class="o">&gt;&gt;</span> <span class="n">end</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">fan_out_source</span> <span class="o">&gt;&gt;</span> <span class="p">[</span><span class="n">fan_out_a</span><span class="p">,</span> <span class="n">fan_out_b</span><span class="p">,</span> <span class="n">fan_out_c</span><span class="p">]</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">[</span><span class="n">fan_out_a</span><span class="p">,</span> <span class="n">fan_out_b</span><span class="p">,</span> <span class="n">fan_out_c</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">fan_in_sink</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">chain</span><span class="p">(</span><span class="n">chain_a</span><span class="p">,</span> <span class="n">chain_b</span><span class="p">,</span> <span class="n">chain_c</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">cross_downstream</span><span class="p">([</span><span class="n">cross_a</span><span class="p">,</span> <span class="n">cross_b</span><span class="p">],</span> <span class="p">[</span><span class="n">cross_x</span><span class="p">,</span> <span class="n">cross_y</span><span class="p">])</span>
+</code></pre></div>
+<p>See: <code>dags/03_task_dependencies.py</code></p>
+<h3 id="04-taskflow-api">04 -- TaskFlow API<a class="headerlink" href="#04-taskflow-api" title="Permanent link">&para;</a></h3>
+<p>The <code>@task</code> decorator turns Python functions into Airflow tasks with automatic XCom passing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@task</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nd">@task</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]]}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">raw</span> <span class="o">=</span> <span class="n">extract</span><span class="p">()</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">processed</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>  <span class="c1"># Automatic XCom!</span>
+</code></pre></div>
+<p>See: <code>dags/04_taskflow_api.py</code></p>
+<h3 id="05-xcoms">05 -- XComs<a class="headerlink" href="#05-xcoms" title="Permanent link">&para;</a></h3>
+<p>Manual cross-task communication with <code>ti.xcom_push()</code> and <code>ti.xcom_pull()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">ti</span><span class="o">.</span><span class="n">xcom_push</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;greeting&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Hello!&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">value</span> <span class="o">=</span> <span class="n">ti</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s2">&quot;push_task&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;greeting&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/05_xcoms.py</code></p>
+<h3 id="06-branching">06 -- Branching<a class="headerlink" href="#06-branching" title="Permanent link">&para;</a></h3>
+<p>Conditional execution paths with <code>@task.branch</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@task</span><span class="o">.</span><span class="n">branch</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">choose_branch</span><span class="p">():</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="k">return</span> <span class="s2">&quot;path_a&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">return</span> <span class="s2">&quot;path_b&quot;</span>
+</code></pre></div>
+<p>See: <code>dags/06_branching.py</code></p>
+<h3 id="07-trigger-rules">07 -- Trigger Rules<a class="headerlink" href="#07-trigger-rules" title="Permanent link">&para;</a></h3>
+<p>Control when tasks run based on upstream task states:</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Runs When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>all_success</code></td>
+<td>All upstream tasks succeeded (default)</td>
+</tr>
+<tr>
+<td><code>one_success</code></td>
+<td>At least one upstream task succeeded</td>
+</tr>
+<tr>
+<td><code>all_done</code></td>
+<td>All upstream tasks completed (any state)</td>
+</tr>
+<tr>
+<td><code>none_failed</code></td>
+<td>No upstream task failed (skipped is ok)</td>
+</tr>
+<tr>
+<td><code>all_skipped</code></td>
+<td>All upstream tasks were skipped</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code>dags/07_trigger_rules.py</code></p>
+<h3 id="08-jinja-templating">08 -- Jinja Templating<a class="headerlink" href="#08-jinja-templating" title="Permanent link">&para;</a></h3>
+<p>Airflow renders Jinja templates in operator parameters at execution time:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">BashOperator</span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;templated&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">bash_command</span><span class="o">=</span><span class="s1">&#39;echo &quot;Date: {{ ds }}, Param: {{ params.env }}&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Commonly used template variables:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{ ds }}</code></td>
+<td>Logical date as <code>YYYY-MM-DD</code></td>
+</tr>
+<tr>
+<td><code>{{ logical_date }}</code></td>
+<td>Full datetime object</td>
+</tr>
+<tr>
+<td><code>{{ params.key }}</code></td>
+<td>DAG parameter value</td>
+</tr>
+<tr>
+<td><code>{{ macros.ds_add(ds, 7) }}</code></td>
+<td>Date arithmetic</td>
+</tr>
+<tr>
+<td><code>{{ dag.dag_id }}</code></td>
+<td>Current DAG ID</td>
+</tr>
+<tr>
+<td><code>{{ task.task_id }}</code></td>
+<td>Current task ID</td>
+</tr>
+<tr>
+<td><code>{{ run_id }}</code></td>
+<td>Current DAG run ID</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code>dags/08_templating.py</code></p>
+<h3 id="09-task-groups">09 -- Task Groups<a class="headerlink" href="#09-task-groups" title="Permanent link">&para;</a></h3>
+<p>Organize complex DAGs into collapsible groups in the UI:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">with</span> <span class="n">TaskGroup</span><span class="p">(</span><span class="s2">&quot;extract&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">extract_group</span><span class="p">:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">extract_users</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">extract_orders</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;orders&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="c1"># Task IDs become &quot;extract.users&quot;, &quot;extract.orders&quot;</span>
+</code></pre></div>
+<p>Supports nesting: <code>transform.clean.users</code>, <code>transform.enrich.join</code>.</p>
+<p>See: <code>dags/09_task_groups.py</code></p>
+<h3 id="10-dynamic-task-mapping">10 -- Dynamic Task Mapping<a class="headerlink" href="#10-dynamic-task-mapping" title="Permanent link">&para;</a></h3>
+<p>Create tasks dynamically at runtime based on data:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@task</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">generate_files</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;file1.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;file2.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;file3.csv&quot;</span><span class="p">]</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nd">@task</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rows&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">files</span> <span class="o">=</span> <span class="n">generate_files</span><span class="p">()</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="n">results</span> <span class="o">=</span> <span class="n">process_file</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>  <span class="c1"># Creates 3 mapped tasks</span>
+</code></pre></div>
+<p>See: <code>dags/10_dynamic_tasks.py</code></p>
+<h3 id="11-sensors">11 -- Sensors<a class="headerlink" href="#11-sensors" title="Permanent link">&para;</a></h3>
+<p>Wait for external conditions before proceeding:</p>
+<ul>
+<li><strong>TimeDeltaSensor</strong>: Wait for a time offset from the logical date</li>
+<li><strong>FileSensor</strong>: Wait for a file to appear on disk</li>
+<li><strong>poke mode</strong>: Holds worker slot, checks periodically</li>
+<li><strong>reschedule mode</strong>: Releases worker between checks</li>
+</ul>
+<p>See: <code>dags/11_sensors.py</code></p>
+<h3 id="12-retries-and-callbacks">12 -- Retries and Callbacks<a class="headerlink" href="#12-retries-and-callbacks" title="Permanent link">&para;</a></h3>
+<p>Configure automatic retries and hook into task lifecycle events:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">PythonOperator</span><span class="p">(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;flaky_task&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">python_callable</span><span class="o">=</span><span class="n">my_func</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">retries</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">retry_delay</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">on_success_callback</span><span class="o">=</span><span class="n">notify_success</span><span class="p">,</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">on_failure_callback</span><span class="o">=</span><span class="n">notify_failure</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">on_retry_callback</span><span class="o">=</span><span class="n">log_retry</span><span class="p">,</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/12_retries_and_callbacks.py</code></p>
+<h3 id="13-custom-operators">13 -- Custom Operators<a class="headerlink" href="#13-custom-operators" title="Permanent link">&para;</a></h3>
+<p>Build reusable operators by subclassing <code>BaseOperator</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseOperator</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">SquareOperator</span><span class="p">(</span><span class="n">BaseOperator</span><span class="p">):</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">number</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">**</span> <span class="mi">2</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="k">return</span> <span class="n">result</span>  <span class="c1"># Automatically pushed to XCom</span>
+</code></pre></div>
+<p>See: <code>dags/13_custom_operators.py</code></p>
+<h3 id="14-assets">14 -- Assets<a class="headerlink" href="#14-assets" title="Permanent link">&para;</a></h3>
+<p>Data-aware scheduling with <code>Asset</code> (Airflow 3.x):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">weather</span> <span class="o">=</span> <span class="n">Asset</span><span class="p">(</span><span class="s2">&quot;s3://bucket/weather.parquet&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># Producer declares outlets</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">produce</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">outlets</span><span class="o">=</span><span class="p">[</span><span class="n">weather</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># Consumer scheduled by asset update</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="p">[</span><span class="n">weather</span><span class="p">],</span> <span class="o">...</span><span class="p">):</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">consume</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/14_assets.py</code></p>
+<h3 id="15-dag-dependencies">15 -- DAG Dependencies<a class="headerlink" href="#15-dag-dependencies" title="Permanent link">&para;</a></h3>
+<p>Trigger other DAGs with <code>TriggerDagRunOperator</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">TriggerDagRunOperator</span><span class="p">(</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;trigger&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="n">trigger_dag_id</span><span class="o">=</span><span class="s2">&quot;downstream_dag&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">wait_for_completion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/15_dag_dependencies.py</code></p>
+<h3 id="16-pools-and-priority">16 -- Pools and Priority<a class="headerlink" href="#16-pools-and-priority" title="Permanent link">&para;</a></h3>
+<p>Resource management for concurrent task execution:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">BashOperator</span><span class="p">(</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;db_query&quot;</span><span class="p">,</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">pool</span><span class="o">=</span><span class="s2">&quot;database_pool&quot;</span><span class="p">,</span>       <span class="c1"># Limits concurrent DB connections</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">priority_weight</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>         <span class="c1"># Higher = executed first in queue</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/16_pools_and_priority.py</code></p>
+<h3 id="17-variables-and-params">17 -- Variables and Params<a class="headerlink" href="#17-variables-and-params" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Variables</strong>: Global key-value store persisted in the metadata DB</li>
+<li><strong>Params</strong>: Per-run configuration with type validation and defaults</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Variables (global, persistent)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">airflow.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Variable</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">Variable</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;api_url&quot;</span><span class="p">,</span> <span class="s2">&quot;https://api.example.com&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">url</span> <span class="o">=</span> <span class="n">Variable</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;api_url&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1"># Params (per-run, with defaults)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="s2">&quot;staging&quot;</span><span class="p">,</span> <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span> <span class="o">...</span><span class="p">):</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="o">...</span>
+</code></pre></div>
+<p>See: <code>dags/17_variables_and_params.py</code></p>
+<h3 id="18-short-circuit">18 -- Short Circuit<a class="headerlink" href="#18-short-circuit" title="Permanent link">&para;</a></h3>
+<p>Skip downstream tasks conditionally:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">check</span> <span class="o">=</span> <span class="n">ShortCircuitOperator</span><span class="p">(</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;check&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="n">python_callable</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">file_exists</span><span class="p">(</span><span class="s2">&quot;/data/input.csv&quot;</span><span class="p">),</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">)</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">check</span> <span class="o">&gt;&gt;</span> <span class="n">expensive_task</span>  <span class="c1"># Skipped if check returns False</span>
+</code></pre></div>
+<p>See: <code>dags/18_short_circuit.py</code></p>
+<h3 id="19-setup-and-teardown">19 -- Setup and Teardown<a class="headerlink" href="#19-setup-and-teardown" title="Permanent link">&para;</a></h3>
+<p>Resource lifecycle management ensuring cleanup always runs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">resource</span> <span class="o">=</span> <span class="n">create_resource</span><span class="p">()</span>    <span class="c1"># Setup</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">work</span> <span class="o">=</span> <span class="n">use_resource</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>   <span class="c1"># Work</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">cleanup</span> <span class="o">=</span> <span class="n">cleanup_resource</span><span class="p">()</span>    <span class="c1"># Teardown (runs even if work fails)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">resource</span> <span class="o">&gt;&gt;</span> <span class="n">work</span> <span class="o">&gt;&gt;</span> <span class="n">cleanup</span>
+</code></pre></div>
+<p>See: <code>dags/19_setup_teardown.py</code></p>
+<h3 id="20-complex-pipeline">20 -- Complex Pipeline<a class="headerlink" href="#20-complex-pipeline" title="Permanent link">&para;</a></h3>
+<p>Multi-stage ETL combining TaskGroups, dynamic mapping, and callbacks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>start -&gt; [extract_group] -&gt; [transform_group] -&gt; [load_group] -&gt; [notify_group] -&gt; end
+</code></pre></div>
+<p>See: <code>dags/20_complex_pipeline.py</code></p>
+<h3 id="21-docker-hello-world">21 -- Docker Hello World<a class="headerlink" href="#21-docker-hello-world" title="Permanent link">&para;</a></h3>
+<p>The simplest DockerOperator DAG. Runs commands inside Alpine containers:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.docker.operators.docker</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockerOperator</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">hello</span> <span class="o">=</span> <span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.20&quot;</span><span class="p">,</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;echo &quot;Hello from inside a Docker container!&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="n">auto_remove</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="n">docker_url</span><span class="o">=</span><span class="s2">&quot;unix://var/run/docker.sock&quot;</span><span class="p">,</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    <span class="n">network_mode</span><span class="o">=</span><span class="s2">&quot;bridge&quot;</span><span class="p">,</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Key parameters every DockerOperator needs:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>image</code></td>
+<td>Docker image to pull and run</td>
+</tr>
+<tr>
+<td><code>command</code></td>
+<td>Command to execute inside the container</td>
+</tr>
+<tr>
+<td><code>auto_remove</code></td>
+<td><code>"success"</code> removes container after success, <code>"force"</code> always removes</td>
+</tr>
+<tr>
+<td><code>docker_url</code></td>
+<td>Docker daemon socket path</td>
+</tr>
+<tr>
+<td><code>network_mode</code></td>
+<td><code>"bridge"</code> (isolated) or <code>"host"</code> (shares host network)</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code>dags/21_docker_hello.py</code></p>
+<h3 id="22-docker-python-scripts">22 -- Docker Python Scripts<a class="headerlink" href="#22-docker-python-scripts" title="Permanent link">&para;</a></h3>
+<p>Run Python code inside containers. Demonstrates inline scripts, data processing,
+and installing packages at runtime:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Run inline Python</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;inline_script&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;python:3.12-slim&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;python -c &quot;import sys; print(f</span><span class="se">\&#39;</span><span class="s1">Python </span><span class="si">{sys.version}</span><span class="se">\&#39;</span><span class="s1">)&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="o">...</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">)</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Install packages and use them</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;with_package&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;python:3.12-slim&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;bash -c &quot;pip install humanize &amp;&amp; python -c </span><span class="se">\&#39;</span><span class="s1">import humanize; print(humanize.naturalsize(1e9))</span><span class="se">\&#39;</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>    <span class="o">...</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/22_docker_python_script.py</code></p>
+<h3 id="23-docker-volumes">23 -- Docker Volumes<a class="headerlink" href="#23-docker-volumes" title="Permanent link">&para;</a></h3>
+<p>Bind mounts let containers share data through the host filesystem. This is the
+primary pattern for multi-step Docker pipelines:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">docker.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mount</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">SHARED_MOUNT</span> <span class="o">=</span> <span class="n">Mount</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;/tmp/airflow-demo&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;/data&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;bind&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1"># Step 1: Write data</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="n">create_data</span> <span class="o">=</span> <span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;create_data&quot;</span><span class="p">,</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.20&quot;</span><span class="p">,</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;sh -c &quot;echo </span><span class="se">\&#39;</span><span class="s1">Alice,85</span><span class="se">\&#39;</span><span class="s1"> &gt; /data/scores.csv&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>    <span class="n">mounts</span><span class="o">=</span><span class="p">[</span><span class="n">SHARED_MOUNT</span><span class="p">],</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>    <span class="o">...</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="p">)</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="c1"># Step 2: Process data (reads from same mount)</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="n">process_data</span> <span class="o">=</span> <span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;process_data&quot;</span><span class="p">,</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;python:3.12-slim&quot;</span><span class="p">,</span>
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;python -c &quot;import csv; rows = list(csv.reader(open(</span><span class="se">\&#39;</span><span class="s1">/data/scores.csv</span><span class="se">\&#39;</span><span class="s1">)))&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>    <span class="n">mounts</span><span class="o">=</span><span class="p">[</span><span class="n">SHARED_MOUNT</span><span class="p">],</span>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>    <span class="o">...</span>
+<a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Mount types:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bind</code></td>
+<td>Maps a host directory into the container</td>
+<td>Sharing data between steps</td>
+</tr>
+<tr>
+<td><code>volume</code></td>
+<td>Docker-managed named volume</td>
+<td>Persistent data across container restarts</td>
+</tr>
+<tr>
+<td><code>tmpfs</code></td>
+<td>In-memory filesystem</td>
+<td>Scratch space, sensitive data</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code>dags/23_docker_volumes.py</code></p>
+<h3 id="24-docker-environment-variables">24 -- Docker Environment Variables<a class="headerlink" href="#24-docker-environment-variables" title="Permanent link">&para;</a></h3>
+<p>Pass configuration to containers via environment variables. Supports both static values
+and Airflow template-rendered values:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Static env vars</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;static_env&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.20&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;sh -c &quot;echo APP_ENV=$APP_ENV&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="n">environment</span><span class="o">=</span><span class="p">{</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>        <span class="s2">&quot;APP_ENV&quot;</span><span class="p">:</span> <span class="s2">&quot;staging&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>        <span class="s2">&quot;LOG_LEVEL&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    <span class="p">},</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>    <span class="o">...</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="p">)</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="c1"># Templated env vars (Airflow injects values at runtime)</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;templated_env&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.20&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;sh -c &quot;echo EXECUTION_DATE=$EXECUTION_DATE&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>    <span class="n">environment</span><span class="o">=</span><span class="p">{</span>
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>        <span class="s2">&quot;EXECUTION_DATE&quot;</span><span class="p">:</span> <span class="s2">&quot;{{ ds }}&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>        <span class="s2">&quot;DAG_ID&quot;</span><span class="p">:</span> <span class="s2">&quot;{{ dag.dag_id }}&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>    <span class="p">},</span>
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a>    <span class="o">...</span>
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/24_docker_env_and_secrets.py</code></p>
+<h3 id="25-docker-etl-pipeline">25 -- Docker ETL Pipeline<a class="headerlink" href="#25-docker-etl-pipeline" title="Permanent link">&para;</a></h3>
+<p>A complete 5-stage ETL pipeline where every stage runs in its own container.
+Demonstrates a realistic pattern: extract raw data, validate, transform, report,
+and cleanup -- all connected through a shared volume:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>extract (python:3.12) -&gt; validate (python:3.12) -&gt; transform (python:3.12) -&gt; report (python:3.12) -&gt; cleanup (alpine)
+</code></pre></div>
+<p>Each stage reads input from and writes output to <code>/pipeline/</code> via a bind mount.</p>
+<p>See: <code>dags/25_docker_pipeline.py</code></p>
+<h3 id="26-docker-custom-images">26 -- Docker Custom Images<a class="headerlink" href="#26-docker-custom-images" title="Permanent link">&para;</a></h3>
+<p>Run tasks in different language runtimes. Demonstrates BusyBox, Node.js, Ruby,
+and custom working directory configuration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Node.js task</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nodejs_task&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;node:22-alpine&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;node -e &quot;console.log(</span><span class="se">\&#39;</span><span class="s1">Hello from Node.js</span><span class="se">\&#39;</span><span class="s1">)&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>    <span class="o">...</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="p">)</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="c1"># Ruby task</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;ruby_task&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;ruby:3.3-alpine&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;ruby -e &quot;puts </span><span class="se">\&#39;</span><span class="s1">Hello from Ruby</span><span class="se">\&#39;</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>    <span class="o">...</span>
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="p">)</span>
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="c1"># Custom working directory</span>
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;workdir_task&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.20&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-21" name="__codelineno-23-21" href="#__codelineno-23-21"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;sh -c &quot;pwd &amp;&amp; ls -la&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-23-22" name="__codelineno-23-22" href="#__codelineno-23-22"></a>    <span class="n">working_dir</span><span class="o">=</span><span class="s2">&quot;/opt&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-23" name="__codelineno-23-23" href="#__codelineno-23-23"></a>    <span class="o">...</span>
+<a id="__codelineno-23-24" name="__codelineno-23-24" href="#__codelineno-23-24"></a><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/26_docker_custom_image.py</code></p>
+<h3 id="27-docker-networking">27 -- Docker Networking<a class="headerlink" href="#27-docker-networking" title="Permanent link">&para;</a></h3>
+<p>Explore container networking: bridge mode isolation, host connectivity checks,
+and DNS resolution inside containers:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Bridge mode: container gets its own network namespace</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;bridge_mode&quot;</span><span class="p">,</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.20&quot;</span><span class="p">,</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;sh -c &quot;hostname -i &amp;&amp; cat /etc/resolv.conf&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>    <span class="n">network_mode</span><span class="o">=</span><span class="s2">&quot;bridge&quot;</span><span class="p">,</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>    <span class="o">...</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Network modes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bridge</code></td>
+<td>Default. Container gets its own IP, isolated from host</td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td>Container shares the host's network stack</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>No networking</td>
+</tr>
+<tr>
+<td><code>container:&lt;id&gt;</code></td>
+<td>Share another container's network namespace</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code>dags/27_docker_network.py</code></p>
+<h3 id="28-docker-resource-constraints">28 -- Docker Resource Constraints<a class="headerlink" href="#28-docker-resource-constraints" title="Permanent link">&para;</a></h3>
+<p>Set CPU and memory limits to prevent containers from consuming all host resources:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Memory-limited task</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;memory_limited&quot;</span><span class="p">,</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;python:3.12-slim&quot;</span><span class="p">,</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;python -c &quot;data = list(range(100000))&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>    <span class="n">mem_limit</span><span class="o">=</span><span class="s2">&quot;128m&quot;</span><span class="p">,</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>    <span class="o">...</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="p">)</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="c1"># CPU-limited task</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;cpu_limited&quot;</span><span class="p">,</span>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;python:3.12-slim&quot;</span><span class="p">,</span>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;python -c &quot;sum(i**2 for i in range(500000))&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>    <span class="n">cpus</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>    <span class="o">...</span>
+<a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a><span class="p">)</span>
+</code></pre></div>
+<p><strong>Resource parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mem_limit</code></td>
+<td>Maximum memory</td>
+<td><code>"128m"</code>, <code>"2g"</code></td>
+</tr>
+<tr>
+<td><code>cpus</code></td>
+<td>CPU core limit (fractional)</td>
+<td><code>0.5</code>, <code>2.0</code></td>
+</tr>
+<tr>
+<td><code>mem_reservation</code></td>
+<td>Soft memory limit</td>
+<td><code>"64m"</code></td>
+</tr>
+</tbody>
+</table>
+<p>See: <code>dags/28_docker_resources.py</code></p>
+<h3 id="29-docker-xcom">29 -- Docker XCom<a class="headerlink" href="#29-docker-xcom" title="Permanent link">&para;</a></h3>
+<p>Pass data between Docker containers using XCom. The container's stdout is captured
+and pushed to XCom when <code>retrieve_output=True</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Docker task pushes last stdout line to XCom</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="n">generate</span> <span class="o">=</span> <span class="n">DockerOperator</span><span class="p">(</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;generate_data&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>    <span class="n">image</span><span class="o">=</span><span class="s2">&quot;python:3.12-slim&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;python -c &quot;import json; print(json.dumps({</span><span class="se">\&#39;</span><span class="s1">values</span><span class="se">\&#39;</span><span class="s1">: [10, 20, 30]}))&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>    <span class="n">retrieve_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>    <span class="n">retrieve_output_path</span><span class="o">=</span><span class="s2">&quot;/tmp/xcom_output&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>    <span class="o">...</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="p">)</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="c1"># Python task reads the XCom value</span>
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">show_output</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;ti&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s2">&quot;generate_data&quot;</span><span class="p">)</span>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Docker output: </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/29_docker_xcom.py</code></p>
+<h3 id="30-docker-mixed-pipeline">30 -- Docker Mixed Pipeline<a class="headerlink" href="#30-docker-mixed-pipeline" title="Permanent link">&para;</a></h3>
+<p>Real-world DAGs often mix execution modes. Some tasks need container isolation
+(specific dependencies, language runtimes), while others run fine natively:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>DockerOperator (extract) -&gt; PythonOperator (validate) -&gt; BashOperator (check) -&gt; DockerOperator (transform) -&gt; PythonOperator (aggregate)
+</code></pre></div>
+<p><strong>When to use each:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DockerOperator</code></td>
+<td>Tasks needing specific deps, language isolation, reproducibility</td>
+</tr>
+<tr>
+<td><code>PythonOperator</code></td>
+<td>Lightweight Python logic, validation, aggregation</td>
+</tr>
+<tr>
+<td><code>BashOperator</code></td>
+<td>Quick system checks, simple shell commands</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code>dags/30_docker_mixed_pipeline.py</code></p>
+<h3 id="31-docker-dynamic-images">31 -- Docker Dynamic Images<a class="headerlink" href="#31-docker-dynamic-images" title="Permanent link">&para;</a></h3>
+<p>Dynamic task mapping with DockerOperator. Run the same command across different
+container images in parallel:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nd">@task</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">list_images</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;python:3.12-slim&quot;</span><span class="p">,</span> <span class="s2">&quot;python:3.11-slim&quot;</span><span class="p">,</span> <span class="s2">&quot;node:22-alpine&quot;</span><span class="p">,</span> <span class="s2">&quot;ruby:3.3-alpine&quot;</span><span class="p">]</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># .partial() sets shared params, .expand() maps over the variable one</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="n">version_check</span> <span class="o">=</span> <span class="n">DockerOperator</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;version_check&quot;</span><span class="p">,</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>    <span class="n">command</span><span class="o">=</span><span class="s1">&#39;sh -c &quot;uname -a&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>    <span class="n">auto_remove</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>    <span class="o">...</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">list_images</span><span class="p">())</span>
+</code></pre></div>
+<p>This creates 4 mapped task instances at runtime, one per image.</p>
+<p>See: <code>dags/31_docker_dynamic_images.py</code></p>
+<h3 id="32-docker-compose-from-airflow">32 -- Docker Compose from Airflow<a class="headerlink" href="#32-docker-compose-from-airflow" title="Permanent link">&para;</a></h3>
+<p>Use BashOperator to run <code>docker compose</code> and <code>docker run</code> commands. Useful for
+orchestrating multi-container setups or running integration tests:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Run docker compose for integration tests</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="n">BashOperator</span><span class="p">(</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;integration_test&quot;</span><span class="p">,</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>    <span class="n">bash_command</span><span class="o">=</span><span class="s2">&quot;docker compose -f test.yml up --abort-on-container-exit&quot;</span><span class="p">,</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="p">)</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="c1"># Run a one-off container</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="n">BashOperator</span><span class="p">(</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>    <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;docker_run&quot;</span><span class="p">,</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>    <span class="n">bash_command</span><span class="o">=</span><span class="s1">&#39;docker run --rm alpine:3.20 echo &quot;Hello&quot;&#39;</span><span class="p">,</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="p">)</span>
+</code></pre></div>
+<p>See: <code>dags/32_docker_compose_task.py</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2282 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apache Airflow DAG examples">
+      
+      
+      
+      
+        <link rel="prev" href="../data-pipelines/">
+      
+      
+        <link rel="next" href="../external-apis/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Quality & Testing - Airflow Examples</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quality-testing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Airflow Examples" class="md-header__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Airflow Examples
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Quality & Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Airflow Examples" class="md-nav__button md-logo" aria-label="Airflow Examples" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Airflow Examples
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mortenoh/airflow-examples" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mortenoh/airflow-examples
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provider Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Patterns
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dag-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAG Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Testing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-quality-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality &amp; Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality &amp; Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-quality-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared Quality Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-as-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema-as-Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statistical-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statistical Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#traffic-light-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traffic-Light Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-dataset-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Dataset Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Scoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#68-schema-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        68 -- Schema Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#69-statistical-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        69 -- Statistical Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#70-freshness-completeness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        70 -- Freshness &amp; Completeness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#71-cross-dataset-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        71 -- Cross-Dataset Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-quality-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        72 -- Quality Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alerting-sla-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alerting &amp; SLA Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alerting &amp; SLA Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#airflow-callback-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Airflow Callback Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-timeout-vs-sla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Timeout vs SLA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#webhook-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhook Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-escalation-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Escalation Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-check-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Check Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#73-sla-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        73 -- SLA Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-webhook-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        74 -- Webhook Notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-failure-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        75 -- Failure Escalation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76-pipeline-health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        76 -- Pipeline Health Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dag-testing-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG Testing Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DAG Testing Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testable-dag-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testable DAG Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mocking-external-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mocking External Services
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dagtest-for-local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dag.test() for Local Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameterized-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameterized Pipelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#77-testable-dag-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        77 -- Testable DAG Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#78-mock-api-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        78 -- Mock API Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#79-dag-test-runner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        79 -- DAG Test Runner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#80-parameterized-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        80 -- Parameterized Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API & CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-quality-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality &amp; Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality &amp; Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-quality-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared Quality Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-as-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema-as-Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statistical-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statistical Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#traffic-light-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traffic-Light Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-dataset-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Dataset Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Scoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#68-schema-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        68 -- Schema Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#69-statistical-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        69 -- Statistical Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#70-freshness-completeness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        70 -- Freshness &amp; Completeness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#71-cross-dataset-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        71 -- Cross-Dataset Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-quality-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        72 -- Quality Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alerting-sla-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alerting &amp; SLA Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alerting &amp; SLA Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#airflow-callback-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Airflow Callback Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-timeout-vs-sla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Timeout vs SLA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#webhook-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhook Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-escalation-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Escalation Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-check-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Check Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#73-sla-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        73 -- SLA Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-webhook-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        74 -- Webhook Notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-failure-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        75 -- Failure Escalation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76-pipeline-health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        76 -- Pipeline Health Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dag-testing-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAG Testing Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DAG Testing Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testable-dag-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testable DAG Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mocking-external-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mocking External Services
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dagtest-for-local-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dag.test() for Local Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameterized-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameterized Pipelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-dag-reference_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-DAG Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-DAG Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#77-testable-dag-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        77 -- Testable DAG Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#78-mock-api-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        78 -- Mock API Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#79-dag-test-runner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        79 -- DAG Test Runner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#80-parameterized-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        80 -- Parameterized Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="quality-testing">Quality &amp; Testing<a class="headerlink" href="#quality-testing" title="Permanent link">&para;</a></h1>
+<h2 id="data-quality-validation">Data Quality &amp; Validation<a class="headerlink" href="#data-quality-validation" title="Permanent link">&para;</a></h2>
+<p>DAGs 68--72 demonstrate systematic data quality checking: schema validation, statistical anomaly
+detection, freshness and completeness monitoring, cross-dataset consistency, and consolidated
+quality reporting. These patterns catch data issues early, before they propagate downstream.</p>
+<h3 id="quality-dimensions">Quality Dimensions<a class="headerlink" href="#quality-dimensions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>What It Checks</th>
+<th>DAG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Schema</strong></td>
+<td>Column names, data types, nullable constraints</td>
+<td>68</td>
+</tr>
+<tr>
+<td><strong>Accuracy</strong></td>
+<td>Physical bounds, statistical outliers, distribution shifts</td>
+<td>69</td>
+</tr>
+<tr>
+<td><strong>Freshness</strong></td>
+<td>File modification time within expected window</td>
+<td>70</td>
+</tr>
+<tr>
+<td><strong>Completeness</strong></td>
+<td>Row counts, date coverage, null rates</td>
+<td>70</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>Referential integrity, cross-table rules, temporal validity</td>
+<td>71</td>
+</tr>
+</tbody>
+</table>
+<h3 id="shared-quality-module">Shared Quality Module<a class="headerlink" href="#shared-quality-module" title="Permanent link">&para;</a></h3>
+<p>All quality DAGs share <code>src/airflow_examples/quality.py</code> which provides a <code>QualityResult</code>
+dataclass and reusable check functions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">QualityResult</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">check_name</span><span class="p">:</span> <span class="nb">str</span>       <span class="c1"># &quot;schema_columns&quot;, &quot;bounds_temperature_c&quot;, etc.</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">passed</span><span class="p">:</span> <span class="nb">bool</span>          <span class="c1"># True if check passed</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">details</span><span class="p">:</span> <span class="nb">str</span>          <span class="c1"># Human-readable description</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">severity</span><span class="p">:</span> <span class="nb">str</span>         <span class="c1"># &quot;info&quot;, &quot;warning&quot;, &quot;critical&quot;</span>
+</code></pre></div>
+<p>Check functions return <code>QualityResult</code> objects that can be aggregated:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">check_schema</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">expected_columns</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QualityResult</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">check_bounds</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QualityResult</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">check_nulls</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">max_null_pct</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QualityResult</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">check_freshness</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">max_age_seconds</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QualityResult</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">check_row_count</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">min_rows</span><span class="p">,</span> <span class="n">max_rows</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QualityResult</span>
+</code></pre></div>
+<p><strong>Why a dataclass?</strong> Uniform structure makes it easy to aggregate results from different checks,
+compute overall scores, and format reports. Every check returns the same shape regardless of
+what it validates.</p>
+<h3 id="schema-as-code">Schema-as-Code<a class="headerlink" href="#schema-as-code" title="Permanent link">&para;</a></h3>
+<p>DAG 68 validates data against an expected schema definition. The schema is defined in code
+(not a separate file), making it version-controlled and testable:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">EXPECTED_COLUMNS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;temperature_c&quot;</span><span class="p">,</span> <span class="s2">&quot;humidity_pct&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure_hpa&quot;</span><span class="p">]</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Column presence check</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">check_schema</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">EXPECTED_COLUMNS</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Type validation per column</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">numeric_temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;temperature_c&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">non_numeric</span> <span class="o">=</span> <span class="n">numeric_temp</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;temperature_c&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="statistical-methods">Statistical Methods<a class="headerlink" href="#statistical-methods" title="Permanent link">&para;</a></h3>
+<p>DAG 69 uses three statistical techniques:</p>
+<p><strong>Bounds checking</strong>: Verify values fall within physically possible ranges. Temperature can't
+be 100C, humidity can't be negative:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">check_bounds</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;temperature_c&quot;</span><span class="p">,</span> <span class="n">min_val</span><span class="o">=-</span><span class="mf">50.0</span><span class="p">,</span> <span class="n">max_val</span><span class="o">=</span><span class="mf">60.0</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Z-score outlier detection</strong>: Flag individual values more than 3 standard deviations from
+the column mean:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>z = |x - mean| / std
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>outlier if z &gt; 3
+</code></pre></div>
+<p><strong>Distribution shift detection</strong>: Compare first-half vs second-half statistics. A sudden
+change in the mean indicates a data source problem:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">mean_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">second_half</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">first_half</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">shifted</span> <span class="o">=</span> <span class="n">mean_diff</span> <span class="o">&gt;</span> <span class="n">first_half</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.5</span>
+</code></pre></div>
+<h3 id="traffic-light-reporting">Traffic-Light Reporting<a class="headerlink" href="#traffic-light-reporting" title="Permanent link">&para;</a></h3>
+<p>DAG 70 uses a green/yellow/red reporting pattern for at-a-glance status:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">if</span> <span class="n">passed</span> <span class="o">==</span> <span class="n">total</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">light</span> <span class="o">=</span> <span class="s2">&quot;GREEN&quot;</span>    <span class="c1"># All checks passed</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">elif</span> <span class="n">passed</span> <span class="o">&gt;=</span> <span class="n">total</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">light</span> <span class="o">=</span> <span class="s2">&quot;YELLOW&quot;</span>   <span class="c1"># Some failures</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">light</span> <span class="o">=</span> <span class="s2">&quot;RED&quot;</span>      <span class="c1"># Majority failing</span>
+</code></pre></div>
+<h3 id="cross-dataset-validation">Cross-Dataset Validation<a class="headerlink" href="#cross-dataset-validation" title="Permanent link">&para;</a></h3>
+<p>DAG 71 validates relationships between master (stations) and detail (observations) tables:</p>
+<ul>
+<li><strong>Referential integrity</strong>: All <code>station_id</code> values in observations exist in stations master</li>
+<li><strong>Value consistency</strong>: Arctic stations (lat &gt; 60) shouldn't report tropical temperatures</li>
+<li><strong>Temporal consistency</strong>: Observation dates fall within station's <code>active_from..active_to</code></li>
+</ul>
+<h3 id="quality-scoring">Quality Scoring<a class="headerlink" href="#quality-scoring" title="Permanent link">&para;</a></h3>
+<p>DAG 72 aggregates all check types and computes an overall quality score:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">passed</span> <span class="o">/</span> <span class="n">total</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;HEALTHY&quot;</span> <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">90</span> <span class="k">else</span> <span class="s2">&quot;DEGRADED&quot;</span> <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">70</span> <span class="k">else</span> <span class="s2">&quot;CRITICAL&quot;</span>
+</code></pre></div>
+<h3 id="per-dag-reference">Per-DAG Reference<a class="headerlink" href="#per-dag-reference" title="Permanent link">&para;</a></h3>
+<h4 id="68-schema-validation">68 -- Schema Validation<a class="headerlink" href="#68-schema-validation" title="Permanent link">&para;</a></h4>
+<p>Column names, value types, and nullability checks against expected schema.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>generate_data -&gt; validate_columns ─┐
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>              -&gt; validate_types ───┼-&gt; schema_report -&gt; cleanup
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>              -&gt; validate_nullability ─┘
+</code></pre></div>
+<p>See: <code>dags/68_schema_validation.py</code></p>
+<h4 id="69-statistical-checks">69 -- Statistical Checks<a class="headerlink" href="#69-statistical-checks" title="Permanent link">&para;</a></h4>
+<p>Bounds checking, z-score outlier detection, and distribution shift detection.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>generate_data -&gt; check_bounds ─────────┐
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>              -&gt; check_zscore ─────────┼-&gt; anomaly_report -&gt; cleanup
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>              -&gt; check_distribution ───┘
+</code></pre></div>
+<p>See: <code>dags/69_statistical_checks.py</code></p>
+<h4 id="70-freshness-completeness">70 -- Freshness &amp; Completeness<a class="headerlink" href="#70-freshness-completeness" title="Permanent link">&para;</a></h4>
+<p>File freshness, row counts, date gap detection, and null rate thresholds.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>generate_data -&gt; check_freshness ────┐
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>              -&gt; check_row_counts ───┼-&gt; quality_summary -&gt; cleanup
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>              -&gt; check_date_coverage ┤
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>              -&gt; check_null_rates ───┘
+</code></pre></div>
+<p>See: <code>dags/70_freshness_completeness.py</code></p>
+<h4 id="71-cross-dataset-validation">71 -- Cross-Dataset Validation<a class="headerlink" href="#71-cross-dataset-validation" title="Permanent link">&para;</a></h4>
+<p>Referential integrity, value consistency, and temporal consistency between datasets.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>generate_datasets -&gt; check_referential_integrity ─┐
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>                  -&gt; check_value_consistency ──────┼-&gt; integrity_report -&gt; cleanup
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>                  -&gt; check_temporal_consistency ───┘
+</code></pre></div>
+<p>See: <code>dags/71_cross_dataset_validation.py</code></p>
+<h4 id="72-quality-dashboard">72 -- Quality Dashboard<a class="headerlink" href="#72-quality-dashboard" title="Permanent link">&para;</a></h4>
+<p>Consolidated report aggregating schema, statistical, and freshness checks with overall scoring.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>generate_data -&gt; run_schema_checks ─────┐
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>              -&gt; run_statistical_checks ─┼-&gt; compile_report -&gt; cleanup
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>              -&gt; run_freshness_checks ───┘
+</code></pre></div>
+<p>See: <code>dags/72_quality_report.py</code></p>
+<hr />
+<h2 id="alerting-sla-monitoring">Alerting &amp; SLA Monitoring<a class="headerlink" href="#alerting-sla-monitoring" title="Permanent link">&para;</a></h2>
+<p>DAGs 73--76 demonstrate production alerting patterns: SLA tracking with execution timeouts,
+webhook notifications to external services, progressive failure escalation with callbacks, and
+pipeline health monitoring as a meta-DAG.</p>
+<h3 id="airflow-callback-types">Airflow Callback Types<a class="headerlink" href="#airflow-callback-types" title="Permanent link">&para;</a></h3>
+<p>Airflow provides several callback hooks at the task and DAG level:</p>
+<table>
+<thead>
+<tr>
+<th>Callback</th>
+<th>Trigger</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>on_success_callback</code></td>
+<td>Task completes successfully</td>
+<td>Log success, clear alerts, send notification</td>
+</tr>
+<tr>
+<td><code>on_failure_callback</code></td>
+<td>Task fails after all retries</td>
+<td>Page on-call, send critical alert</td>
+</tr>
+<tr>
+<td><code>on_retry_callback</code></td>
+<td>Task fails but will retry</td>
+<td>Log warning, increment retry counter</td>
+</tr>
+<tr>
+<td>DAG <code>on_success_callback</code></td>
+<td>All tasks in DAG complete</td>
+<td>Send pipeline-complete notification</td>
+</tr>
+<tr>
+<td>DAG <code>on_failure_callback</code></td>
+<td>Any task in DAG fails permanently</td>
+<td>Send pipeline-failed alert</td>
+</tr>
+</tbody>
+</table>
+<p>Callbacks receive a <code>context</code> dict with task instance, execution date, and other metadata:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">on_failure_callback</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">ti</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;task_instance&quot;</span><span class="p">]</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task </span><span class="si">{</span><span class="n">ti</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> failed on attempt </span><span class="si">{</span><span class="n">ti</span><span class="o">.</span><span class="n">try_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="execution-timeout-vs-sla">Execution Timeout vs SLA<a class="headerlink" href="#execution-timeout-vs-sla" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Scope</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>execution_timeout</code></td>
+<td>Single task</td>
+<td>Kills task if it exceeds duration, raises <code>AirflowTaskTimeout</code></td>
+</tr>
+<tr>
+<td>Duration tracking</td>
+<td>Custom</td>
+<td>Compare actual vs expected timing in a report task</td>
+</tr>
+<tr>
+<td><code>on_failure_callback</code></td>
+<td>Single task</td>
+<td>Fires when task fails (including timeout)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nd">@task</span><span class="p">(</span><span class="n">execution_timeout</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">30</span><span class="p">))</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">slow_task</span><span class="p">():</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Will be killed if it runs longer than 30 seconds.&quot;&quot;&quot;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="webhook-integration">Webhook Integration<a class="headerlink" href="#webhook-integration" title="Permanent link">&para;</a></h3>
+<p>DAG 74 uses <code>requests.post()</code> to send JSON payloads to httpbin (simulating Slack/Teams):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="s2">&quot;pipeline_success&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="s2">&quot;dag_id&quot;</span><span class="p">:</span> <span class="s2">&quot;74_webhook_notifications&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="s2">&quot;stats&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;rows_processed&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">},</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">}</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;http://httpbin:8080/post&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Conditional notifications</strong> use <code>trigger_rule</code>:</p>
+<ul>
+<li><code>trigger_rule="one_failed"</code> -- only runs if an upstream task failed (failure handler)</li>
+<li><code>trigger_rule="all_done"</code> -- always runs regardless of upstream success/failure (final status)</li>
+</ul>
+<h3 id="failure-escalation-strategy">Failure Escalation Strategy<a class="headerlink" href="#failure-escalation-strategy" title="Permanent link">&para;</a></h3>
+<p>DAG 75 demonstrates progressive escalation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Attempt 1: Fail -&gt; on_retry_callback (log warning)
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>Attempt 2: Fail -&gt; on_retry_callback (escalate warning)
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>Attempt 3: Succeed -&gt; on_success_callback (log recovery)
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>     or
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>Attempt 3: Fail -&gt; on_failure_callback (critical alert, page on-call)
+</code></pre></div>
+<p>The <code>try_number</code> attribute on the task instance tracks which attempt is running:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nd">@task</span><span class="p">(</span><span class="n">retries</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>      <span class="n">on_retry_callback</span><span class="o">=</span><span class="n">on_retry</span><span class="p">,</span> <span class="n">on_failure_callback</span><span class="o">=</span><span class="n">on_failure</span><span class="p">)</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">unreliable_task</span><span class="p">():</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="o">...</span>
+</code></pre></div>
+<h3 id="health-check-pattern">Health Check Pattern<a class="headerlink" href="#health-check-pattern" title="Permanent link">&para;</a></h3>
+<p>DAG 76 is a meta-DAG that monitors other pipelines by checking their output artifacts:</p>
+<ol>
+<li><strong>Existence</strong>: Do expected output files exist?</li>
+<li><strong>Freshness</strong>: Were they modified within the expected time window?</li>
+<li><strong>Size</strong>: Are they non-empty and within expected bounds?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">EXPECTED_OUTPUTS</span> <span class="o">=</span> <span class="p">[</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/output/pipeline_a.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;max_age_s&quot;</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span> <span class="s2">&quot;min_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/output/pipeline_b.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;max_age_s&quot;</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span> <span class="s2">&quot;min_size&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">},</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="p">]</span>
+</code></pre></div>
+<p>If any checks fail, the health status is computed (healthy/degraded/critical) and a webhook
+alert is sent conditionally.</p>
+<h3 id="per-dag-reference_1">Per-DAG Reference<a class="headerlink" href="#per-dag-reference_1" title="Permanent link">&para;</a></h3>
+<h4 id="73-sla-monitoring">73 -- SLA Monitoring<a class="headerlink" href="#73-sla-monitoring" title="Permanent link">&para;</a></h4>
+<p>Task-level <code>execution_timeout</code>, duration tracking, and SLA breach reporting.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>fast_task ─────┐
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>slow_task ─────┼-&gt; sla_report
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>critical_task ─┘
+</code></pre></div>
+<p>See: <code>dags/73_sla_monitoring.py</code></p>
+<h4 id="74-webhook-notifications">74 -- Webhook Notifications<a class="headerlink" href="#74-webhook-notifications" title="Permanent link">&para;</a></h4>
+<p>POST JSON alerts to httpbin on start, success, and conditional failure.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>send_start -&gt; process_data -&gt; send_success ──┐
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>                           -&gt; handle_failure ─┼-&gt; final_status
+</code></pre></div>
+<p>See: <code>dags/74_webhook_notifications.py</code></p>
+<h4 id="75-failure-escalation">75 -- Failure Escalation<a class="headerlink" href="#75-failure-escalation" title="Permanent link">&para;</a></h4>
+<p>Retry -&gt; warn -&gt; alert -&gt; recover with progressive callbacks.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>unreliable_task (retries=2) ─┐
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>always_succeeds ─────────────┼-&gt; escalation_summary
+</code></pre></div>
+<p>See: <code>dags/75_failure_escalation.py</code></p>
+<h4 id="76-pipeline-health-check">76 -- Pipeline Health Check<a class="headerlink" href="#76-pipeline-health-check" title="Permanent link">&para;</a></h4>
+<p>Meta-monitoring: file existence, freshness, size, conditional webhook alerting.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>setup_test_files -&gt; check_file_existence ─┐
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>                 -&gt; check_file_freshness ──┼-&gt; health_summary -&gt; alert_if_unhealthy -&gt; cleanup
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>                 -&gt; check_file_sizes ──────┘
+</code></pre></div>
+<p>See: <code>dags/76_pipeline_health_check.py</code></p>
+<hr />
+<h2 id="dag-testing-patterns">DAG Testing Patterns<a class="headerlink" href="#dag-testing-patterns" title="Permanent link">&para;</a></h2>
+<p>DAGs 77--80 demonstrate how to structure DAGs for testability: separating business logic from
+DAG wiring, mocking external services, using <code>dag.test()</code> for local development, and building
+parameterized pipelines driven by DAG <code>params</code>.</p>
+<h3 id="testable-dag-architecture">Testable DAG Architecture<a class="headerlink" href="#testable-dag-architecture" title="Permanent link">&para;</a></h3>
+<p>The key principle: <strong>keep DAG files thin</strong>. All business logic lives in importable Python modules
+that have no Airflow dependencies. DAG files are pure wiring:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>src/airflow_examples/etl_logic.py    &lt;-- Pure functions (testable)
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>dags/77_testable_dag_pattern.py      &lt;-- Thin wiring (calls etl_logic)
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>tests/test_etl_logic.py              &lt;-- Unit tests (no Airflow needed)
+</code></pre></div>
+<p>The helper module <code>src/airflow_examples/etl_logic.py</code> provides pure functions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract_weather_data</span><span class="p">(</span><span class="n">n_records</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span> <span class="o">...</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">validate_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">temp_range</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span> <span class="o">...</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">transform_records</span><span class="p">(</span><span class="n">records</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span> <span class="o">...</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">load_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">output_path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">fetch_api_data</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<p>The DAG file simply calls these functions from <code>@task</code> decorated wrappers:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nd">@task</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">():</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">airflow_examples.etl_logic</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_weather_data</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>    <span class="k">return</span> <span class="n">extract_weather_data</span><span class="p">(</span><span class="n">n_records</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Why deferred imports?</strong> Importing <code>etl_logic</code> inside the <code>@task</code> body means the module is
+loaded at task execution time, not at DAG parse time. This keeps DAG parsing fast and avoids
+import errors if the module has heavy dependencies.</p>
+<h3 id="mocking-external-services">Mocking External Services<a class="headerlink" href="#mocking-external-services" title="Permanent link">&para;</a></h3>
+<p>DAG 78 calls <code>etl_logic.fetch_api_data()</code> which wraps <code>requests.get()</code>. Tests can mock this
+without touching Airflow:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">MagicMock</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;airflow_examples.etl_logic.requests.get&quot;</span><span class="p">)</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_fetch</span><span class="p">(</span><span class="n">mock_get</span><span class="p">):</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    <span class="n">mock_response</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>    <span class="n">mock_response</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">}</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>    <span class="n">mock_get</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">mock_response</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">fetch_api_data</span><span class="p">(</span><span class="s2">&quot;http://test.com/api&quot;</span><span class="p">)</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>    <span class="k">assert</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>    <span class="n">mock_get</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+</code></pre></div>
+<p>The key is that <code>fetch_api_data</code> is a thin wrapper around <code>requests.get</code>, making the mock
+target predictable and the test simple.</p>
+<h3 id="dagtest-for-local-development">dag.test() for Local Development<a class="headerlink" href="#dagtest-for-local-development" title="Permanent link">&para;</a></h3>
+<p>DAG 79 includes an <code>if __name__ == "__main__"</code> block:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">generate_data</span><span class="p">()</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>    <span class="n">processed</span> <span class="o">=</span> <span class="n">process</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>    <span class="o">...</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>    <span class="n">dag</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</code></pre></div>
+<p>This lets you run the DAG directly: <code>python dags/79_dag_test_runner.py</code>. The <code>dag.test()</code> method
+executes all tasks sequentially without the scheduler, webserver, or database -- perfect for
+quick iteration during development.</p>
+<h3 id="parameterized-pipelines">Parameterized Pipelines<a class="headerlink" href="#parameterized-pipelines" title="Permanent link">&para;</a></h3>
+<p>DAG 80 uses DAG <code>params</code> for configuration with defaults:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="n">DAG_PARAMS</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    <span class="s2">&quot;n_records&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>    <span class="s2">&quot;temp_unit&quot;</span><span class="p">:</span> <span class="s2">&quot;celsius&quot;</span><span class="p">,</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>    <span class="s2">&quot;output_format&quot;</span><span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="p">}</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">DAG_PARAMS</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>    <span class="o">...</span>
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="nd">@task</span>
+<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>    <span class="n">params</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span>
+<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>    <span class="n">records</span> <span class="o">=</span> <span class="n">extract_weather_data</span><span class="p">(</span><span class="n">n_records</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;n_records&quot;</span><span class="p">])</span>
+</code></pre></div>
+<p>Tests can override parameters via <code>run_conf</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="n">dag</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">run_conf</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_records&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;output_format&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">})</span>
+</code></pre></div>
+<p>This enables config-driven pipelines where the same DAG serves multiple use cases with
+different parameters.</p>
+<h3 id="per-dag-reference_2">Per-DAG Reference<a class="headerlink" href="#per-dag-reference_2" title="Permanent link">&para;</a></h3>
+<h4 id="77-testable-dag-pattern">77 -- Testable DAG Pattern<a class="headerlink" href="#77-testable-dag-pattern" title="Permanent link">&para;</a></h4>
+<p>Thin DAG wiring with all logic in <code>etl_logic.py</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>extract -&gt; validate -&gt; transform -&gt; load -&gt; report -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/77_testable_dag_pattern.py</code></p>
+<h4 id="78-mock-api-pipeline">78 -- Mock API Pipeline<a class="headerlink" href="#78-mock-api-pipeline" title="Permanent link">&para;</a></h4>
+<p>API pipeline with mockable <code>fetch_api_data()</code> for testing.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>fetch_from_api -&gt; parse_response -&gt; write_output -&gt; report -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/78_mock_api_pipeline.py</code></p>
+<h4 id="79-dag-test-runner">79 -- DAG Test Runner<a class="headerlink" href="#79-dag-test-runner" title="Permanent link">&para;</a></h4>
+<p><code>dag.test()</code> and <code>__main__</code> pattern for local development.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>generate_data -&gt; process -&gt; validate_output -&gt; summary
+</code></pre></div>
+<p>See: <code>dags/79_dag_test_runner.py</code></p>
+<h4 id="80-parameterized-pipeline">80 -- Parameterized Pipeline<a class="headerlink" href="#80-parameterized-pipeline" title="Permanent link">&para;</a></h4>
+<p>Config-driven pipeline with DAG <code>params</code> and overridable defaults.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>extract -&gt; transform -&gt; validate -&gt; load -&gt; cleanup
+</code></pre></div>
+<p>See: <code>dags/80_parameterized_pipeline.py</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
