@@ -206,10 +206,50 @@ def dags_unpause(dag_id: str) -> None:
     typer.echo(f"Unpaused: {dag_id}")
 
 
+def _wait_for_run(
+    c: httpx.Client, dag_id: str, run_id: str, timeout: int, interval: int
+) -> str:
+    """Poll a DAG run until it reaches a terminal state. Returns final state."""
+    terminal = {"success", "failed", "upstream_failed"}
+    elapsed = 0
+    while elapsed < timeout:
+        resp = c.get(f"dags/{dag_id}/dagRuns/{run_id}")
+        data = _check(resp)
+        state = data.get("state", "")
+        typer.echo(f"  [{elapsed:>3d}s] state={state}")
+        if state in terminal:
+            return state
+        time.sleep(interval)
+        elapsed += interval
+    typer.echo("Timeout waiting for run to complete", err=True)
+    raise typer.Exit(1)
+
+
+def _print_task_logs(c: httpx.Client, dag_id: str, run_id: str) -> None:
+    """Fetch and print logs for all task instances in a run."""
+    resp = c.get(f"dags/{dag_id}/dagRuns/{run_id}/taskInstances")
+    data = _check(resp)
+    tasks = data.get("task_instances", [])
+    for ti in tasks:
+        tid = ti["task_id"]
+        try_number = ti.get("try_number", 1)
+        typer.echo(f"\n--- logs: {tid} (try {try_number}) ---")
+        log_resp = c.get(
+            f"dags/{dag_id}/dagRuns/{run_id}/taskInstances/{tid}/logs/{try_number}"
+        )
+        if log_resp.status_code >= 400:
+            typer.echo(f"  (no logs: {log_resp.status_code})")
+        else:
+            typer.echo(log_resp.text)
+
+
 @dags_app.command("trigger")
 def dags_trigger(
     dag_id: str,
     conf: Annotated[Optional[str], typer.Option(help="JSON config for the run")] = None,
+    wait: Annotated[bool, typer.Option("--wait", help="Wait for completion and print logs")] = False,
+    timeout: Annotated[int, typer.Option(help="Wait timeout in seconds")] = 300,
+    interval: Annotated[int, typer.Option(help="Poll interval in seconds")] = 5,
 ) -> None:
     """Trigger a DAG run."""
     body: dict[str, Any] = {
@@ -220,9 +260,16 @@ def dags_trigger(
     with _client() as c:
         resp = c.post(f"dags/{dag_id}/dagRuns", json=body)
         data = _check(resp)
-    typer.echo(f"Triggered: {dag_id}")
-    typer.echo(f"  run_id: {data.get('dag_run_id')}")
-    typer.echo(f"  state:  {data.get('state')}")
+        run_id: str = data.get("dag_run_id", "")
+        typer.echo(f"Triggered: {dag_id}")
+        typer.echo(f"  run_id: {run_id}")
+        typer.echo(f"  state:  {data.get('state')}")
+        if wait:
+            state = _wait_for_run(c, dag_id, run_id, timeout, interval)
+            typer.echo(f"Terminal state: {state}")
+            _print_task_logs(c, dag_id, run_id)
+            if state != "success":
+                raise typer.Exit(1)
 
 
 @dags_app.command("delete")
@@ -313,23 +360,11 @@ def runs_wait(
     interval: Annotated[int, typer.Option(help="Poll interval in seconds")] = 5,
 ) -> None:
     """Poll a DAG run until it reaches a terminal state."""
-    terminal = {"success", "failed", "upstream_failed"}
-    elapsed = 0
     with _client() as c:
-        while elapsed < timeout:
-            resp = c.get(f"dags/{dag_id}/dagRuns/{run_id}")
-            data = _check(resp)
-            state = data.get("state", "")
-            typer.echo(f"  [{elapsed:>3d}s] state={state}")
-            if state in terminal:
-                typer.echo(f"Terminal state: {state}")
-                if state != "success":
-                    raise typer.Exit(1)
-                return
-            time.sleep(interval)
-            elapsed += interval
-    typer.echo("Timeout waiting for run to complete", err=True)
-    raise typer.Exit(1)
+        state = _wait_for_run(c, dag_id, run_id, timeout, interval)
+        typer.echo(f"Terminal state: {state}")
+        if state != "success":
+            raise typer.Exit(1)
 
 
 # ===========================================================================
