@@ -139,8 +139,10 @@ af pools delete <name>  Delete pool
 af conns list           List all connections
 af conns get <id>       Get connection details
 
-af xcoms list <dag> <run> <task>  List XCom entries
-af xcoms get <dag> <run> <task>   Get XCom value (default key: return_value)
+af xcoms list <dag> <task> [run]  List XCom entries
+af xcoms list <dag> <task> --latest  List XCom entries (latest run)
+af xcoms get <dag> <task> [run]   Get XCom value (default key: return_value)
+af xcoms get <dag> <task> --latest  Get XCom value (latest run)
 ```
 
 ---
@@ -805,7 +807,11 @@ Response:
 With the CLI:
 
 ```bash
-af xcoms list 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet
+# With an explicit run ID
+af xcoms list 002_python_operator greet "manual__2025-01-15T12:00:00+00:00"
+
+# Or use --latest to automatically pick the most recent run
+af xcoms list 002_python_operator greet --latest
 ```
 
 ### Get an XCom Value
@@ -832,13 +838,16 @@ With the CLI:
 
 ```bash
 # Default key is return_value
-af xcoms get 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet
+af xcoms get 002_python_operator greet "manual__2025-01-15T12:00:00+00:00"
+
+# Use --latest instead of a run ID
+af xcoms get 002_python_operator greet --latest
 
 # Explicit key
-af xcoms get 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet --key return_value
+af xcoms get 002_python_operator greet --latest --key return_value
 
 # Full JSON response
-af xcoms get 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet --json
+af xcoms get 002_python_operator greet --latest --json
 ```
 
 ---

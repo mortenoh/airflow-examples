@@ -479,16 +479,43 @@ def conns_get(conn_id: str) -> None:
 # ===========================================================================
 
 
+def _resolve_run_id(c: httpx.Client, dag_id: str, run_id: Optional[str], latest: bool) -> str:
+    """Return an explicit run_id or fetch the latest one for the DAG."""
+    if run_id:
+        return run_id
+    if not latest:
+        typer.echo("Provide a run_id or use --latest", err=True)
+        raise typer.Exit(1)
+    resp = c.get(
+        f"dags/{dag_id}/dagRuns",
+        params={"order_by": "-start_date", "limit": 1},
+    )
+    data = _check(resp)
+    runs = data.get("dag_runs", [])
+    if not runs:
+        typer.echo(f"No runs found for {dag_id}", err=True)
+        raise typer.Exit(1)
+    resolved: str = runs[0]["dag_run_id"]
+    typer.echo(f"Using latest run: {resolved}")
+    return resolved
+
+
 @xcoms_app.command("list")
-def xcoms_list(dag_id: str, run_id: str, task_id: str) -> None:
+def xcoms_list(
+    dag_id: str,
+    task_id: str,
+    run_id: Annotated[Optional[str], typer.Argument(help="DAG run ID")] = None,
+    latest: Annotated[bool, typer.Option("--latest", help="Use the latest DAG run")] = False,
+) -> None:
     """List XCom entries for a task instance."""
     with _client() as c:
+        rid = _resolve_run_id(c, dag_id, run_id, latest)
         resp = c.get(
-            f"dags/{dag_id}/dagRuns/{run_id}/taskInstances/{task_id}/xcomEntries"
+            f"dags/{dag_id}/dagRuns/{rid}/taskInstances/{task_id}/xcomEntries"
         )
         data = _check(resp)
     entries = data.get("xcom_entries", [])
-    typer.echo(f"XCom entries for {dag_id}/{run_id}/{task_id}: {len(entries)}\n")
+    typer.echo(f"XCom entries for {dag_id}/{rid}/{task_id}: {len(entries)}\n")
     for entry in entries:
         val = str(entry.get("value", ""))
         if len(val) > 60:
@@ -507,15 +534,17 @@ def xcoms_list(dag_id: str, run_id: str, task_id: str) -> None:
 @xcoms_app.command("get")
 def xcoms_get(
     dag_id: str,
-    run_id: str,
     task_id: str,
+    run_id: Annotated[Optional[str], typer.Argument(help="DAG run ID")] = None,
+    latest: Annotated[bool, typer.Option("--latest", help="Use the latest DAG run")] = False,
     key: Annotated[str, typer.Option("--key", help="XCom key")] = "return_value",
     as_json: Annotated[bool, typer.Option("--json", help="Output full JSON response")] = False,
 ) -> None:
     """Get a single XCom value."""
     with _client() as c:
+        rid = _resolve_run_id(c, dag_id, run_id, latest)
         resp = c.get(
-            f"dags/{dag_id}/dagRuns/{run_id}/taskInstances/{task_id}/xcomEntries/{key}"
+            f"dags/{dag_id}/dagRuns/{rid}/taskInstances/{task_id}/xcomEntries/{key}"
         )
         data = _check(resp)
     if as_json:
