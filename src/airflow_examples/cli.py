@@ -30,12 +30,14 @@ runs_app = typer.Typer(help="Manage DAG runs", no_args_is_help=True)
 vars_app = typer.Typer(help="Manage variables", no_args_is_help=True)
 pools_app = typer.Typer(help="Manage pools", no_args_is_help=True)
 conns_app = typer.Typer(help="Manage connections", no_args_is_help=True)
+xcoms_app = typer.Typer(help="Manage XCom entries", no_args_is_help=True)
 
 app.add_typer(dags_app, name="dags")
 app.add_typer(runs_app, name="runs")
 app.add_typer(vars_app, name="vars")
 app.add_typer(pools_app, name="pools")
 app.add_typer(conns_app, name="conns")
+app.add_typer(xcoms_app, name="xcoms")
 
 # ---------------------------------------------------------------------------
 # Global state (set via callback)
@@ -470,6 +472,56 @@ def conns_get(conn_id: str) -> None:
         resp = c.get(f"connections/{conn_id}")
         data = _check(resp)
     typer.echo(json.dumps(data, indent=2))
+
+
+# ===========================================================================
+# XComs
+# ===========================================================================
+
+
+@xcoms_app.command("list")
+def xcoms_list(dag_id: str, run_id: str, task_id: str) -> None:
+    """List XCom entries for a task instance."""
+    with _client() as c:
+        resp = c.get(
+            f"dags/{dag_id}/dagRuns/{run_id}/taskInstances/{task_id}/xcomEntries"
+        )
+        data = _check(resp)
+    entries = data.get("xcom_entries", [])
+    typer.echo(f"XCom entries for {dag_id}/{run_id}/{task_id}: {len(entries)}\n")
+    for entry in entries:
+        val = str(entry.get("value", ""))
+        if len(val) > 60:
+            val = val[:57] + "..."
+        entry["_value"] = val
+    _print_table(
+        entries,
+        [
+            ("KEY", "key", 30),
+            ("VALUE", "_value", 60),
+            ("TIMESTAMP", "timestamp", 28),
+        ],
+    )
+
+
+@xcoms_app.command("get")
+def xcoms_get(
+    dag_id: str,
+    run_id: str,
+    task_id: str,
+    key: Annotated[str, typer.Option("--key", help="XCom key")] = "return_value",
+    as_json: Annotated[bool, typer.Option("--json", help="Output full JSON response")] = False,
+) -> None:
+    """Get a single XCom value."""
+    with _client() as c:
+        resp = c.get(
+            f"dags/{dag_id}/dagRuns/{run_id}/taskInstances/{task_id}/xcomEntries/{key}"
+        )
+        data = _check(resp)
+    if as_json:
+        typer.echo(json.dumps(data, indent=2))
+    else:
+        typer.echo(data.get("value", ""))
 
 
 # ---------------------------------------------------------------------------

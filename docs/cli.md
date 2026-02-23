@@ -138,6 +138,9 @@ af pools delete <name>  Delete pool
 
 af conns list           List all connections
 af conns get <id>       Get connection details
+
+af xcoms list <dag> <run> <task>  List XCom entries
+af xcoms get <dag> <run> <task>   Get XCom value (default key: return_value)
 ```
 
 ---
@@ -765,6 +768,77 @@ With the CLI:
 
 ```bash
 af conns get postgres_default
+```
+
+---
+
+## XComs
+
+XCom ("cross-communication") entries are how tasks pass data to each other. When a
+PythonOperator returns a value, Airflow stores it as an XCom entry with the key
+`return_value`. The API lets you inspect these values without opening the web UI.
+
+### List XCom Entries
+
+**GET /api/v2/dags/{dag_id}/dagRuns/{run_id}/taskInstances/{task_id}/xcomEntries**
+
+```bash
+curl -s http://localhost:8081/api/v2/dags/002_python_operator/dagRuns/manual__2025-01-15T12:00:00+00:00/taskInstances/greet/xcomEntries \
+  -H "Authorization: Bearer $TOKEN" | python3 -m json.tool
+```
+
+Response:
+
+```json
+{
+  "xcom_entries": [
+    {
+      "key": "return_value",
+      "value": "Hello, Airflow!",
+      "timestamp": "2025-01-15T12:00:05+00:00"
+    }
+  ],
+  "total_entries": 1
+}
+```
+
+With the CLI:
+
+```bash
+af xcoms list 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet
+```
+
+### Get an XCom Value
+
+**GET /api/v2/dags/{dag_id}/dagRuns/{run_id}/taskInstances/{task_id}/xcomEntries/{key}**
+
+```bash
+curl -s http://localhost:8081/api/v2/dags/002_python_operator/dagRuns/manual__2025-01-15T12:00:00+00:00/taskInstances/greet/xcomEntries/return_value \
+  -H "Authorization: Bearer $TOKEN" | python3 -m json.tool
+```
+
+```json
+{
+  "key": "return_value",
+  "value": "Hello, Airflow!",
+  "timestamp": "2025-01-15T12:00:05+00:00",
+  "dag_id": "002_python_operator",
+  "run_id": "manual__2025-01-15T12:00:00+00:00",
+  "task_id": "greet"
+}
+```
+
+With the CLI:
+
+```bash
+# Default key is return_value
+af xcoms get 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet
+
+# Explicit key
+af xcoms get 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet --key return_value
+
+# Full JSON response
+af xcoms get 002_python_operator "manual__2025-01-15T12:00:00+00:00" greet --json
 ```
 
 ---
