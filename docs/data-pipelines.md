@@ -44,9 +44,11 @@ See: `dags/57_parquet_aggregation.py`
 
 ## DHIS2 Metadata Pipelines
 
-DAGs 58--62 are a domain-specific detour into health data. You can safely skip them if you
-are not working with health information systems -- the general patterns (API calls, JSON
-flattening, pandas transforms) are covered again in DAGs 81-100 with more general APIs.
+DAGs 58--62 and 110--111 are a domain-specific detour into health data. You can safely skip
+them if you are not working with health information systems -- the general patterns (API calls,
+JSON flattening, pandas transforms) are covered again in DAGs 81-100 with more general APIs.
+DAGs 110--111 also demonstrate using Airflow Connections for credential management, which
+applies to any external API.
 
 [DHIS2](https://dhis2.org/) (District Health Information Software 2) is the world's largest
 health information management system, used in 100+ countries. These examples fetch data from
@@ -110,25 +112,44 @@ This means the extraction step is always: `data = resp.json()` then `records = d
 
 ### Shared Helper Module
 
-All DHIS2 DAGs share `src/airflow_examples/dhis2.py` to avoid duplicating API logic:
+All DHIS2 DAGs share `src/airflow_examples/dhis2.py` to avoid duplicating API logic. Credentials
+are read from the `dhis2_default` Airflow connection at runtime instead of being hardcoded:
 
 ```python
 """DHIS2 API helpers for metadata pipeline examples."""
 
 from typing import Any
-import requests
 
-DHIS2_BASE_URL = "https://play.im.dhis2.org/dev"
-DHIS2_CREDENTIALS = ("admin", "district")
-OUTPUT_DIR = "/tmp/dhis2_exports"
+import httpx
+from airflow.exceptions import AirflowFailException
+from airflow.sdk.bases.hook import BaseHook
+
+from airflow_examples.config import OUTPUT_BASE
+
+OUTPUT_DIR = str(OUTPUT_BASE / "dhis2_exports")
+
+
+def _get_dhis2_config() -> tuple[str, tuple[str, str]]:
+    """Read DHIS2 base URL and credentials from the Airflow connection."""
+    try:
+        conn = BaseHook.get_connection("dhis2_default")
+    except Exception as exc:
+        raise AirflowFailException(
+            "Connection 'dhis2_default' not found. "
+            "Add it via the Airflow UI or CLI before running DHIS2 DAGs."
+        ) from exc
+    base_url = (conn.host or "").rstrip("/")
+    credentials = (conn.login or "", conn.password or "")
+    return base_url, credentials
 
 
 def fetch_metadata(endpoint: str, fields: str = ":owner") -> list[dict[str, Any]]:
     """Fetch all records from a DHIS2 metadata endpoint."""
-    url = f"{DHIS2_BASE_URL}/api/{endpoint}"
-    resp = requests.get(
+    base_url, credentials = _get_dhis2_config()
+    url = f"{base_url}/api/{endpoint}"
+    resp = httpx.get(
         url,
-        auth=DHIS2_CREDENTIALS,
+        auth=credentials,
         params={"paging": "false", "fields": fields},
         timeout=60,
     )
@@ -141,6 +162,14 @@ def fetch_metadata(endpoint: str, fields: str = ":owner") -> list[dict[str, Any]
 
 **Design decisions:**
 
+- **Connection-managed credentials**: The base URL, username, and password live in the
+  `dhis2_default` Airflow connection rather than as Python constants. This means credentials
+  are stored in one place (the Airflow metadata database or environment variables), never
+  committed to source control, and can be changed without redeploying DAG code.
+- **`AirflowFailException`**: If the connection is missing, the task raises
+  `AirflowFailException` instead of a generic error. This tells Airflow to mark the task as
+  `failed` immediately without retrying -- there is no point retrying when the connection
+  does not exist yet.
 - **`paging=false`**: The play server has small datasets (~1000s of records). For production DHIS2
   instances with millions of records, you'd paginate with `page=1&pageSize=1000` and loop.
 - **`fields=:owner`**: Returns all fields the object "owns" (not computed/derived fields). This is
@@ -151,7 +180,7 @@ def fetch_metadata(endpoint: str, fields: str = ":owner") -> list[dict[str, Any]
 - **Type annotations**: `list[dict[str, Any]]` satisfies mypy strict mode. The DHIS2 API returns
   heterogeneous dicts, so `Any` values are appropriate.
 
-**Why a shared module instead of inline code?** The fetch logic is identical across all 5 DAGs --
+**Why a shared module instead of inline code?** The fetch logic is identical across all DHIS2 DAGs --
 only the endpoint name changes. Centralizing it in a helper module means:
 
 1. Single place to update if the API URL or auth changes
@@ -720,6 +749,93 @@ fetch_indicators ───────> transform_indicators (CSV) ────�
 - List of all output file paths
 
 See: `dags/62_dhis2_combined_export.py`
+
+### DHIS2 with Airflow Connections
+
+DAGs 110--111 revisit DHIS2 but use Airflow Connections to manage credentials instead of
+hardcoding them. If you skipped DAGs 58--62 because DHIS2 is not relevant to your work, you
+can still use these two DAGs as a reference for the Airflow Connection pattern -- the concepts
+apply to any external API.
+
+**Key difference from DAGs 58--62:** The earlier DAGs stored the DHIS2 base URL and credentials
+as Python constants in `dhis2.py`. DAGs 110--111 rely on a `dhis2_default` connection configured
+in Airflow (via the UI, CLI, or `compose.yml` environment variables). The shared helper
+`_get_dhis2_config()` reads the connection at runtime with `BaseHook.get_connection()`.
+
+**Why connections matter:**
+
+| Approach | DAGs 58--62 | DAGs 110--111 |
+|----------|-------------|---------------|
+| Credentials stored in | Python source code | Airflow metadata DB / env vars |
+| Changing the server URL | Edit code, redeploy DAGs | Update the connection, no code change |
+| Secret exposure risk | Credentials in version control | Credentials managed by Airflow |
+| Missing credentials | `httpx` error at request time | `AirflowFailException` before the request |
+
+#### 110 -- Connection Basics
+
+Retrieves the `dhis2_default` connection details and fetches a simple org unit count to verify
+the connection works end-to-end.
+
+**Pipeline:**
+
+```
+show_connection -> fetch_org_unit_count
+```
+
+**Tasks:**
+
+| Task | Description |
+|------|-------------|
+| `show_connection` | Reads `dhis2_default` via `BaseHook.get_connection()` and prints connection fields (password redacted) |
+| `fetch_org_unit_count` | Calls `fetch_metadata("organisationUnits", fields="id")` and prints the record count |
+
+```python
+@task
+def show_connection() -> dict:
+    conn = BaseHook.get_connection("dhis2_default")
+    info = {
+        "conn_id": conn.conn_id,
+        "conn_type": conn.conn_type,
+        "host": conn.host,
+        "login": conn.login,
+    }
+    print(f"[{timestamp()}] Connection details (password redacted):")
+    for key, value in info.items():
+        print(f"  {key}: {value}")
+    return info
+```
+
+See: `dags/110_dhis2_connection_basics.py`
+
+#### 111 -- Analytics Data Values
+
+Fetches analytics data (not metadata) from the DHIS2 `/api/analytics` endpoint, transforms the
+DHIS2 rows/headers response format into a pandas DataFrame, and writes to CSV.
+
+**Pipeline:**
+
+```
+fetch_data_values -> transform -> report
+```
+
+**Tasks:**
+
+| Task | Description |
+|------|-------------|
+| `fetch_data_values` | Calls `/api/analytics` with dimension parameters for ANC visit data elements at the national level |
+| `transform` | Parses the DHIS2 `headers`/`rows` response into a DataFrame and writes CSV |
+| `report` | Reads the CSV back and prints summary statistics (row count, data element breakdown, value range) |
+
+**DHIS2 analytics response format:** Unlike metadata endpoints that return a list of objects,
+the analytics API returns a tabular structure with separate `headers` and `rows` arrays:
+
+```python
+headers = [h["name"] for h in analytics["headers"]]
+rows = analytics["rows"]
+df = pd.DataFrame(rows, columns=headers)
+```
+
+See: `dags/111_dhis2_data_values.py`
 
 ---
 

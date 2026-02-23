@@ -117,7 +117,7 @@ af dags list            List all DAGs
 af dags info <id>       Show DAG details
 af dags pause <id>      Pause a DAG
 af dags unpause <id>    Unpause a DAG
-af dags trigger <id>    Trigger a DAG run
+af dags trigger <id>    Trigger a DAG run [--wait] [--verbose/-v] [--conf] [--timeout] [--interval]
 af dags delete <id>     Delete a DAG
 
 af runs list <dag>      List runs for a DAG
@@ -334,6 +334,69 @@ With the CLI (it generates `logical_date` automatically):
 ```bash
 af dags trigger 001_hello_world
 af dags trigger 001_hello_world --conf '{"key": "value"}'
+```
+
+#### Trigger Options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--wait` | off | Poll until terminal state, then print task logs |
+| `--verbose` / `-v` | off | Show full task logs (requires `--wait`) |
+| `--conf` | none | JSON config string passed to the DAG run |
+| `--timeout` | 300 | Max seconds to wait (requires `--wait`) |
+| `--interval` | 5 | Poll interval in seconds (requires `--wait`) |
+
+#### Wait Mode
+
+`--wait` triggers the run, polls until it reaches a terminal state (`success`, `failed`, or
+`upstream_failed`), and then prints logs for every task instance:
+
+```bash
+af dags trigger 110_dhis2_connection_basics --wait
+```
+
+Output:
+
+```
+Triggered: 110_dhis2_connection_basics
+  run_id: manual__2025-01-15T12:00:00+00:00
+  state:  queued
+  [  0s] state=running
+  [  5s] state=running
+  [ 10s] state=success
+Terminal state: success
+
+--- show_connection [success] ---
+  12:00:03  Connection details (password redacted):
+  12:00:03    conn_id: dhis2_default
+  12:00:03    conn_type: http
+  ...
+
+--- fetch_org_unit_count [success] ---
+  12:00:05  Organisation unit count: 1575
+```
+
+By default, logs show only task stdout output, warnings, and errors. Add `--verbose` / `-v`
+to include all log entries (Airflow internals, task lifecycle events):
+
+```bash
+af dags trigger 110_dhis2_connection_basics --wait --verbose
+```
+
+#### Auto-Unpause
+
+If the DAG is paused when you trigger it, `af dags trigger` will automatically unpause it so
+the run executes, then re-pause it after the run completes (or if `--wait` is not used, after
+the trigger returns). This means you do not need to manually unpause DAGs before triggering:
+
+```bash
+# Even if 110_dhis2_connection_basics is paused, this works:
+af dags trigger 110_dhis2_connection_basics --wait
+# Output includes:
+#   Unpaused: 110_dhis2_connection_basics
+#   Triggered: 110_dhis2_connection_basics
+#   ...
+#   Re-paused: 110_dhis2_connection_basics
 ```
 
 !!! note "logical_date must be unique"
@@ -879,6 +942,17 @@ use `logical_date`.
 The most common pattern: trigger a DAG, wait for it to finish, then check the result.
 
 With `af`:
+
+```bash
+af dags trigger 001_hello_world --wait
+```
+
+This single command triggers the run, polls until it completes, and prints task logs. It exits
+with code 0 on success and code 1 on failure, making it suitable for CI/CD scripts. Add
+`--verbose` to see full Airflow log output instead of just task stdout.
+
+**Manual alternative** -- if you need more control over each step, you can still do it in
+three commands:
 
 ```bash
 # Trigger and capture the run ID
