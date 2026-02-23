@@ -59,7 +59,7 @@ start: ## Start Airflow (foreground) — Ctrl+C to stop
 	echo "RustFS:  http://localhost:9001"; \
 	echo "Grafana: http://localhost:3000"; \
 	echo "Press Ctrl+C to stop Airflow"; \
-	docker compose logs -f
+	docker compose logs -f || true
 
 run: ## Start Airflow (foreground), run all 108 DAGs, then serve web UI
 	@echo "\033[1;32mStarting PostgreSQL + Airflow...\033[0m"
@@ -313,7 +313,7 @@ run: ## Start Airflow (foreground), run all 108 DAGs, then serve web UI
 	echo "RustFS: http://localhost:9001"; \
 	echo "Grafana: http://localhost:3000"; \
 	echo "Press Ctrl+C to stop Airflow"; \
-	docker compose logs -f
+	docker compose logs -f || true
 
 stop: ## Stop Airflow services and remove volumes
 	docker compose down -v
