@@ -1,0 +1,26 @@
+/* Global slide overrides -- keep code-heavy slides from overflowing */
+
+.slidev-layout {
+  padding: 2rem 2.5rem;
+}
+
+.slidev-layout h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.slidev-code-wrapper {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  margin: 0.4rem 0;
+}
+
+.slidev-layout p,
+.slidev-layout li {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.slidev-layout table {
+  font-size: 0.8rem;
+}

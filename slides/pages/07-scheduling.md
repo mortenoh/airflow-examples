@@ -2,8 +2,6 @@
 
 `logical_date` is the scheduled slot, not when the task actually runs
 
-<div style="transform: scale(0.78); transform-origin: top left; width: 128%;">
-
 ```python
 with DAG(
     dag_id="108_backfill_awareness",
@@ -34,6 +32,4 @@ with DAG(
 - **`catchup=False`** -- only the most recent interval runs; past slots are skipped
 - **`airflow dags backfill`** -- manually trigger runs for a specific date range
 
-<span class="opacity-60">DAG 108 -- backfill_awareness.py</span>
-
-</div>
+<span class="text-sm opacity-60">DAG 108 -- backfill_awareness.py</span>
