@@ -2,6 +2,8 @@
 
 `logical_date` is the scheduled slot, not when the task actually runs
 
+<div style="transform: scale(0.78); transform-origin: top left; width: 128%;">
+
 ```python
 with DAG(
     dag_id="108_backfill_awareness",
@@ -20,12 +22,18 @@ with DAG(
     )
 ```
 
-<v-clicks>
+```
+# Cron expressions   ┌─min ┌─hour ┌─day ┌─month ┌─weekday
+"0 1 * * *"          # Every night at 01:00
+"30 6 * * 1-5"       # Weekdays at 06:30
+"0 */4 * * *"        # Every 4 hours
+"0 9 1 * *"          # First of each month at 09:00
+```
 
-- **`catchup=True`** -- scheduler auto-creates runs for every missed interval between `start_date` and now when the DAG is unpaused or first deployed
-- **`catchup=False`** -- only the most recent interval runs; past slots are skipped entirely
-- **`airflow dags backfill`** -- CLI command to manually trigger runs for a specific date range, independent of the catchup setting
+- **`catchup=True`** -- auto-creates runs for every missed interval between `start_date` and now
+- **`catchup=False`** -- only the most recent interval runs; past slots are skipped
+- **`airflow dags backfill`** -- manually trigger runs for a specific date range
 
-</v-clicks>
+<span class="opacity-60">DAG 108 -- backfill_awareness.py</span>
 
-<span class="text-sm opacity-60">DAG 108 -- backfill_awareness.py</span>
+</div>
