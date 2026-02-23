@@ -3,7 +3,7 @@
 from typing import Any
 
 import httpx
-from airflow.hooks.base import BaseHook
+from airflow.sdk.bases.hook import BaseHook
 
 from airflow_examples.config import OUTPUT_BASE
 

@@ -7,7 +7,7 @@ in compose.yml and read at runtime via BaseHook.get_connection().
 
 from datetime import datetime
 
-from airflow.hooks.base import BaseHook
+from airflow.sdk.bases.hook import BaseHook
 from airflow.sdk import DAG, task
 
 from airflow_examples.config import DEFAULT_ARGS, timestamp

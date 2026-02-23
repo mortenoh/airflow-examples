@@ -10,7 +10,7 @@ import os
 from datetime import datetime
 
 import httpx
-from airflow.hooks.base import BaseHook
+from airflow.sdk.bases.hook import BaseHook
 from airflow.sdk import DAG, task
 
 from airflow_examples.config import DEFAULT_ARGS, timestamp

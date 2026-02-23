@@ -225,22 +225,78 @@ def _wait_for_run(
     raise typer.Exit(1)
 
 
-def _print_task_logs(c: httpx.Client, dag_id: str, run_id: str) -> None:
+def _format_log_entries(raw: str, verbose: bool = False) -> list[str]:
+    """Parse JSON log response and return formatted lines.
+
+    Default mode shows only user output (task.stdout), warnings, and errors.
+    Verbose mode includes all log entries except low-level noise.
+    """
+    try:
+        data = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return [raw]
+
+    entries = data.get("content", [])
+    lines: list[str] = []
+    for entry in entries:
+        event = entry.get("event", "")
+        if not event or event.startswith("::"):
+            continue
+        level = entry.get("level", "info")
+        logger = entry.get("logger", "")
+        ts = entry.get("timestamp", "")
+        time_part = ts[11:19] if len(ts) >= 19 else ""
+
+        is_stdout = "stdout" in logger
+        is_warning = level == "warning"
+        is_error = level == "error"
+
+        if not verbose:
+            # Default: only show user output, warnings, and errors
+            if not (is_stdout or is_warning or is_error):
+                continue
+
+        # In verbose mode, still skip the noisiest internals
+        if any(
+            s in logger
+            for s in ("dagbag", "dag_processing", "DagBundlesManager")
+        ):
+            continue
+        if "Pushing xcom" in event:
+            continue
+
+        if is_stdout:
+            lines.append(f"  {time_part}  {event}")
+        elif is_warning:
+            lines.append(f"  {time_part}  WARN  {event}")
+        elif is_error:
+            lines.append(f"  {time_part}  ERROR {event}")
+        else:
+            lines.append(f"  {time_part}  {event}")
+
+    return lines
+
+
+def _print_task_logs(
+    c: httpx.Client, dag_id: str, run_id: str, verbose: bool = False
+) -> None:
     """Fetch and print logs for all task instances in a run."""
     resp = c.get(f"dags/{dag_id}/dagRuns/{run_id}/taskInstances")
     data = _check(resp)
     tasks = data.get("task_instances", [])
     for ti in tasks:
         tid = ti["task_id"]
+        state = ti.get("state", "")
         try_number = ti.get("try_number", 1)
-        typer.echo(f"\n--- logs: {tid} (try {try_number}) ---")
+        typer.echo(f"\n--- {tid} [{state}] ---")
         log_resp = c.get(
             f"dags/{dag_id}/dagRuns/{run_id}/taskInstances/{tid}/logs/{try_number}"
         )
         if log_resp.status_code >= 400:
             typer.echo(f"  (no logs: {log_resp.status_code})")
         else:
-            typer.echo(log_resp.text)
+            for line in _format_log_entries(log_resp.text, verbose=verbose):
+                typer.echo(line)
 
 
 @dags_app.command("trigger")
@@ -248,6 +304,7 @@ def dags_trigger(
     dag_id: str,
     conf: Annotated[Optional[str], typer.Option(help="JSON config for the run")] = None,
     wait: Annotated[bool, typer.Option("--wait", help="Wait for completion and print logs")] = False,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v", help="Show full task logs (default shows only output/warnings/errors)")] = False,
     timeout: Annotated[int, typer.Option(help="Wait timeout in seconds")] = 300,
     interval: Annotated[int, typer.Option(help="Poll interval in seconds")] = 5,
 ) -> None:
@@ -275,7 +332,7 @@ def dags_trigger(
             if wait:
                 state = _wait_for_run(c, dag_id, run_id, timeout, interval)
                 typer.echo(f"Terminal state: {state}")
-                _print_task_logs(c, dag_id, run_id)
+                _print_task_logs(c, dag_id, run_id, verbose=verbose)
                 if state != "success":
                     raise typer.Exit(1)
         finally:
