@@ -16,6 +16,8 @@ x-airflow-env: &airflow-env
   AIRFLOW__METRICS__STATSD_HOST: statsd-exporter
   AIRFLOW__METRICS__STATSD_PORT: "9125"
   _PIP_ADDITIONAL_REQUIREMENTS: "dbt-core dbt-postgres boto3 s3fs"
+  AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-webserver:8080/execution/
+  AIRFLOW__API_AUTH__JWT_SECRET: airflow-examples-jwt-secret
   PYTHONPATH: /opt/airflow/src
 
 x-airflow-volumes: &airflow-volumes
