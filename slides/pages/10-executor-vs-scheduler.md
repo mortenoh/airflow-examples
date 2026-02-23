@@ -15,7 +15,7 @@ Executor controls **where** tasks run -- it has zero effect on **when** DAGs are
 
 <v-click>
 
-The scheduler's parse interval (`min_file_process_interval`) and heartbeat are **executor-agnostic**. Switching executor does not make DAGs trigger faster.
+The DAG processor's refresh interval (`dag_processor.refresh_interval`) and the scheduler's heartbeat are **executor-agnostic**. Switching executor does not make DAGs trigger faster.
 
 </v-click>
 

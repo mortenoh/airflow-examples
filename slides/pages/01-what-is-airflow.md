@@ -5,6 +5,7 @@ An **orchestrator**, not a processing engine
 <v-clicks>
 
 - **DAGs** -- Directed Acyclic Graphs define task dependencies
+- **DAG Processor** -- parses DAG files and serializes them to the DB
 - **Scheduler** -- triggers tasks when their dependencies are met
 - **Executor** -- runs tasks (Local, Celery, Kubernetes)
 - **Web UI** -- monitor, trigger, debug, browse logs

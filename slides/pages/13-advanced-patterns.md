@@ -34,6 +34,7 @@ with DAG(schedule=[data]):
 - **Priority weights** -- control execution order within a pool
 - **Setup / teardown** -- provision and clean up resources around tasks
 - **XCom** -- pass metadata between tasks (keep it small!)
+- **Asset + XCom** -- combine scheduling signal with cross-DAG data passing (DAG 112)
 
 </div>
 </div>

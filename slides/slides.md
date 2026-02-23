@@ -1,7 +1,7 @@
 ---
 theme: default
 title: Apache Airflow -- What It Can (and Can't) Do
-info: Lessons from building 108 example DAGs
+info: Lessons from building 112 example DAGs
 class: text-center
 drawings:
   persist: false
@@ -13,7 +13,7 @@ mdc: true
 
 ## What It Can (and Can't) Do
 
-Lessons from building 108 example DAGs
+Lessons from building 112 example DAGs
 
 ---
 src: ./pages/01-what-is-airflow.md
